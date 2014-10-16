@@ -50,6 +50,17 @@
 
                     }
 
+                    if (classificationLabels.Count > 1)
+                    {
+                        validationErrors.Add(new ValidationError
+                        {
+                            Reason = "Classification labels are exclusive, please make sure only one of the following exists: " + string.Join(":", ClassificationLabels.All),
+                            Issue = issue,
+                            Repository = repository
+                        });
+
+                    }
+
                 }
                 Console.Out.WriteLine("Completed " + repository.Name);
          
