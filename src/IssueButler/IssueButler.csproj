@@ -47,9 +47,11 @@
   <ItemGroup>
     <Compile Include="Butler.cs" />
     <Compile Include="ClassificationLabels.cs" />
+    <Compile Include="ConsoleDisplayer.cs" />
     <Compile Include="GitHubClientBuilder.cs" />
     <Compile Include="GitHubHelper.cs" />
     <Compile Include="ParticularButler.cs" />
+    <Compile Include="ResultDisplayer.cs" />
     <Compile Include="ValidateRepositories.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

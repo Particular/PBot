@@ -13,8 +13,7 @@
             //todo: formatters
             var formattedResult = validationErrors.Select(FormatValidationError).ToList();
 
-            //todo: outputters
-            formattedResult.ForEach(r=>Console.Out.WriteLine(r));
+            Displayers.ForEach(d=>d.Display(formattedResult));
         }
 
         string FormatValidationError(ValidationError error)
@@ -23,5 +22,7 @@
         }
 
         protected List<Validator> Validators = new List<Validator>();
+
+        protected List<ResultDisplayer> Displayers = new List<ResultDisplayer>();
     }
 }
