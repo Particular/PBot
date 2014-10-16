@@ -13,7 +13,27 @@
 
             Console.Out.WriteLine("Done");
 
-            Console.ReadKey();
+            if (ConsolePresent)
+            {
+                Console.ReadKey();              
+            }
         }
+
+        static bool ConsolePresent
+        {
+            get
+            {
+                if (consolePresent == null)
+                {
+                    consolePresent = true;
+// ReSharper disable once UnusedVariable
+                    try { var window_height = Console.WindowHeight; }
+                    catch { consolePresent = false; }
+                }
+                return consolePresent.Value;
+            }
+        }
+
+        static bool? consolePresent;
     }
 }
