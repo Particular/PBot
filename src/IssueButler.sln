@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueButler.Tests", "IssueButler.Tests\IssueButler.Tests.csproj", "{54714E91-1BAD-46B1-83F7-D11927B347FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueButler", "IssueButler\IssueButler.csproj", "{951B42CA-28D0-43CE-A17B-7F68FD2FE732}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{54714E91-1BAD-46B1-83F7-D11927B347FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54714E91-1BAD-46B1-83F7-D11927B347FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54714E91-1BAD-46B1-83F7-D11927B347FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54714E91-1BAD-46B1-83F7-D11927B347FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{951B42CA-28D0-43CE-A17B-7F68FD2FE732}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{951B42CA-28D0-43CE-A17B-7F68FD2FE732}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{951B42CA-28D0-43CE-A17B-7F68FD2FE732}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{951B42CA-28D0-43CE-A17B-7F68FD2FE732}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
