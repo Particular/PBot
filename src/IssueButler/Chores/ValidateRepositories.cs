@@ -21,7 +21,7 @@
 
             foreach (var repository in repositories)
             {
-                var issues = client.Issue.GetForRepository(repository.Organization.Name, repository.Name,new RepositoryIssueRequest{State = ItemState.Open}).Result;
+                var issues = client.Issue.GetForRepository(repository.Owner.Login, repository.Name,new RepositoryIssueRequest{State = ItemState.Open}).Result;
 
                 foreach (var issue in issues.Where(i=>i.State == ItemState.Open))
                 {
@@ -38,7 +38,7 @@
                     {
                         validationErrors.Add(new ValidationError
                         {
-                            Reason = "Mandatory classification label is missing, please add one of: " + string.Join(":",ClassificationLabels.All),
+                            Reason = "Mandatory classification label is missing, please add one of: " + string.Join(":",ClassificationLabels.All.Select(l=>l.Name)),
                             Issue = issue,
                             Repository = repository
                         });
@@ -49,7 +49,7 @@
                     {
                         validationErrors.Add(new ValidationError
                         {
-                            Reason = "Classification labels are exclusive, please make sure only one of the following exists: " + string.Join(":", ClassificationLabels.All),
+                            Reason = "Classification labels are exclusive, please make sure only one of the following exists: " + string.Join(":", ClassificationLabels.All.Select(l => l.Name)),
                             Issue = issue,
                             Repository = repository
                         });
