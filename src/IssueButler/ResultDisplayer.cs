@@ -4,6 +4,6 @@
 
     public abstract class ResultDisplayer
     {
-        public abstract void Display(IEnumerable<string> result);
+        public abstract void Display(IEnumerable<ValidationError> result);
     }
 }
