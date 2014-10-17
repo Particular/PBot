@@ -2,9 +2,9 @@
 {
     class ParticularButler:Butler
     {
-        public ParticularButler()
+        public ParticularButler(): base("Particular")
         {
-            Validators.Add(new ValidateRepositories("Particular"));
+            Validators.Add(new ValidateRepositories());
             Displayers.Add(new ConsoleDisplayer());
             Displayers.Add(new HipChatDisplayer("DONOTUSE-FOR-TECH_TESTING"));
         }

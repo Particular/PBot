@@ -7,24 +7,19 @@
 
     public class ValidateRepositories : Validator
     {
-        readonly string organization;
         GitHubClient client;
-        public ValidateRepositories(string organization)
+        public ValidateRepositories()
         {
-            this.organization = organization;
             client = GitHubClientBuilder.Build();
         }
 
-        public override IEnumerable<ValidationError> Validate()
+        public override IEnumerable<ValidationError> Validate(IEnumerable<Repository> repositories)
         {
-            var repos = client.Repository.GetAllForOrg(organization).Result
-                .Where(r =>r.HasIssues && !r.Private  && r.Name.StartsWith("NServiceBus") || r.Name.StartsWith("Service"))//for now
-                .ToList();
-
+         
             var validationErrors = new List<ValidationError>();
 
 
-            foreach (var repository in repos)
+            foreach (var repository in repositories)
             {
                 var issues = client.Issue.GetForRepository("Particular", repository.Name,new RepositoryIssueRequest{State = ItemState.Open}).Result;
 
