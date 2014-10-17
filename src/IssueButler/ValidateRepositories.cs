@@ -21,7 +21,7 @@
 
             foreach (var repository in repositories)
             {
-                var issues = client.Issue.GetForRepository("Particular", repository.Name,new RepositoryIssueRequest{State = ItemState.Open}).Result;
+                var issues = client.Issue.GetForRepository(repository.Organization.Name, repository.Name,new RepositoryIssueRequest{State = ItemState.Open}).Result;
 
                 foreach (var issue in issues.Where(i=>i.State == ItemState.Open))
                 {
