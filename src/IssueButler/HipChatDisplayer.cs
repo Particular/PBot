@@ -27,7 +27,8 @@
 
         public override void Display(IEnumerable<ValidationError> result)
         {
-        
+
+            var maxNumIssuesToShow = 50;
      
             foreach (var repo in result.GroupBy(r => r.Repository.Name))
             {
@@ -39,10 +40,14 @@
                 var sb = new StringBuilder();
 
                 sb.AppendLine("Hello Citizens, please clean up the following issues for " + repo.Key + " <br/>");
-                
-                sb.AppendLine("Bad issues for " + repo.Key + "<br/>");
 
-                foreach (var error in repo.Take(50)) //nsb is to big for now
+                if (repo.Count() > maxNumIssuesToShow)
+                {
+                    sb.AppendLine(string.Format("Showing top {0} our of {1} invalid issues <br/>",maxNumIssuesToShow, repo.Count()));    
+                }
+
+
+                foreach (var error in repo.Take(maxNumIssuesToShow)) //nsb is to big for now
                 {
                     sb.AppendLine(string.Format("<a href=\"{0}\">{1} - {2}<a/><br/>", error.Issue.HtmlUrl, error.Issue.Number, error.Reason));
                 }
