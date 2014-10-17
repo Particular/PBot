@@ -15,7 +15,8 @@
             "Bug",
             "Feature",
             "Improvement",
-            "Internal Refactoring"
+            "Internal Refactoring",
+            "Question"
         };
 
         public static IEnumerable<string> All
