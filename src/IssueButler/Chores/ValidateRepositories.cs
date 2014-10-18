@@ -30,6 +30,11 @@
                         continue;
                     }
 
+                    if (issue.PullRequest != null)
+                    {
+                        continue;
+                    }
+
 
 
                     var classificationLabels = issue.Labels.Where(l =>ClassificationLabels.Contains(l.Name)).ToList();
