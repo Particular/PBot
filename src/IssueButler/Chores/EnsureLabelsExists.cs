@@ -1,8 +1,6 @@
-﻿namespace IssueButler
+﻿namespace IssueButler.Chores
 {
     using System;
-    using System.Collections;
-    using System.Collections.Generic;
     using System.Linq;
     using Octokit;
 
@@ -10,7 +8,9 @@
     { 
         public override void PerformChore(Brain brain)
         {
-            var allValidLabels = ClassificationLabels.All;
+            var allValidLabels = ClassificationLabels.All.ToList();
+
+            allValidLabels.AddRange(NeedsLabels.All);
 
             var client = brain.Recall<GitHubClient>();
 
@@ -36,50 +36,5 @@
             }
         }
 
-    }
-
-    public class RepositoriesToWatchOver:IEnumerable<Repository>
-    {
-        readonly IEnumerable<Repository> repositories;
-
-        public RepositoriesToWatchOver(IEnumerable<Repository> repositories)
-        {
-            this.repositories = repositories;
-        }
-
-        public IEnumerator<Repository> GetEnumerator()
-        {
-            return repositories.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-    }
-
-    public abstract class Chore
-    {
-        public  abstract void PerformChore(Brain brain);
-
-        public virtual string Description
-        {
-            get { return GetType().FullName; }
-        }
-    }
-
-    public class Brain
-    {
-        public void Remember<T>(T thingToRemember)
-        {
-            memory[typeof(T).FullName] = thingToRemember;
-        }
-
-        public T Recall<T>()
-        {
-            return (T) memory[typeof(T).FullName];
-        }
-
-        Dictionary<string,object> memory = new Dictionary<string, object>(); 
     }
 }

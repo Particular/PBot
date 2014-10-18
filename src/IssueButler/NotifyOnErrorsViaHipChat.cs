@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Net;
     using System.Text;
+    using IssueButler.Chores;
     using RestSharp;
 
     public class NotifyOnErrorsViaHipChat : Chore

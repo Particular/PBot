@@ -1,4 +1,4 @@
-namespace IssueButler
+namespace IssueButler.Chores
 {
     using System;
     using System.Linq;

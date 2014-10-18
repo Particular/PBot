@@ -1,5 +1,7 @@
 ﻿namespace IssueButler
 {
+    using IssueButler.Chores;
+
     class ParticularButler : Butler
     {
         public ParticularButler()
