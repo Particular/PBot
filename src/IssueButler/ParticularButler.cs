@@ -1,13 +1,18 @@
 ﻿namespace IssueButler
 {
-    class ParticularButler:Butler
+    class ParticularButler : Butler
     {
-        public ParticularButler(): base("Particular")
+        public ParticularButler()
         {
-            Validators.Add(new EnsureLabelsExists());
-            Validators.Add(new ValidateRepositories());
-            Displayers.Add(new ConsoleDisplayer());
-            Displayers.Add(new HipChatDisplayer("DONOTUSE-FOR-TECH_TESTING"));
+            Brain.Remember(GitHubClientBuilder.Build());
+            Brain.Remember(new ValidationErrors());
+            
+            
+            Chores.Add(new GetRepositoriesToWatch("Particular"));
+            Chores.Add(new EnsureLabelsExists());
+            Chores.Add(new ValidateRepositories());
+            Chores.Add(new DumpErrorsToConsole());
+            Chores.Add(new NotifyOnErrorsViaHipChat("DONOTUSE-FOR-TECH_TESTING"));
         }
     }
 }

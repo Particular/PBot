@@ -1,33 +1,30 @@
 ﻿namespace IssueButler
 {
+    using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using Octokit;
 
     class Butler
     {
-        protected Butler(string organization)
-        {
-            this.organization = organization;
-            client = GitHubClientBuilder.Build();
-        }
+        protected Brain Brain = new Brain();
 
+      
         public void PerformChores()
         {
-            var repos = client.Repository.GetAllForOrg(organization).Result
-             .Where(r => r.HasIssues && !r.Private && r.Name.StartsWith("NServiceBus") || r.Name.StartsWith("Service"))
-             .ToList();
 
-            var validationErrors = Validators.SelectMany(v => v.Validate(repos)).ToList();
+            Chores.ForEach(c =>
+            {
+                Console.Out.WriteLine("Performing " + c.Description);
+                c.PerformChore(Brain);
+                Console.Out.WriteLine("Completed " + c.Description);
+                
+            });
 
-            Displayers.ForEach(d => d.Display(validationErrors));
+            Displayers.ForEach(d => d.Display(Brain.Recall<ValidationErrors>()));
         }
 
-        protected List<Validator> Validators = new List<Validator>();
+   
+        protected List<Chore> Chores = new List<Chore>();
 
         protected List<ResultDisplayer> Displayers = new List<ResultDisplayer>();
-
-        readonly string organization;
-        GitHubClient client;
     }
 }

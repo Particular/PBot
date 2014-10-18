@@ -1,26 +1,26 @@
 ﻿namespace IssueButler
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using Octokit;
 
-    public class ValidateRepositories : Validator
+    public class ValidateRepositories : Chore
     {
-        GitHubClient client;
-        public ValidateRepositories()
-        {
-            client = GitHubClientBuilder.Build();
-        }
 
-        public override IEnumerable<ValidationError> Validate(IEnumerable<Repository> repositories)
+        public override void PerformChore(Brain brain)
         {
-         
-            var validationErrors = new List<ValidationError>();
+            var validationErrors = brain.Recall<ValidationErrors>();
+
+            var repositories = brain.Recall<RepositoriesToWatchOver>();
+
+            var client = brain.Recall<GitHubClient>();
+
 
 
             foreach (var repository in repositories)
             {
+                var currentNumErrors = validationErrors.Count();
+
                 var issues = client.Issue.GetForRepository(repository.Owner.Login, repository.Name,new RepositoryIssueRequest{State = ItemState.Open}).Result;
 
                 foreach (var issue in issues.Where(i=>i.State == ItemState.Open))
@@ -57,13 +57,14 @@
                     }
 
                 }
-                Console.Out.WriteLine("Completed " + repository.Name);
+
+                var newErrors = validationErrors.Count() - currentNumErrors;
+
+                Console.Out.WriteLine("Validated  {0} - {1}", repository.Name, newErrors == 0 ? "no errors" : newErrors + " errors found");
          
             }
-            return validationErrors;
-
         }
 
-     
+
     }
 }

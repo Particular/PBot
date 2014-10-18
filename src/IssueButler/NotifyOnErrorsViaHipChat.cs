@@ -1,18 +1,17 @@
 ﻿namespace IssueButler
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Net;
     using System.Text;
     using RestSharp;
 
-    public class HipChatDisplayer : ResultDisplayer
+    public class NotifyOnErrorsViaHipChat : Chore
     {
         readonly string chatroom;
 
         readonly string apiKey;
-        public HipChatDisplayer(string chatroom)
+        public NotifyOnErrorsViaHipChat(string chatroom)
         {
             this.chatroom = chatroom;
 
@@ -25,9 +24,10 @@
             }
         }
 
-        public override void Display(IEnumerable<ValidationError> result)
-        {
 
+        public override void PerformChore(Brain brain)
+        {
+            var result = brain.Recall<ValidationErrors>();
             var maxNumIssuesToShow = 50;
      
             foreach (var repo in result.GroupBy(r => r.Repository.Name))
@@ -87,5 +87,6 @@
                 throw new Exception("Failed to notify on hipchat");
             }
         }
+
     }
 }

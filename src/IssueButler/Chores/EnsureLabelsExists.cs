@@ -1,22 +1,20 @@
 ﻿namespace IssueButler
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using Octokit;
 
-    public class EnsureLabelsExists : Validator
-    {
-        GitHubClient client;
-        public EnsureLabelsExists()
-        {
-            client = GitHubClientBuilder.Build();
-        }
-
-        public override IEnumerable<ValidationError> Validate(IEnumerable<Repository> repositories)
+    public class EnsureLabelsExists : Chore
+    { 
+        public override void PerformChore(Brain brain)
         {
             var allValidLabels = ClassificationLabels.All;
 
+            var client = brain.Recall<GitHubClient>();
+
+            var repositories = brain.Recall<RepositoriesToWatchOver>();
 
             foreach (var repository in repositories)
             {
@@ -36,8 +34,52 @@
                 }
               
             }
-
-            return new List<ValidationError>();
         }
+
+    }
+
+    public class RepositoriesToWatchOver:IEnumerable<Repository>
+    {
+        readonly IEnumerable<Repository> repositories;
+
+        public RepositoriesToWatchOver(IEnumerable<Repository> repositories)
+        {
+            this.repositories = repositories;
+        }
+
+        public IEnumerator<Repository> GetEnumerator()
+        {
+            return repositories.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+    }
+
+    public abstract class Chore
+    {
+        public  abstract void PerformChore(Brain brain);
+
+        public virtual string Description
+        {
+            get { return GetType().FullName; }
+        }
+    }
+
+    public class Brain
+    {
+        public void Remember<T>(T thingToRemember)
+        {
+            memory[typeof(T).FullName] = thingToRemember;
+        }
+
+        public T Recall<T>()
+        {
+            return (T) memory[typeof(T).FullName];
+        }
+
+        Dictionary<string,object> memory = new Dictionary<string, object>(); 
     }
 }
