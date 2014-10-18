@@ -12,7 +12,7 @@
             
             Chores.Add(new GetRepositoriesToWatch("Particular"));
             Chores.Add(new EnsureLabelsExists());
-            Chores.Add(new ValidateRepositories());
+            Chores.Add(new MakeSureIssuesAreHandledCorrectly());
             Chores.Add(new DumpErrorsToConsole());
             Chores.Add(new NotifyOnErrorsViaHipChat("DONOTUSE-FOR-TECH_TESTING"));
         }

@@ -62,7 +62,7 @@
     <Compile Include="NotifyOnErrorsViaHipChat.cs" />
     <Compile Include="ParticularButler.cs" />
     <Compile Include="ResultDisplayer.cs" />
-    <Compile Include="Chores\ValidateRepositories.cs" />
+    <Compile Include="Chores\MakeSureIssuesAreHandledCorrectly.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValidationError.cs" />

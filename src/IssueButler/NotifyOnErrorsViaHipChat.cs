@@ -29,7 +29,7 @@
         public override void PerformChore(Brain brain)
         {
             var result = brain.Recall<ValidationErrors>();
-            var maxNumIssuesToShow = 50;
+            var maxNumIssuesToShow = 30;
      
             foreach (var repo in result.GroupBy(r => r.Repository.Name))
             {
