@@ -56,7 +56,7 @@
             {
                 validationErrors.Add(new ValidationError
                 {
-                    Reason = "Needs: X labels are mandatory for issues with no milestone, please add one of: " + string.Join(":", ClassificationLabels.All.Select(l => l.Name)),
+                    Reason = "Needs: X labels are mandatory for issues with no milestone, please add one of: " + string.Join(":", NeedsLabels.All.Select(l => l.Name)),
                     Issue = issue,
                     Repository = repository
                 });
@@ -66,7 +66,7 @@
             {
                 validationErrors.Add(new ValidationError
                 {
-                    Reason = "Needs labels are exclusive, please make sure only one of the following exists: " + string.Join(":", ClassificationLabels.All.Select(l => l.Name)),
+                    Reason = "Needs labels are exclusive, please make sure only one of the following exists: " + string.Join(":", NeedsLabels.All.Select(l => l.Name)),
                     Issue = issue,
                     Repository = repository
                 });
