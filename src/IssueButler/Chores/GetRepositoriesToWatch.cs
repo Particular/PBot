@@ -19,6 +19,7 @@ namespace IssueButler.Chores
 
             var repos = client.Repository.GetAllForOrg(organization).Result
                 .Where(r => r.HasIssues && !r.Private && r.Name.StartsWith("NServiceBus") || r.Name.StartsWith("Service"))
+                .Where(r=>r.Name != "NServiceBus.ActiveMQ") //until we can make the repo private or remove it
                 .ToList();
 
             Console.Out.WriteLine("Asked to watch over org {0}", organization);
