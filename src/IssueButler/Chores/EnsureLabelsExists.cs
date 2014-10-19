@@ -11,6 +11,7 @@
             var allValidLabels = ClassificationLabels.All.ToList();
 
             allValidLabels.AddRange(NeedsLabels.All);
+            allValidLabels.AddRange(ResolutionLabels.All);
 
             var client = brain.Recall<GitHubClient>();
 

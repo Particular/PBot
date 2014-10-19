@@ -52,6 +52,7 @@
     <Compile Include="Brain.cs" />
     <Compile Include="Chores\Chore.cs" />
     <Compile Include="Chores\EnsureLabelsExists.cs" />
+    <Compile Include="ResolutionLabels.cs" />
     <Compile Include="RepositoriesToWatchOver.cs" />
     <Compile Include="NeedsLabels.cs" />
     <Compile Include="ClassificationLabels.cs" />
