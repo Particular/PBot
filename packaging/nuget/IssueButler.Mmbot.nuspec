@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <id>IssueButler.Mmbot</id>
+    <title>Mmbot plugin for IssueButler</title>
+    <version>$version$</version>
+    <authors>NServiceBus Ltd</authors>
+    <owners>Particular et al</owners>
+    <projectUrl>https://github.com/Particular/IssueButler</projectUrl>
+    <description>Mmot plugin to manage GH issues</description>
+    <tags>github issues mmbot</tags>
+  </metadata>
+  <files>
+    <file src="..\..\src\IssueButler.Mmbot\bin\Release\IssueButler.Mmbot.dll" target="lib" />
+  </files>
+</package>
