@@ -15,6 +15,5 @@
   </metadata>
   <files>
     <file src="..\..\src\IssueButler.Mmbot\bin\Release\IssueButler.Mmbot.dll" target="lib" />
-    <file src="..\..\src\IssueButler.Mmbot\bin\Release\IssueButler.exe" target="lib" />
   </files>
 </package>
