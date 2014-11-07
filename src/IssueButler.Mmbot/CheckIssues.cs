@@ -1,11 +1,11 @@
-﻿using System.Linq;
-using Octokit;
-
+﻿
 namespace IssueButler.Mmbot
 {
     using System.Collections.Generic;
     using MMBot;
     using MMBot.Scripts;
+    using System.Linq;
+    using Octokit;
 
     public class CheckIssues:IMMBotScript
     {
