@@ -1,4 +1,4 @@
-﻿namespace IssueButler
+﻿namespace IssueButler.Mmbot
 {
     using System;
     using System.Net;

@@ -1,9 +1,9 @@
-﻿namespace IssueButler
+﻿namespace IssueButler.Mmbot
 {
     using System.Collections;
     using System.Collections.Generic;
 
-    class ValidationErrors:IEnumerable<ValidationError>
+    public class ValidationErrors:IEnumerable<ValidationError>
     {
         public IEnumerator<ValidationError> GetEnumerator()
         {

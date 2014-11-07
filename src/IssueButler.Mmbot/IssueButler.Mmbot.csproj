@@ -126,8 +126,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CheckIssues.cs" />
+    <Compile Include="CheckIssuesForRepository.cs" />
+    <Compile Include="ClassificationLabels.cs" />
     <Compile Include="GitHubClientBuilder.cs" />
     <Compile Include="GitHubHelper.cs" />
+    <Compile Include="NeedsLabels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValidationError.cs" />
     <Compile Include="ValidationErrors.cs" />
