@@ -3,7 +3,7 @@
     using Octokit;
     using Octokit.Internal;
 
-    static class GitHubClientBuilder
+    public static class GitHubClientBuilder
     {
         public static GitHubClient Build()
         {
