@@ -37,7 +37,7 @@ namespace IssueButler.Mmbot
 
             var sb = new StringBuilder();
 
-            sb.AppendLine("The following issues for " + repoName + " <br/>");
+            sb.AppendLine("The following issues for " + repoName + " needs attention <br/>");
 
             if (validationErrors.Count() > maxNumIssuesToShow)
             {
