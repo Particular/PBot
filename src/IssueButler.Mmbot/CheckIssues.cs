@@ -58,7 +58,11 @@ namespace IssueButler.Mmbot
 
         public IEnumerable<string> GetHelp()
         {
-            yield return "Checks a repositories for issue in need of some TLC";
+            return new List<string>
+            {
+                "mmbot check repo <name of repo> - Checks all issues in the specified repository and reports needed actions",
+                "mmbot check my repo - Checks all issues in repositories you're cartaking and reports needed actions"
+            };
         }
     }
 }
