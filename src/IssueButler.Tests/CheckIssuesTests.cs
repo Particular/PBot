@@ -2,6 +2,7 @@
 {
     using System;
     using IssueButler.Mmbot;
+    using IssueButler.Mmbot.Issues;
     using NUnit.Framework;
 
     [TestFixture]

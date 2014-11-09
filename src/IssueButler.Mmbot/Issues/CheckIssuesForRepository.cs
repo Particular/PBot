@@ -1,4 +1,4 @@
-﻿namespace IssueButler.Mmbot
+﻿namespace IssueButler.Mmbot.Issues
 {
     using System.Linq;
     using Octokit;

@@ -1,13 +1,13 @@
 ﻿
-namespace IssueButler.Mmbot
+namespace IssueButler.Mmbot.Issues
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
     using MMBot;
     using MMBot.Scripts;
-    using System.Linq;
 
-    public class CheckIssues : IMMBotScript
+    public class CheckIssueCommands : IMMBotScript
     {
         public void Register(Robot robot)
         {
