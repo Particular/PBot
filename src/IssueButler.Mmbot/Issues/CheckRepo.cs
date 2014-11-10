@@ -3,18 +3,14 @@ namespace IssueButler.Mmbot.Issues
 {
     using System.Linq;
     using System.Text;
-    using MMBot;
 
     public class CheckRepo : BotCommand
     {
-        public CheckRepo()
+        public CheckRepo() : base("check repo (.*)$", "mmbot check repo <name of repo> - Checks all issues in the specified repository and reports needed actions") { }
+
+        public override void Execute(string[] parameters, IResponse response)
         {
-            Command = @"check repo (.*)$";
-            HelpText = "mmbot check repo <name of repo> - Checks all issues in the specified repository and reports needed actions";
-        }
-        public override void Execute(IResponse<TextMessage> reponse)
-        {
-            var repoName = reponse.Match[1];
+            var repoName = parameters[1];
             var client = GitHubClientBuilder.Build();
             var repo = client.Repository.Get("Particular", repoName).Result;
 
@@ -23,11 +19,11 @@ namespace IssueButler.Mmbot.Issues
 
             if (!validationErrors.Any())
             {
-                reponse.Send("Nice job citizen, the repo is clean!");
+                response.Send("Nice job citizen, the repo is clean!");
                 return;
             }
 
-            reponse.Send(FormatErrors(repoName, validationErrors));
+            response.Send(FormatErrors(repoName, validationErrors));
         }
 
         string FormatErrors(string repoName, ValidationErrors validationErrors)
