@@ -1,7 +1,9 @@
 namespace IssueButler.Mmbot.Caretakers
 {
+    using System;
     using System.Linq;
     using IssueButler.Mmbot.Repositories;
+    using Octokit;
 
     public class AddRepository : BotCommand
     {
@@ -14,7 +16,14 @@ namespace IssueButler.Mmbot.Caretakers
         {
             var repoName = parameters[1];
 
-            var repo = GitHubClientBuilder.Build().Repository.Get("Particular", repoName).Result;
+            Repository repo;
+
+            if (!TryFetchRepoDetails(repoName, out repo))
+            {
+                response.Send(repoName + " doesn't exist");
+                return;
+                
+            }
 
             var allRepos = Brain.Get<AvailableRepositories>();
 
@@ -29,7 +38,24 @@ namespace IssueButler.Mmbot.Caretakers
                 Name = repo.Name
             });
 
-            response.Send(repo + " is now added!");
+            Brain.Set(allRepos);
+
+            response.Send(repo.Name + " is now added!");
+        }
+
+        static bool TryFetchRepoDetails(string repoName, out Repository result)
+        {
+            try
+            {
+                result = GitHubClientBuilder.Build().Repository.Get("Particular", repoName).Result;
+
+                return true;
+            }
+            catch (Exception)
+            {
+                result = null;
+                return false;
+            }
         }
     }
 }

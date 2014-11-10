@@ -1,6 +1,8 @@
 ﻿namespace IssueButler.Tests
 {
     using System.Linq;
+
+    using IssueButler.Mmbot;
     using IssueButler.Mmbot.Caretakers;
     using IssueButler.Mmbot.Repositories;
     using NUnit.Framework;
@@ -17,9 +19,25 @@
 
             brain.Set(typeof(AvailableRepositories).FullName, repos);
 
-            Execute("add", "nservicebus");
+            Execute("add", repoName);
 
-            Assert.NotNull(repos.Single(r=>r.Name == repoName));
+            Assert.NotNull(brain.Get<AvailableRepositories>().Single(r => r.Name == repoName));
+        }
+
+        [Test]
+        public void AddInvalidRepo()
+        {
+
+            var repoName = "NonExistingRepo";
+            var repos = new AvailableRepositories();
+
+            brain.Set(typeof(AvailableRepositories).FullName, repos);
+
+            Execute("add", repoName);
+
+
+            Assert.False(repos.Any());
+            Assert.NotNull(Messages.SingleOrDefault(m => m.Contains("doesn't exist")));
         }
 
         [Test]
@@ -37,7 +55,7 @@
 
             brain.Set(typeof(AvailableRepositories).FullName, repos);
 
-            Execute("add", "nservicebus");
+            Execute("add", repoName);
 
             Assert.NotNull(repos.Single(r => r.Name == repoName));
             Assert.NotNull(Messages.Single(m=>m.Contains("already exists")));

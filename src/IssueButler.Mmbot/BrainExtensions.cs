@@ -8,5 +8,10 @@ namespace IssueButler.Mmbot
         {
             return brain.Get<T>(typeof(T).FullName).Result;
         }
+
+        public static void Set<T>(this IBrain brain,T data) where T : class
+        {
+            brain.Set(typeof(T).FullName,data).Wait();
+        }
     }
 }
