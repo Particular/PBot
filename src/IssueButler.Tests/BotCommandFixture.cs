@@ -1,8 +1,8 @@
 ﻿namespace IssueButler.Tests
 {
     using System;
+    using System.Collections.Generic;
     using IssueButler.Mmbot;
-    using MMBot;
     using MMBot.Brains;
     using NUnit.Framework;
 
@@ -28,5 +28,8 @@
             command.Execute(parameters, testResponder);
         }
 
+        public IEnumerable<string> Messages
+        {
+            get { return testResponder.Messages; }}
     }
 }

@@ -22,6 +22,27 @@
             Assert.NotNull(repos.Single(r=>r.Name == repoName));
         }
 
+        [Test]
+        public void AddDuplicateValidRepo()
+        {
+
+            var repoName = "nservicebus";
+            var repos = new AvailableRepositories
+            {
+                new AvailableRepositories.Repository
+                {
+                    Name = repoName
+                }
+            };
+
+            brain.Set(typeof(AvailableRepositories).FullName, repos);
+
+            Execute("add", "nservicebus");
+
+            Assert.NotNull(repos.Single(r => r.Name == repoName));
+            Assert.NotNull(Messages.Single(m=>m.Contains("already exists")));
+        }
+
             
 
     }
