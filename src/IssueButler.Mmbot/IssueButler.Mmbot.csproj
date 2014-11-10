@@ -125,9 +125,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Caretakers\ManageCaretakerCommands.cs" />
+    <Compile Include="BotCommand.cs" />
+    <Compile Include="Caretakers\RegisterCaretaker.cs" />
     <Compile Include="Repositories\AvailableRepositories.cs" />
-    <Compile Include="Issues\CheckIssueCommands.cs" />
+    <Compile Include="Issues\CheckRepo.cs" />
     <Compile Include="Issues\CheckIssuesForRepository.cs" />
     <Compile Include="Issues\ClassificationLabels.cs" />
     <Compile Include="GitHubClientBuilder.cs" />
