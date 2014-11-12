@@ -1,5 +1,8 @@
 namespace IssueButler.Mmbot.Caretakers
 {
+    using System.Linq;
+    using IssueButler.Mmbot.Repositories;
+
     public class RegisterCaretaker : BotCommand
     {
         public RegisterCaretaker(): base(
@@ -8,13 +11,24 @@ namespace IssueButler.Mmbot.Caretakers
 
         public override void Execute(string[] parameters, IResponse response)
         {
-            var user = parameters[1];
-            var repo = parameters[2];
+            var username = parameters[1];
+            var repoName = parameters[3];
 
-            new ManageCaretakers(Brain)
-            .AddCaretaker(user, repo);
+            var activeRepositories = Brain.Get<AvailableRepositories>();
 
-            response.Send(user + " is now caretaker for " + repo);
+            var repo = activeRepositories.SingleOrDefault(r => r.Name == repoName);
+
+            if (repo == null)
+            {
+                response.Send("Repository not found, please add it using: mmbot add repo " + repoName);
+                return;
+            }
+
+            repo.Caretaker = username;
+
+            Brain.Set(activeRepositories);
+
+            response.Send(username + " is now caretaker for " + repo.Name);
         }
     }
 }

@@ -1,20 +1,19 @@
 ﻿namespace IssueButler.Tests
 {
-    using System;
     using System.Linq;
+    using IssueButler.Mmbot;
     using IssueButler.Mmbot.Caretakers;
     using IssueButler.Mmbot.Repositories;
     using NUnit.Framework;
 
     [TestFixture]
-    public class ManageCaretakersTests
+    public class RegisterCaretakerTests:BotCommandFixture<RegisterCaretaker>
     {
         [Test]
         public void AddCaretakerToExistingRepo()
         {
             var username = "testuser";
             var repoName = "nservicebus";
-            var brain = new TestBrain();
             var repos = new AvailableRepositories
             {
                 new AvailableRepositories.Repository
@@ -23,11 +22,9 @@
                 }
             };
 
-            brain.Set(typeof(AvailableRepositories).FullName,repos);
+            brain.Set(repos);
 
-
-            new ManageCaretakers(brain)
-                .AddCaretaker(username,repoName);
+            Execute("register", username,"as caretaker for",repoName);
 
             Assert.AreEqual(repos.Single(r=>r.Name == repoName).Caretaker,username);
         }
@@ -35,18 +32,12 @@
         [Test]
         public void AddCaretakerToUnknownRepo()
         {
-            var username = "testuser";
-            var repoName = "nservicebus";
-            var brain = new TestBrain();
-            var repos = new AvailableRepositories();
-
-            brain.Set(typeof(AvailableRepositories).FullName, repos);
+            brain.Set(new AvailableRepositories());
 
 
-            var ex = Assert.Throws<Exception>(()=> new ManageCaretakers(brain)
-                .AddCaretaker(username, repoName));
+            Execute("register", "someuser", "as caretaker for", "unknownrepo");
 
-            Assert.True(ex.Message.StartsWith("Repository not found"));
+            Assert.True(Messages.Any(m=>m.StartsWith("Repository not found")));
         }
     }
 }

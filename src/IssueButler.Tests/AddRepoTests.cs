@@ -15,9 +15,8 @@
         {
          
             var repoName = "nservicebus";
-            var repos = new AvailableRepositories();
-
-            brain.Set(typeof(AvailableRepositories).FullName, repos);
+            
+            brain.Set(new AvailableRepositories());
 
             Execute("add", repoName);
 
@@ -31,7 +30,7 @@
             var repoName = "NonExistingRepo";
             var repos = new AvailableRepositories();
 
-            brain.Set(typeof(AvailableRepositories).FullName, repos);
+            brain.Set(repos);
 
             Execute("add", repoName);
 
@@ -53,7 +52,7 @@
                 }
             };
 
-            brain.Set(typeof(AvailableRepositories).FullName, repos);
+            brain.Set(repos);
 
             Execute("add", repoName);
 

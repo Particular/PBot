@@ -136,7 +136,7 @@
     <Compile Include="AddRepoTests.cs" />
     <Compile Include="BotCommandFixture.cs" />
     <Compile Include="CheckIssuesTests.cs" />
-    <Compile Include="ManageCaretakersTests.cs" />
+    <Compile Include="RegisterCaretakerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestBrain.cs" />
     <Compile Include="TestResponder.cs" />
