@@ -21,7 +21,7 @@
             },
        new Label
             {
-                Name = "Needs: Hotfix",
+                Name = "Needs: Patch",
                 Color = "84b6eb"
             },
        new Label
