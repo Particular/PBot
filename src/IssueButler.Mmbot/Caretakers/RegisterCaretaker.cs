@@ -31,4 +31,25 @@ namespace IssueButler.Mmbot.Caretakers
             response.Send(username + " is now caretaker for " + repo.Name);
         }
     }
+
+    public class ListCaretakers : BotCommand
+    {
+        public ListCaretakers()
+            : base(
+                "list caretakers$",
+                "mmbot list caretakers - Displays the list of caretakers") { }
+
+        public override void Execute(string[] parameters, IResponse response)
+        {
+            var activeRepositories = Brain.Get<AvailableRepositories>();
+
+            foreach (var repo in activeRepositories.Where(r=>r.Caretaker != null))
+            {
+                response.Send(string.Format("{0} is caretaker for {1}",repo.Caretaker,repo.Name));
+            }
+
+            response.Send(string.Format("Repos that is up for grabs: {0}", string.Join(", ",activeRepositories.Where(r=>r.Caretaker == null).Select(r=>r.Name))));
+            
+        }
+    }
 }
