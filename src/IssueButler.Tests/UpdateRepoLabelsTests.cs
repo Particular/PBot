@@ -16,9 +16,9 @@
         public void SyncAllRepos()
         {
             var client = GitHubClientBuilder.Build();
-                   var sourceRepo = "NServiceBus";
+            var sourceRepo = "RepoStandards";
 
-            
+
             var labelsToSync = client.Issue.Labels.GetForRepository(Organization, sourceRepo).Result;
 
             //go through all repos
@@ -31,9 +31,9 @@
             }
 
 
-            
 
-            
+
+
         }
 
         static void SyncRepo(GitHubClient client, string repoToUpdate, IReadOnlyList<Label> labelsToSync)
@@ -63,8 +63,8 @@
 
             var nonStandardLabels = existingLabels.Where(l => !labelsToSync.Any(template => template.Name == l.Name)).ToList();
 
-//Needs: Hotfix is a non standard label
-//Needs: Investigation is a non standard label
+            //Needs: Hotfix is a non standard label
+            //Needs: Investigation is a non standard label
             var blacklistedLabels = new[]
             {
                 "duplicate",
