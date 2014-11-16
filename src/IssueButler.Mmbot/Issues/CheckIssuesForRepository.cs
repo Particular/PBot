@@ -1,5 +1,6 @@
 ﻿namespace IssueButler.Mmbot.Issues
 {
+    using System;
     using System.Linq;
     using Octokit;
 
@@ -50,14 +51,22 @@
 
             var needsLabels = issue.Labels.Where(l => NeedsLabels.Contains(l.Name)).ToList();
 
+            var lastActivityOnIssue = issue.UpdatedAt; //todo: does this include comments?
+
             if (!needsLabels.Any())
             {
-                validationErrors.Add(new ValidationError
+                if (lastActivityOnIssue < DateTime.UtcNow.AddDays(-5))
                 {
-                    Reason = "Needs: X labels are mandatory for bugs with no milestone, please add one of: " + string.Join(":", NeedsLabels.All.Select(l => l.Name)),
-                    Issue = issue,
-                    Repository = repository
-                });
+                    validationErrors.Add(new ValidationError
+                    {
+                        Reason = "This bub doesn't seem to be triaged, please add one of: " + string.Join(",", NeedsLabels.All.Select(l => l.Name)),
+                        Issue = issue,
+                        Repository = repository
+                    });
+        
+                }
+            
+                return;
             }
 
             if (needsLabels.Count > 1)
@@ -70,7 +79,27 @@
                 });
             }
 
-            //todo: check for activity 
+
+
+            if (issue.Labels.Any(l =>l.Name== "Needs: Triage") && lastActivityOnIssue < DateTime.UtcNow.AddDays(-3))
+            {
+                validationErrors.Add(new ValidationError
+                {
+                    Reason = "Issue needs triage but hasn't been updated for 3 days",
+                    Issue = issue,
+                    Repository = repository
+                });
+            }
+
+            if (issue.Labels.Any(l => l.Name == "Needs: Reproduction") && lastActivityOnIssue < DateTime.UtcNow.AddDays(-7))
+            {
+                validationErrors.Add(new ValidationError
+                {
+                    Reason = "Issue needs a repro but hasn't touch",
+                    Issue = issue,
+                    Repository = repository
+                });
+            }
         }
 
         static void ValidateClassificationLabels(Issue issue, ValidationErrors validationErrors, Repository repository)
