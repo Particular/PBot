@@ -59,7 +59,7 @@
                 {
                     validationErrors.Add(new ValidationError
                     {
-                        Reason = "This bub doesn't seem to be triaged, please add one of: " + string.Join(",", NeedsLabels.All.Select(l => l.Name)),
+                        Reason = "This bug doesn't seem to be triaged, please add one of: " + string.Join(",", NeedsLabels.All.Select(l => l.Name)),
                         Issue = issue,
                         Repository = repository
                     });
