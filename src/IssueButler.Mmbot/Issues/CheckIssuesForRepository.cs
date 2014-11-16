@@ -42,13 +42,19 @@
 
         void ValidateNeedsLabels(Issue issue, ValidationErrors validationErrors, Repository repository)
         {
+            //only applies to Bugs for now
+            if (issue.Labels.All(l => l.Name != "Bug"))
+            {
+                return;
+            }
+
             var needsLabels = issue.Labels.Where(l => NeedsLabels.Contains(l.Name)).ToList();
 
             if (!needsLabels.Any())
             {
                 validationErrors.Add(new ValidationError
                 {
-                    Reason = "Needs: X labels are mandatory for issues with no milestone, please add one of: " + string.Join(":", NeedsLabels.All.Select(l => l.Name)),
+                    Reason = "Needs: X labels are mandatory for bugs with no milestone, please add one of: " + string.Join(":", NeedsLabels.All.Select(l => l.Name)),
                     Issue = issue,
                     Repository = repository
                 });
@@ -91,6 +97,6 @@
                 });
             }
         }
-   
+
     }
 }
