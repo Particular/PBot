@@ -25,7 +25,7 @@ namespace IssueButler.Mmbot.Caretakers
                 
             }
 
-            var allRepos = Brain.Get<AvailableRepositories>();
+            var allRepos = Brain.Get<AvailableRepositories>() ?? new AvailableRepositories();
 
             if (allRepos.Any(r => r.Name == repo.Name))
             {
