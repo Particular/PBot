@@ -55,7 +55,7 @@
 
             if (!needsLabels.Any())
             {
-                if (lastActivityOnIssue < DateTime.UtcNow.AddDays(-5))
+                if (lastActivityOnIssue < DateTime.UtcNow.AddDays(-3))
                 {
                     validationErrors.Add(new ValidationError
                     {
@@ -86,6 +86,17 @@
                 validationErrors.Add(new ValidationError
                 {
                     Reason = "Issue needs triage but hasn't been updated for 3 days",
+                    Issue = issue,
+                    Repository = repository
+                });
+            }
+
+
+            if (issue.Labels.Any(l => l.Name == "Needs: Patch") && lastActivityOnIssue < DateTime.UtcNow.AddDays(-5))
+            {
+                validationErrors.Add(new ValidationError
+                {
+                    Reason = "Issue needs a patch but hasn't been updated for 3 days",
                     Issue = issue,
                     Repository = repository
                 });
