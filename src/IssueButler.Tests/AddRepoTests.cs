@@ -1,5 +1,6 @@
 ﻿namespace IssueButler.Tests
 {
+    using System;
     using System.Linq;
 
     using IssueButler.Mmbot;
@@ -21,6 +22,19 @@
             Execute("add", repoName);
 
             Assert.NotNull(brain.Get<AvailableRepositories>().Single(r => r.Name == repoName));
+        }
+      
+        [Test]
+        public void AddByWildcard()
+        {
+            var repoName = "nservicebus*";
+
+            brain.Set(new AvailableRepositories());
+
+            Execute("add", repoName);
+
+            Console.Out.WriteLine(string.Join(";", brain.Get<AvailableRepositories>()));
+            Assert.True(brain.Get<AvailableRepositories>().Count() > 2);
         }
 
         [Test]

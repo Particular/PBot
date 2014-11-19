@@ -8,7 +8,7 @@ namespace IssueButler.Mmbot.Caretakers
     public class AddRepository : BotCommand
     {
         public AddRepository(): base("add repo (.*)$", 
-            "mmbot add repo <name of repo> -  Adds the given repository to the list of active repos. Repo must exist under the configured organization")
+            "pbot add repo <name of repo> -  Adds the given repository to the list of active repos. Repo must exist under the configured organization. Wildcard is supported")
         {
         }
 
@@ -16,31 +16,59 @@ namespace IssueButler.Mmbot.Caretakers
         {
             var repoName = parameters[1];
 
-            Repository repo;
-
-            if (!TryFetchRepoDetails(repoName, out repo))
-            {
-                response.Send(repoName + " doesn't exist");
-                return;
-                
-            }
-
             var allRepos = Brain.Get<AvailableRepositories>() ?? new AvailableRepositories();
 
-            if (allRepos.Any(r => r.Name == repo.Name))
+            if (repoName.EndsWith("*"))
             {
-                response.Send(repo.Name + " already exists");
-                return;
+                response.Send("Oh, wildcard add, you have guts!");
+
+                var reposForOrg = GitHubClientBuilder.Build().Repository.GetAllForOrg("Particular").Result;
+
+                var repoNameWithoutStar = repoName.Replace("*", "");
+
+                foreach (var matchingRepo in reposForOrg.Where(r => r.Name.StartsWith(repoNameWithoutStar)))
+                {
+                    if (allRepos.Any(r => r.Name == matchingRepo.Name))
+                    {
+                        continue;
+                    }
+
+                    allRepos.Add(new AvailableRepositories.Repository
+                    {
+                        Name = matchingRepo.Name
+                    });
+                    response.Send(matchingRepo.Name + " is now added!");
+                }
+
             }
-
-            allRepos.Add(new AvailableRepositories.Repository
+            else
             {
-                Name = repo.Name
-            });
+                Repository repo;
 
+                if (!TryFetchRepoDetails(repoName, out repo))
+                {
+                    response.Send(repoName + " doesn't exist");
+                    return;
+
+                }
+
+
+                if (allRepos.Any(r => r.Name == repo.Name))
+                {
+                    response.Send(repo.Name + " already exists");
+                    return;
+                }
+
+                allRepos.Add(new AvailableRepositories.Repository
+                {
+                    Name = repo.Name
+                });
+                response.Send(repo.Name + " is now added!");
+    
+            }
+   
             Brain.Set(allRepos);
 
-            response.Send(repo.Name + " is now added!");
         }
 
         static bool TryFetchRepoDetails(string repoName, out Repository result)

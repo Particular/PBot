@@ -43,7 +43,7 @@
 
             foreach (var templateLabel in labelsToSync)
             {
-                var existingLabel = existingLabels.SingleOrDefault(l => l.Name == templateLabel.Name);
+                var existingLabel = existingLabels.SingleOrDefault(l => string.Equals(l.Name,templateLabel.Name,StringComparison.InvariantCulture));
 
                 if (existingLabel == null)
                 {
