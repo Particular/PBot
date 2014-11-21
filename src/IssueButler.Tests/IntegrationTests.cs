@@ -5,11 +5,11 @@
     using IssueButler.Mmbot.Issues;
     using NUnit.Framework;
 
-    [TestFixture]
-    public class CheckIssuesTests
+    [TestFixture,Explicit("Integration tests")]
+    public class IntegrationTests
     {
         [Test]
-        public void CheckNServiceBus()
+        public void CheckIssuesInNServiceBus()
         {
             var client = GitHubClientBuilder.Build();
             var repo = client.Repository.Get("Particular", "NServiceBus").Result;
