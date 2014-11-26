@@ -21,7 +21,7 @@ namespace IssueButler.Mmbot.Caretakers
 
             foreach (var caretaker in groupByCaretaker.Where(g => g.Key != null))
             {
-                message.AppendLine(string.Format("{0}: {1}", caretaker.Key, string.Join(", ", caretaker.Select(r => r.Name))));
+                message.AppendLine(string.Format("*{0}*: {1}", caretaker.Key, string.Join(", ", caretaker.Select(r => r.Name))));
             }
             var upForGrabs = groupByCaretaker.SingleOrDefault(g => g.Key == null);
 
@@ -31,8 +31,8 @@ namespace IssueButler.Mmbot.Caretakers
                 message.AppendLine(string.Join(", ", upForGrabs.Select(r => r.Name)));
             }
 
-            message.AppendLine("You can sign up using: pbot register {your username} as caretaker for {name of the repo above}");
-            message.AppendLine("Please read more about caretakers here - https://github.com/Particular/Housekeeping/wiki/Caretakers");
+            message.AppendLine("You can sign up using: `pbot register {your username} as caretaker for {name of the repo above}`");
+            message.AppendLine("Please read more about caretakers [here](https://github.com/Particular/Housekeeping/wiki/Caretakers)");
 
             response.Send(message.ToString());
         }
