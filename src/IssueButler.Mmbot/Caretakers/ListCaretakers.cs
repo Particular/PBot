@@ -12,19 +12,23 @@ namespace IssueButler.Mmbot.Caretakers
 
         public override void Execute(string[] parameters, IResponse response)
         {
-            var activeRepositories = Brain.Get<AvailableRepositories>();
-
-            foreach (var repo in activeRepositories.Where(r=>r.Caretaker != null))
+            var groupByCaretaker = Brain.Get<AvailableRepositories>()
+                .GroupBy(r=>r.Caretaker)
+                .ToList();
+    
+            foreach (var caretaker in groupByCaretaker.Where(g=>g.Key != null))
             {
-                response.Send(string.Format("{0} is caretaker for {1}",repo.Caretaker,repo.Name));
+                response.Send(string.Format("{0}: {1}",caretaker.Key,string.Join(", ",caretaker.Select(r=>r.Name))));
             }
-            var upForGrabs = activeRepositories.Where(r => r.Caretaker == null).ToList();
+            var upForGrabs = groupByCaretaker.SingleOrDefault(g => g.Key== null);
 
-            if (upForGrabs.Any())
+            if (upForGrabs != null)
             {
-                response.Send(string.Format("Repos that is up for grabs: {0}", string.Join(", ", upForGrabs.Select(r => r.Name))));              
+                response.Send("Repos that is up for grabs:",
+                    string.Join(", ", upForGrabs.Select(r => r.Name)),
+                    "You can sign up using: pbot register {your username} as caretaker for {name of the repo above}",
+                    "Please read more about caretakers here - https://github.com/Particular/Housekeeping/wiki/Caretakers");              
             }
-            
         }
     }
 }

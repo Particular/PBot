@@ -1,6 +1,7 @@
-namespace IssueButler.Mmbot.Issues
+namespace IssueButler.Mmbot.Reminders
 {
     using System.Linq;
+    using IssueButler.Mmbot.Issues;
     using IssueButler.Mmbot.Repositories;
 
     public class RemindCaretakersOfIssuesToBeHandled : BotCommand

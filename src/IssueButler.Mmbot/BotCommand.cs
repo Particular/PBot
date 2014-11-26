@@ -52,7 +52,7 @@ namespace IssueButler.Mmbot
 
         public interface IResponse
         {
-            void Send(string message);
+            void Send(params string[] message);
         }
 
     }
@@ -66,7 +66,7 @@ namespace IssueButler.Mmbot
             this.msg = msg;
         }
 
-        public void Send(string message)
+        public void Send(params string[] message)
         {
             msg.Send(message);
         }

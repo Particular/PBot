@@ -26,6 +26,8 @@
         {
             command.Register(brain);
             command.Execute(parameters, testResponder);
+
+            Console.Out.WriteLine(string.Join(Environment.NewLine,Messages));
         }
 
         public IEnumerable<string> Messages

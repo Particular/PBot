@@ -5,11 +5,10 @@
 
     public class TestResponder:BotCommand.IResponse
     {
-        public void Send(string message)
+        public List<string> Messages = new List<string>();
+        public void Send(params string[] messages)
         {
-            Messages.Add(message);
+            Messages.AddRange(messages);
         }
-
-        public List<string> Messages = new List<string>(); 
     }
 }
