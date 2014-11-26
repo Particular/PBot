@@ -4,7 +4,6 @@
     using System.Linq;
     using System.Text;
     using IssueButler.Mmbot.Repositories;
-    using MMBot;
 
     public class CheckIssuesInMyRepos : BotCommand
     {

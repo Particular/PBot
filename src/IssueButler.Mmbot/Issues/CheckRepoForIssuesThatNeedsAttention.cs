@@ -42,7 +42,7 @@ namespace IssueButler.Mmbot.Issues
 
             if (validationErrors.Count() > maxNumIssuesToShow)
             {
-                sb.AppendLine(string.Format("There are {0} more issues as well. I'll soon be able to show you them using: `pbot check repo {1} detailed",validationErrors.Count()-maxNumIssuesToShow,repoName));
+                sb.AppendLine(string.Format("There are {0} more issues as well. I'll soon be able to show you them using: `pbot check repo {1} detailed`",validationErrors.Count()-maxNumIssuesToShow,repoName));
             }
 
 
