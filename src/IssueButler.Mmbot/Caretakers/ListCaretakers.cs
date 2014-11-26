@@ -1,6 +1,7 @@
 namespace IssueButler.Mmbot.Caretakers
 {
     using System.Linq;
+    using System.Text;
     using IssueButler.Mmbot.Repositories;
 
     public class ListCaretakers : BotCommand
@@ -13,22 +14,27 @@ namespace IssueButler.Mmbot.Caretakers
         public override void Execute(string[] parameters, IResponse response)
         {
             var groupByCaretaker = Brain.Get<AvailableRepositories>()
-                .GroupBy(r=>r.Caretaker)
+                .GroupBy(r => r.Caretaker)
                 .ToList();
-    
-            foreach (var caretaker in groupByCaretaker.Where(g=>g.Key != null))
+
+            var message = new StringBuilder();
+
+            foreach (var caretaker in groupByCaretaker.Where(g => g.Key != null))
             {
-                response.Send(string.Format("{0}: {1}",caretaker.Key,string.Join(", ",caretaker.Select(r=>r.Name))));
+                message.AppendLine(string.Format("{0}: {1}", caretaker.Key, string.Join(", ", caretaker.Select(r => r.Name))));
             }
-            var upForGrabs = groupByCaretaker.SingleOrDefault(g => g.Key== null);
+            var upForGrabs = groupByCaretaker.SingleOrDefault(g => g.Key == null);
 
             if (upForGrabs != null)
             {
-                response.Send("Repos that is up for grabs:",
-                    string.Join(", ", upForGrabs.Select(r => r.Name)),
-                    "You can sign up using: pbot register {your username} as caretaker for {name of the repo above}",
-                    "Please read more about caretakers here - https://github.com/Particular/Housekeeping/wiki/Caretakers");              
+                message.AppendLine("Repos that is up for grabs:");
+                message.AppendLine(string.Join(", ", upForGrabs.Select(r => r.Name)));
             }
+
+            message.AppendLine("You can sign up using: pbot register {your username} as caretaker for {name of the repo above}");
+            message.AppendLine("Please read more about caretakers here - https://github.com/Particular/Housekeeping/wiki/Caretakers");
+
+            response.Send(message.ToString());
         }
     }
 }

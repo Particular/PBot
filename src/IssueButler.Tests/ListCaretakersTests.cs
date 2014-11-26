@@ -1,5 +1,6 @@
 ﻿namespace IssueButler.Tests
 {
+    using System;
     using System.Linq;
     using IssueButler.Mmbot;
     using IssueButler.Mmbot.Caretakers;
@@ -37,7 +38,8 @@
 
             Execute("list caretakers");
 
-            var caretaker = Messages.Single(m => m.Contains(username));
+            var caretaker = Messages.Single().Split(Environment.NewLine.ToCharArray())
+                .Single(l=>l.StartsWith(username));
 
             Assert.True(caretaker.Contains("Repo1"));
             Assert.True(caretaker.Contains("Repo2"));
