@@ -135,7 +135,8 @@
   <ItemGroup>
     <Compile Include="AddRepoTests.cs" />
     <Compile Include="BotCommandFixture.cs" />
-    <Compile Include="IntegrationTests.cs" />
+    <Compile Include="CheckIssuesInMyReposTests.cs" />
+    <Compile Include="CheckRepoForIssuesThatNeedsAttentionTests.cs" />
     <Compile Include="ListCaretakersTests.cs" />
     <Compile Include="RegisterCaretakerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
