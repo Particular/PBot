@@ -32,7 +32,7 @@ namespace IssueButler.Mmbot.Caretakers
             }
 
             message.AppendLine("You can sign up using: `pbot register {your username} as caretaker for {name of the repo above}`");
-            message.AppendLine("Please read more about caretakers [here](https://github.com/Particular/Housekeeping/wiki/Caretakers)");
+            message.AppendLine("Please read more about caretakers at https://github.com/Particular/Housekeeping/wiki/Caretakers");
 
             response.Send(message.ToString());
         }

@@ -1,26 +1,15 @@
 ﻿namespace IssueButler.Tests
 {
-    using System;
-    using IssueButler.Mmbot;
     using IssueButler.Mmbot.Issues;
     using NUnit.Framework;
 
-    [TestFixture,Explicit("Integration tests")]
-    public class IntegrationTests
+    [TestFixture]
+    public class CheckRepoForIssuesThatNeedsAttentionTests : BotCommandFixture<CheckRepoForIssuesThatNeedsAttention>
     {
         [Test]
         public void CheckIssuesInNServiceBus()
         {
-            var client = GitHubClientBuilder.Build();
-            var repo = client.Repository.Get("Particular", "NServiceBus").Result;
-
-            var errors = new CheckIssuesForRepository(repo, GitHubClientBuilder.Build())
-                .Execute();
-
-            foreach (var validationError in errors)
-            {
-                Console.Out.WriteLine("{0} - {1}",validationError.Issue.HtmlUrl,validationError.Reason);
-            }
+            Execute("check repo","NServiceBus");
         }
     }
 }
