@@ -138,6 +138,7 @@
     <Compile Include="CheckIssuesInMyReposTests.cs" />
     <Compile Include="CheckRepoForIssuesThatNeedsAttentionTests.cs" />
     <Compile Include="ListCaretakersTests.cs" />
+    <Compile Include="ListIssueStatsTest.cs" />
     <Compile Include="RegisterCaretakerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RemindCaretakersOfIssuesToBeHandledTests.cs" />
