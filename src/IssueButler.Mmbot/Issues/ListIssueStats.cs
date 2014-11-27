@@ -31,6 +31,8 @@ namespace IssueButler.Mmbot.Issues
                 message.AppendLine(string.Format("*{2}* - {0}({1})",stat.NumIssues,stat.NumBugs,stat.RepoName));  
             }
 
+
+            message.AppendLine("Hey, go a fix some! Use `pbot check repo {name of repo above}` to find a few");
             response.Send(message.ToString());
         }
 
