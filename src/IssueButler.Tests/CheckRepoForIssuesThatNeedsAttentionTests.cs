@@ -11,5 +11,11 @@
         {
             Execute("check repo","NServiceBus");
         }
+
+        [Test]
+        public void CheckIssuesInServiceControl()
+        {
+            Execute("check repo", "ServiceControl");
+        }
     }
 }

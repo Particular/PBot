@@ -43,17 +43,11 @@
 
         void ValidateNeedsLabels(Issue issue, ValidationErrors validationErrors, Repository repository)
         {
-            //only applies to Bugs for now
-            if (issue.Labels.All(l => l.Name != "Bug"))
-            {
-                return;
-            }
-
             var needsLabels = issue.Labels.Where(l => NeedsLabels.Contains(l.Name)).ToList();
 
             var lastActivityOnIssue = issue.UpdatedAt; //todo: does this include comments?
 
-            if (!needsLabels.Any())
+            if (!needsLabels.Any() && issue.Labels.Any(l=>l.Name == "Bug"))
             {
                 if (lastActivityOnIssue < DateTime.UtcNow.AddDays(-3))
                 {
