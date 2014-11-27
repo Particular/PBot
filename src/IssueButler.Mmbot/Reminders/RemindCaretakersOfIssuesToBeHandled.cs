@@ -1,5 +1,9 @@
 namespace IssueButler.Mmbot.Reminders
 {
+    using System.Linq;
+    using IssueButler.Mmbot.Issues;
+    using IssueButler.Mmbot.Repositories;
+
     public class RemindCaretakersOfIssuesToBeHandled : BotCommand
     {
         public RemindCaretakersOfIssuesToBeHandled()
@@ -9,28 +13,32 @@ namespace IssueButler.Mmbot.Reminders
 
         public override void Execute(string[] parameters, IResponse response)
         {
-            response.Send("#bot_testing just checking if scheduling works");
-            //var reposWithACaretaker = Brain.Get<AvailableRepositories>()
-            //    .Where(r => r.Caretaker != null)
-            //    .ToList();
+            var reposGroupedByCaretaker = Brain.Get<AvailableRepositories>()
+                .Where(r => r.Caretaker != null)
+                .GroupBy(r => r.Caretaker)
+                .ToList();
 
-            //var client = GitHubClientBuilder.Build();
+            var client = GitHubClientBuilder.Build();
 
-            //foreach (var repo in reposWithACaretaker)
-            //{
-            //    var ghRepo = client.Repository.Get("Particular", repo.Name).Result;
+            foreach (var repoGroup in reposGroupedByCaretaker)
+            {
 
-            //    var validationErrors = new CheckIssuesForRepository(ghRepo, client)
-            //        .Execute();
+                var validationErrors = repoGroup.SelectMany(r =>
+                {
+                    var repo = client.Repository.Get("Particular", r.Name).Result;
 
-            //    if (!validationErrors.Any())
-            //    {
-            //        continue;
-            //    }
+                    return new CheckIssuesForRepository(repo, client)
+                        .Execute();
+                })
+              .ToList();
 
-            //    //todo: soon to be a private message
-            //    response.Send(string.Format("#bot_testing Hi there @{1}! There is a few issues in {0} that needs some attention and since you're the caretaker I thought you would like to be aware. Just type pbot check repo {0} if you want me to help you getting started!", repo.Name, repo.Caretaker));
-            //}
+                if (!validationErrors.Any())
+                {
+                    continue;
+                }
+
+               response.Send(string.Format("#caretakers Hi there @{0}! There is a few issues in {1} that needs some attention and since you're the caretaker I thought you would like to be aware. Just type `pbot check my repos` if you want me to help you getting started!", repoGroup.Key, string.Join(", ", repoGroup)));
+            }
         }
     }
 }

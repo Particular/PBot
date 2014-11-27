@@ -7,7 +7,8 @@
 
     public class CheckIssuesInMyRepos : BotCommand
     {
-        public CheckIssuesInMyRepos() : base("check my repos", "List the issue that needs attention for repos that you are the caretaker for")
+        public CheckIssuesInMyRepos()
+            : base("check my repos$", "List the issue that needs attention for repos that you are the caretaker for")
         {
 
           
