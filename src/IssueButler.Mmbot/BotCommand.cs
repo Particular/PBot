@@ -34,9 +34,18 @@ namespace IssueButler.Mmbot
         public void Register(Robot robot)
         {
             Brain = robot.Brain;
+            
 
-            robot.Respond(command,msg=> Execute(msg.Match,new MmbotResponseAdapter(msg)));
+            robot.Respond(command, msg =>
+            {
+                User = msg.Message.User;
+                Execute(msg.Match, new MmbotResponseAdapter(msg));
+                User = null;
+            });
         }
+
+        public User User { get; set; }
+
         public void Register(IBrain brain)
         {
             Brain = brain;

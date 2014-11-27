@@ -15,12 +15,18 @@
 
         public override void Execute(string[] parameters, IResponse response)
         {
-            var username = "andreas";//until we can find a way to get this
+            var username = User.Name;
 
             var repoNames = Brain.Get<AvailableRepositories>()
                 .Where(r => r.Caretaker == username)
                 .Select(r=>r.Name)
                 .ToList();
+
+            if (!repoNames.Any())
+            {
+                response.Send(string.Format("Hey {0} I couldn't find any repos where you're the caretaker? Please type `pbot list caretakers` for instructions on how to join the fun!",username));
+                return;
+            }
 
             var client = GitHubClientBuilder.Build();
 

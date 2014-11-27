@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using IssueButler.Mmbot;
+    using MMBot;
     using MMBot.Brains;
     using NUnit.Framework;
 
@@ -28,6 +29,11 @@
             command.Execute(parameters, testResponder);
 
             Console.Out.WriteLine(string.Join(Environment.NewLine,Messages));
+        }
+
+        protected void AsUserName(string userName)
+        {
+            command.User = new User("x",userName,null,"myRoom","test");
         }
 
         public IEnumerable<string> Messages
