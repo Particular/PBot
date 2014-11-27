@@ -25,7 +25,7 @@ namespace IssueButler.Mmbot.Issues
             message.AppendLine("This is the current issue stats: total(bugs)");
             message.AppendLine(string.Format("*All repos* - {0}({1})", stats.Sum(s => s.NumIssues), stats.Sum(s => s.NumBugs)));
            
-            foreach (var stat in stats)
+            foreach (var stat in stats.OrderByDescending(s=>s.NumIssues))
             {
                 message.AppendLine(string.Format("*{2}* - {0}({1})",stat.NumIssues,stat.NumBugs,stat.RepoName));  
             }
