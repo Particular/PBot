@@ -27,7 +27,7 @@ namespace IssueButler.Mmbot.Issues
                 await response.Send(string.Format("*{2}* - {0}({1})", stat.NumIssues, stat.NumBugs, stat.RepoName)).IgnoreWaitContext();
             }
 
-            await response.Send("Hey, go a fix some! Use `pbot check repo {name of repo above}` to find a few").IgnoreWaitContext();
+            await response.Send("Hey, why don't you go ahead and fix some! Use `pbot check repo {name of repo above}` to find a few").IgnoreWaitContext();
         }
 
         RepoStats GetRepoStats(string name)
