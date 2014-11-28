@@ -1,6 +1,5 @@
 ﻿namespace IssueButler.Tests
 {
-    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using MMBot;
@@ -8,31 +7,32 @@
 
     public class TestBrain : IBrain
     {
+        Dictionary<string, object> values = new Dictionary<string, object>();
+
         public void Initialize(Robot robot)
         {
-            throw new NotImplementedException();
         }
 
         public Task Close()
         {
-            throw new NotImplementedException();
+            return Task.FromResult(0);
         }
 
         public Task<T> Get<T>(string key)
         {
-            return Task<T>.Factory.StartNew(()=>(T) values[key]);
+            return Task.FromResult((T)values[key]);
         }
 
         public Task Set<T>(string key, T value)
         {
-            return Task.Factory.StartNew(() => values[key] = value);
+            values[key] = value;
+            return Task.FromResult(0);
         }
-
-        Dictionary<string,object> values = new Dictionary<string, object>(); 
 
         public Task Remove<T>(string key)
         {
-            throw new NotImplementedException();
+            values.Remove(key);
+            return Task.FromResult(0);
         }
     }
 }

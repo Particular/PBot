@@ -2,17 +2,19 @@ namespace IssueButler.Mmbot.Caretakers
 {
     using System;
     using System.Linq;
+    using System.Threading.Tasks;
     using IssueButler.Mmbot.Repositories;
     using Octokit;
 
     public class AddRepository : BotCommand
     {
-        public AddRepository(): base("add repo (.*)$", 
-            "pbot add repo <name of repo> -  Adds the given repository to the list of active repos. Repo must exist under the configured organization. Wildcard is supported")
+        public AddRepository()
+            : base("add repo (.*)$",
+                "pbot add repo <name of repo> -  Adds the given repository to the list of active repos. Repo must exist under the configured organization. Wildcard is supported")
         {
         }
 
-        public override void Execute(string[] parameters, IResponse response)
+        public override async Task Execute(string[] parameters, IResponse response)
         {
             var repoName = parameters[1];
 
@@ -20,7 +22,7 @@ namespace IssueButler.Mmbot.Caretakers
 
             if (repoName.EndsWith("*"))
             {
-                response.Send("Oh, wildcard add, you have guts!");
+                await response.Send("Oh, wildcard add, you have guts!").IgnoreWaitContext();
 
                 var reposForOrg = GitHubClientBuilder.Build().Repository.GetAllForOrg("Particular").Result;
 
@@ -37,9 +39,8 @@ namespace IssueButler.Mmbot.Caretakers
                     {
                         Name = matchingRepo.Name
                     });
-                    response.Send(matchingRepo.Name + " is now added!");
+                    await response.Send(matchingRepo.Name + " is now added!").IgnoreWaitContext();
                 }
-
             }
             else
             {
@@ -47,15 +48,13 @@ namespace IssueButler.Mmbot.Caretakers
 
                 if (!TryFetchRepoDetails(repoName, out repo))
                 {
-                    response.Send(repoName + " doesn't exist");
+                    await response.Send(repoName + " doesn't exist").IgnoreWaitContext();
                     return;
-
                 }
-
 
                 if (allRepos.Any(r => r.Name == repo.Name))
                 {
-                    response.Send(repo.Name + " already exists");
+                    await response.Send(repo.Name + " already exists").IgnoreWaitContext();
                     return;
                 }
 
@@ -63,12 +62,10 @@ namespace IssueButler.Mmbot.Caretakers
                 {
                     Name = repo.Name
                 });
-                response.Send(repo.Name + " is now added!");
-    
+                await response.Send(repo.Name + " is now added!").IgnoreWaitContext();
             }
-   
-            Brain.Set(allRepos);
 
+            Brain.Set(allRepos);
         }
 
         static bool TryFetchRepoDetails(string repoName, out Repository result)

@@ -143,6 +143,7 @@
     <Compile Include="Issues\ValidationError.cs" />
     <Compile Include="Issues\ValidationErrors.cs" />
     <Compile Include="Repositories\AddRepository.cs" />
+    <Compile Include="TaskExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

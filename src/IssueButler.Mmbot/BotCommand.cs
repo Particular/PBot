@@ -2,14 +2,13 @@ namespace IssueButler.Mmbot
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using MMBot;
     using MMBot.Brains;
     using MMBot.Scripts;
 
     public abstract class BotCommand : IMMBotScript
     {
-    
-
         public BotCommand(string command, string helpText)
         {
             if (string.IsNullOrEmpty(command))
@@ -26,25 +25,16 @@ namespace IssueButler.Mmbot
             this.helpText = helpText;
         }
 
-        public abstract void Execute(string[] parameters, IResponse response);
+        public abstract Task Execute(string[] parameters, IResponse response);
 
         protected IBrain Brain;
-
 
         public void Register(Robot robot)
         {
             Brain = robot.Brain;
-            
 
-            robot.Respond(command, msg =>
-            {
-                User = msg.Message.User;
-                Execute(msg.Match, new MmbotResponseAdapter(msg));
-                User = null;
-            });
+            robot.Respond(command, msg => Execute(msg.Match, new MmbotResponseAdapter(msg)));
         }
-
-        public User User { get; set; }
 
         public void Register(IBrain brain)
         {
@@ -61,9 +51,10 @@ namespace IssueButler.Mmbot
 
         public interface IResponse
         {
-            void Send(params string[] message);
-        }
+            User User { get; }
 
+            Task Send(params string[] message);
+        }
     }
 
     public class MmbotResponseAdapter : BotCommand.IResponse
@@ -75,9 +66,11 @@ namespace IssueButler.Mmbot
             this.msg = msg;
         }
 
-        public void Send(params string[] message)
+        public User User { get { return msg.Message.User; } }
+
+        public Task Send(params string[] message)
         {
-            msg.Send(message);
+            return msg.Send(message);
         }
     }
 }
