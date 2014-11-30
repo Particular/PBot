@@ -50,6 +50,7 @@ namespace IssueButler.Mmbot.SyncOMatic
                 {
                     await response.Send(string.Format("Pull created for {0}, click here to review and pull: {1}", repoName, createdSyncBranch));
                 }
+                await response.Send(string.Format("Want to know more about repo syncing? Go here: {0}", @"https://github.com/Particular/Housekeeping/wiki/Repository%20synchronisation"));
             }
         }
     }
