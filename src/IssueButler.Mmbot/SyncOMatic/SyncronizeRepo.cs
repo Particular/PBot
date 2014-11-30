@@ -1,6 +1,5 @@
 namespace IssueButler.Mmbot.SyncOMatic
 {
-    using System;
     using System.Linq;
     using System.Threading.Tasks;
     using global::SyncOMatic;
@@ -19,11 +18,11 @@ namespace IssueButler.Mmbot.SyncOMatic
             var repoName = parameters[1];
             var branchName = parameters[3];
 
-            await response.Send(string.Format("Initiating a sync for {0}/{1}", repoName, branchName));
+            await response.Send(string.Format("Got it! Initiating a sync for {0}/{1}", repoName, branchName));
 
-            using (var som = new Syncer(GitHubHelper.Credentials, GitHubHelper.Proxy, async logEntry =>
+            using (var som = new Syncer(GitHubHelper.Credentials, GitHubHelper.Proxy, logEntry =>
             {
-                await response.Send(logEntry.What);
+                //no-op logging for low, until we figure out log channels
             }))
             {
 
@@ -45,11 +44,11 @@ namespace IssueButler.Mmbot.SyncOMatic
 
                 if (string.IsNullOrEmpty(createdSyncBranch))
                 {
-                    Console.Out.WriteLine("Repo {0} is in sync", repoName);
+                    await response.Send(string.Format("Repo {0} is already in sync, nothing for me to do!", repoName));
                 }
                 else
                 {
-                    Console.Out.WriteLine("Pull created for {0}, click here to review and pull: {1}", repoName, createdSyncBranch);
+                    await response.Send(string.Format("Pull created for {0}, click here to review and pull: {1}", repoName, createdSyncBranch));
                 }
             }
         }
