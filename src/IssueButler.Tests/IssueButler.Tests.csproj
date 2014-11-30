@@ -142,6 +142,7 @@
     <Compile Include="RegisterCaretakerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RemindCaretakersOfIssuesToBeHandledTests.cs" />
+    <Compile Include="SyncronizeRepoTest.cs" />
     <Compile Include="TestBrain.cs" />
     <Compile Include="TestResponder.cs" />
     <Compile Include="UpdateRepoLabelsTests.cs" />
