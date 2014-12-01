@@ -43,17 +43,15 @@
 
         void ValidateNeedsLabels(Issue issue, ValidationErrors validationErrors, Repository repository)
         {
-            var needsLabels = issue.Labels.Where(l => NeedsLabels.Contains(l.Name)).ToList();
-
             var lastActivityOnIssue = issue.UpdatedAt; //todo: does this include comments?
 
-            if (!needsLabels.Any() && issue.Labels.Any(l=>l.Name == "Bug"))
+            if (issue.Labels.Any(l => l.Name == "Bug") && !issue.Labels.Any(l => l.Name.StartsWith("Needs:")))
             {
                 if (lastActivityOnIssue < DateTime.UtcNow.AddDays(-3))
                 {
                     validationErrors.Add(new ValidationError
                     {
-                        Reason = "This bug doesn't seem to be triaged, please add one of: " + string.Join(",", NeedsLabels.All.Select(l => l.Name)),
+                        Reason = "This bug doesn't seem to be triaged, use one of the `Needs: X` labels to remember what the next steps are",
                         Issue = issue,
                         Repository = repository
                     });
@@ -62,18 +60,6 @@
             
                 return;
             }
-
-            if (needsLabels.Count > 1)
-            {
-                validationErrors.Add(new ValidationError
-                {
-                    Reason = "Needs labels are exclusive, please make sure only one of the following exists: " + string.Join(":", NeedsLabels.All.Select(l => l.Name)),
-                    Issue = issue,
-                    Repository = repository
-                });
-            }
-
-
 
             if (issue.Labels.Any(l =>l.Name== "Needs: Triage") && lastActivityOnIssue < DateTime.UtcNow.AddDays(-3))
             {
@@ -100,7 +86,7 @@
             {
                 validationErrors.Add(new ValidationError
                 {
-                    Reason = "Issue needs a repro but hasn't touch",
+                    Reason = "Issue needs a repro but hasn't been touched in the last 7 days",
                     Issue = issue,
                     Repository = repository
                 });

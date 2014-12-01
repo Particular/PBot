@@ -142,7 +142,6 @@
     <Compile Include="Issues\ClassificationLabels.cs" />
     <Compile Include="GitHubClientBuilder.cs" />
     <Compile Include="GitHubHelper.cs" />
-    <Compile Include="Issues\NeedsLabels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Issues\ValidationError.cs" />
     <Compile Include="Issues\ValidationErrors.cs" />
