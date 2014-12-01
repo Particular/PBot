@@ -31,23 +31,6 @@
             Assert.Null(brain.Get<AvailableRepositories>().SingleOrDefault(r => r.Name == repoName));
         }
       
-     
-
-        [Test]
-        public void RemoveInvalidRepo()
-        {
-
-            var repoName = "NonExistingRepo";
-            var repos = new AvailableRepositories();
-
-            brain.Set(repos);
-
-            Execute("remove", repoName);
-
-
-            Assert.False(repos.Any());
-            Assert.NotNull(Messages.SingleOrDefault(m => m.Contains("doesn't exist")));
-        }
 
         [Test]
         public void RemoveValidButNonExistingRepo()

@@ -1,10 +1,8 @@
 namespace IssueButler.Mmbot.Caretakers
 {
-    using System;
     using System.Linq;
     using System.Threading.Tasks;
     using IssueButler.Mmbot.Repositories;
-    using Octokit;
 
     public class RemoveRepository : BotCommand
     {
@@ -20,42 +18,21 @@ namespace IssueButler.Mmbot.Caretakers
 
             var allRepos = Brain.Get<AvailableRepositories>() ?? new AvailableRepositories();
 
-            Repository repo;
 
-            if (!TryFetchRepoDetails(repoName, out repo))
-            {
-                await response.Send(repoName + " doesn't exist").IgnoreWaitContext();
-                return;
-            }
-
-            var toRemove = allRepos.SingleOrDefault(r => r.Name == repo.Name);
+            var toRemove = allRepos.SingleOrDefault(r => r.Name == repoName);
 
             if (toRemove == null)
             {
-                await response.Send(repo.Name + " doesn't exists").IgnoreWaitContext();
+                await response.Send(repoName + " doesn't exists").IgnoreWaitContext();
                 return;
             }
 
             allRepos.Remove(toRemove);
 
-            await response.Send(repo.Name + " is now removed").IgnoreWaitContext();
+            await response.Send(repoName + " is now removed").IgnoreWaitContext();
 
             Brain.Set(allRepos);
         }
 
-        static bool TryFetchRepoDetails(string repoName, out Repository result)
-        {
-            try
-            {
-                result = GitHubClientBuilder.Build().Repository.Get("Particular", repoName).Result;
-
-                return true;
-            }
-            catch (Exception)
-            {
-                result = null;
-                return false;
-            }
-        }
     }
 }
