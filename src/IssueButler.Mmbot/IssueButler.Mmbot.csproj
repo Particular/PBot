@@ -136,6 +136,7 @@
     <Compile Include="Issues\ListIssueStats.cs" />
     <Compile Include="Reminders\RemindCaretakersOfIssuesToBeHandled.cs" />
     <Compile Include="Caretakers\RegisterCaretaker.cs" />
+    <Compile Include="Repositories\RemoveRepository.cs" />
     <Compile Include="Repositories\AvailableRepositories.cs" />
     <Compile Include="Issues\CheckRepoForIssuesThatNeedsAttention.cs" />
     <Compile Include="Issues\CheckIssuesForRepository.cs" />

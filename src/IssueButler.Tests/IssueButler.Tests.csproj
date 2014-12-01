@@ -133,6 +133,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RemoveRepoTests.cs" />
     <Compile Include="AddRepoTests.cs" />
     <Compile Include="BotCommandFixture.cs" />
     <Compile Include="CheckIssuesInMyReposTests.cs" />
