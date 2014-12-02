@@ -1,10 +1,11 @@
-namespace PBot.Repositories
+namespace IssueButler.Mmbot.Caretakers
 {
     using System;
     using System.Linq;
     using System.Threading.Tasks;
     using IssueButler.Mmbot.Repositories;
     using Octokit;
+    using PBot;
 
     public class AddRepository : BotCommand
     {
@@ -76,10 +77,14 @@ namespace PBot.Repositories
 
                 return true;
             }
-            catch (Exception)
+            catch (AggregateException ex)
             {
-                result = null;
-                return false;
+                if (ex.InnerException is NotFoundException)
+                {
+                    result = null;
+                    return false;              
+                }
+                throw;
             }
         }
     }

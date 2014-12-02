@@ -25,7 +25,8 @@
         protected void Execute(params string[] parameters)
         {
             command.Register(brain);
-            command.Execute(parameters, testResponder);
+            command.Execute(parameters, testResponder)
+                .Wait();
 
             Console.Out.WriteLine(string.Join(Environment.NewLine, Messages));
         }

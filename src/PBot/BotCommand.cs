@@ -33,7 +33,20 @@ namespace PBot
         {
             Brain = robot.Brain;
 
-            robot.Respond(command, msg => Execute(msg.Match, new MmbotResponseAdapter(msg)));
+            robot.Respond(command, msg =>
+            {
+                var adapter = new MmbotResponseAdapter(msg);
+                try
+                {
+                    Execute(msg.Match,adapter)
+                        .Wait();
+                }
+                catch (Exception ex)
+                {
+                    adapter.Send(ex.ToString());
+                    throw;
+                }
+            });
         }
 
         public void Register(IBrain brain)
