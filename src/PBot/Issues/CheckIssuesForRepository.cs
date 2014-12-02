@@ -72,21 +72,21 @@
             }
 
 
-            if (issue.Labels.Any(l => l.Name == "Needs: Patch") && lastActivityOnIssue < DateTime.UtcNow.AddDays(-5))
-            {
-                validationErrors.Add(new ValidationError
-                {
-                    Reason = "Issue needs a patch but hasn't been updated for 3 days",
-                    Issue = issue,
-                    Repository = repository
-                });
-            }
-
             if (issue.Labels.Any(l => l.Name == "Needs: Reproduction") && lastActivityOnIssue < DateTime.UtcNow.AddDays(-7))
             {
                 validationErrors.Add(new ValidationError
                 {
                     Reason = "Issue needs a repro but hasn't been touched in the last 7 days",
+                    Issue = issue,
+                    Repository = repository
+                });
+            }
+
+            if (issue.Labels.Any(l => l.Name == "Needs: Scheduling") && lastActivityOnIssue < DateTime.UtcNow.AddMonths(-3))
+            {
+                validationErrors.Add(new ValidationError
+                {
+                    Reason = "Issue needs scheduling but hasn't been touched in the last 3 months",
                     Issue = issue,
                     Repository = repository
                 });

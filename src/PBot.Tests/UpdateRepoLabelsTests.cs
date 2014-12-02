@@ -26,6 +26,10 @@
 
             foreach (var repository in repos)
             {
+                if (repository.Name == "Marketing")
+                {
+                    continue;
+                }
                 Console.Out.WriteLine("-------- Checking {0} -----", repository.Name);
                 SyncRepo(client, repository.Name, labelsToSync);
             }
@@ -73,6 +77,7 @@
                 "invalid",
                 "wontfix",
                 "Needs: Hotfix",
+                "Needs: Patch",
                 "Needs: Investigation"
             };
             foreach (var nonStandardLabel in nonStandardLabels)
