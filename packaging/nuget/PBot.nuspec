@@ -15,6 +15,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\..\src\PBot\bin\Release\PBot.dll" target="lib" />
+    <file src="..\..\src\PBot\bin\Release\PBot.Mmbot.dll" target="lib" />
   </files>
 </package>
