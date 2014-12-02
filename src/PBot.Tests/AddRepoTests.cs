@@ -2,6 +2,7 @@
 {
     using System;
     using System.Linq;
+    using IssueButler.Mmbot.Repositories;
     using NUnit.Framework;
     using PBot.Repositories;
 

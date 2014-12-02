@@ -1,4 +1,4 @@
-﻿namespace PBot.Repositories
+﻿namespace IssueButler.Mmbot.Repositories
 {
     using System.Collections.Generic;
 

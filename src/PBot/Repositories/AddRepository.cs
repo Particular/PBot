@@ -3,6 +3,7 @@ namespace PBot.Repositories
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+    using IssueButler.Mmbot.Repositories;
     using Octokit;
 
     public class AddRepository : BotCommand

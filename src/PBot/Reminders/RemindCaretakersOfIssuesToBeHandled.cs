@@ -2,8 +2,8 @@ namespace PBot.Reminders
 {
     using System.Linq;
     using System.Threading.Tasks;
+    using IssueButler.Mmbot.Repositories;
     using PBot.Issues;
-    using PBot.Repositories;
 
     public class RemindCaretakersOfIssuesToBeHandled : BotCommand
     {

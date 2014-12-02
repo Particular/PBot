@@ -1,9 +1,9 @@
 ﻿namespace PBot.Tests
 {
     using System.Linq;
+    using IssueButler.Mmbot.Repositories;
     using NUnit.Framework;
     using PBot.Reminders;
-    using PBot.Repositories;
 
     [TestFixture]
     public class RemindCaretakersOfIssuesToBeHandledTests : BotCommandFixture<RemindCaretakersOfIssuesToBeHandled>

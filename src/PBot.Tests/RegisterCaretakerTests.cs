@@ -1,9 +1,9 @@
 ﻿namespace PBot.Tests
 {
     using System.Linq;
+    using IssueButler.Mmbot.Repositories;
     using NUnit.Framework;
     using PBot.Caretakers;
-    using PBot.Repositories;
 
     [TestFixture]
     public class RegisterCaretakerTests:BotCommandFixture<RegisterCaretaker>

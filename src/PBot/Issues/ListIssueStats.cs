@@ -3,8 +3,8 @@ namespace PBot.Issues
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+    using IssueButler.Mmbot.Repositories;
     using Octokit;
-    using PBot.Repositories;
 
     public class ListIssueStats : BotCommand
     {

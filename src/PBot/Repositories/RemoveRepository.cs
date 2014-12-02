@@ -2,6 +2,7 @@ namespace PBot.Repositories
 {
     using System.Linq;
     using System.Threading.Tasks;
+    using IssueButler.Mmbot.Repositories;
 
     public class RemoveRepository : BotCommand
     {

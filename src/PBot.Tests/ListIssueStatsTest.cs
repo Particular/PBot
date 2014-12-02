@@ -1,8 +1,8 @@
 ﻿namespace PBot.Tests
 {
+    using IssueButler.Mmbot.Repositories;
     using NUnit.Framework;
     using PBot.Issues;
-    using PBot.Repositories;
 
     [TestFixture]
     public class ListIssueStatsTest : BotCommandFixture<ListIssueStats>

@@ -2,7 +2,7 @@ namespace PBot.Caretakers
 {
     using System.Linq;
     using System.Threading.Tasks;
-    using PBot.Repositories;
+    using IssueButler.Mmbot.Repositories;
 
     public class RegisterCaretaker : BotCommand
     {
