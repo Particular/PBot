@@ -1,5 +1,6 @@
 ﻿namespace PBot.Tests
 {
+    using System;
     using NUnit.Framework;
     using PBot.SyncOMatic;
 
@@ -9,7 +10,13 @@
         [Test,Explicit]
         public void SyncTestRepo()
         {
-            Execute("sync", "IssueButler.TestRepo", "target branch", "master");
+            Execute("sync", "PBot.testrepo", "target branch", "master");
+        }
+
+        [Test]
+        public void BadRepoName()
+        {
+            Assert.Throws<AggregateException>(() => Execute("sync", "PBot.dddddd", "target branch", "master"));
         }
     }
 }

@@ -15,10 +15,18 @@ namespace PBot.SyncOMatic
 
         public override async Task Execute(string[] parameters, IResponse response)
         {
-            var repoName = parameters[1];
+
             var branchName = parameters[3];
 
+
+
+            var ghRepo = await GitHubClientBuilder.Build().Repository.Get("Particular", parameters[1]);
+
+            //we need the exact name since the sync is case sensitive for eg. the .dotSettings file
+            var repoName = ghRepo.Name;
+
             await response.Send(string.Format("Got it! Initiating a sync for {0}/{1}", repoName, branchName));
+
 
             using (var som = new Syncer(GitHubHelper.Credentials, GitHubHelper.Proxy, logEntry =>
             {
