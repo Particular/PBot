@@ -134,6 +134,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConvertIssueToPullRequestTests.cs" />
+    <Compile Include="ListCredentialTests.cs" />
+    <Compile Include="RegisterCredentialTests.cs" />
+    <Compile Include="RemindUsersOfBugsWithMissingSectionsTests.cs" />
     <Compile Include="RemoveRepoTests.cs" />
     <Compile Include="AddRepoTests.cs" />
     <Compile Include="BotCommandFixture.cs" />

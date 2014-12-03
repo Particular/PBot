@@ -11,7 +11,7 @@ namespace PBot
 
         public static void Set<T>(this IBrain brain,T data) where T : class
         {
-            brain.Set(typeof(T).FullName,data).Wait();
+            brain.Set(typeof(T).FullName, data).IgnoreWaitContext();
         }
     }
 }

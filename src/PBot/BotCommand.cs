@@ -38,8 +38,8 @@ namespace PBot
                 var adapter = new MmbotResponseAdapter(msg);
                 try
                 {
-                    Execute(msg.Match,adapter)
-                        .Wait();
+                    Execute(msg.Match, adapter)
+                         .Wait();
                 }
                 catch (Exception ex)
                 {
@@ -72,7 +72,6 @@ namespace PBot
 
     public class MmbotResponseAdapter : BotCommand.IResponse
     {
-        readonly IResponse<TextMessage> msg;
 
         public MmbotResponseAdapter(IResponse<TextMessage> msg)
         {
@@ -81,9 +80,13 @@ namespace PBot
 
         public User User { get { return msg.Message.User; } }
 
+
         public Task Send(params string[] message)
         {
             return msg.Send(message);
         }
+
+        readonly IResponse<TextMessage> msg;
+
     }
 }

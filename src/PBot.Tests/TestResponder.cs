@@ -4,10 +4,20 @@
     using System.Threading.Tasks;
     using MMBot;
     using PBot;
+    using PBot.Users;
 
     public class TestResponder : BotCommand.IResponse
     {
+        public TestResponder()
+        {
+            Credentials = new UserCredentials
+            {
+                Username = "testuser"
+            };
+        }
         public List<string> Messages = new List<string>();
+
+        public UserCredentials Credentials { get; set; }
 
         public Task Send(params string[] messages)
         {

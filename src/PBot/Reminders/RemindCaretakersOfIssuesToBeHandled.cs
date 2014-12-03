@@ -37,7 +37,7 @@ namespace PBot.Reminders
                     continue;
                 }
 
-                await response.Send(string.Format("#caretakers Hi there @{0}! There is a few issues in {1} that needs some attention and since you're the caretaker I thought you would like to be aware. Just type `pbot check my repos` if you want me to help you getting started!", repoGroup.Key, string.Join(", ", repoGroup))).IgnoreWaitContext();
+                await response.Send(string.Format("Hi there @{0}! There is a few issues in {1} that needs some attention and since you're the caretaker I thought you would like to be aware. Just type `pbot check my repos` if you want me to help you getting started!", repoGroup.Key, string.Join(", ", repoGroup))).IgnoreWaitContext();
             }
         }
     }

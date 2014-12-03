@@ -27,7 +27,7 @@
             };
 
             brain.Set(repos);
-            AsUserName("andreas");
+            AsUser("andreas");
             Execute("check my repos");
         }
 
@@ -44,7 +44,7 @@
             };
 
             brain.Set(repos);
-            AsUserName("some user");
+            AsUser("some user");
             Execute("check my repos");
 
             Assert.True(Messages.Any(m => m.Contains("couldn't find any repos")));

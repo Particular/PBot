@@ -1,6 +1,5 @@
 ﻿namespace PBot.Tests
 {
-    using System;
     using System.Linq;
     using IssueButler.Mmbot.Repositories;
     using NUnit.Framework;
@@ -37,8 +36,7 @@
 
             Execute("list caretakers");
 
-            var caretaker = Messages.Single().Split(Environment.NewLine.ToCharArray())
-                .Single(l=>l.Contains(username));
+            var caretaker = Messages.Single(l=>l.Contains(username));
 
             Assert.True(caretaker.Contains("Repo1"));
             Assert.True(caretaker.Contains("Repo2"));

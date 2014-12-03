@@ -12,7 +12,7 @@
         public void MakeSureOnlyReposWithACaretakerIsChecked()
         {
             var username = "testuser";
-            var repoName = "nservicebus";
+            var repoName = "PBot.TestRepo";
             var repos = new AvailableRepositories
             {
                 new AvailableRepositories.Repository
@@ -31,9 +31,7 @@
 
             Execute("remind caretakers of issues if needed");
 
-            Assert.AreEqual(1,Messages.Count());
-            Assert.True(Messages.First().Contains(repoName));
-            Assert.True(Messages.First().Contains(username));
+            Assert.NotNull(Messages.Single(m => m.Contains("PBot.TestRepo")));
         }
     }
 }
