@@ -6,8 +6,8 @@
     public class ConvertIssueToPullRequest : BotCommand
     {
         public ConvertIssueToPullRequest()
-            : base("(convert issue) (.*) (from repository) (.*) (into pull request from) (.*) to (.*)$",
-            "pbot convert issue <issue number> from repository <name of repo> into pull request from <PR branch> to <target branch> - Converts an issue into a pull request")
+            : base("convert (.*)#(.*) (to pull from) (.*) to (.*)$",
+            "pbot convert <repository>#<issue number> to pull from <PR branch> to <target branch> - Converts an issue into a pull request")
         {
         }
 
@@ -18,18 +18,18 @@
             var apiConnection = new ApiConnection(client.Connection);
 
             int issueNumber;
-            if (!int.TryParse(parameters[1], out issueNumber))
+            if (!int.TryParse(parameters[2], out issueNumber))
             {
                 await response.Send("Issue number should be a valid number dude!");
                 return;
             }
             try
             {
-                var result = await apiConnection.Post<PullRequest>(ApiUrls.PullRequests("Particular", parameters[3]), new ConvertedPullRequest
+                var result = await apiConnection.Post<PullRequest>(ApiUrls.PullRequests("Particular", parameters[1]), new ConvertedPullRequest
                 {
                     Issue = issueNumber.ToString(),
-                    Head = parameters[5],
-                    Base = parameters[7]
+                    Head = parameters[4],
+                    Base = parameters[6]
                 });
                 await response.Send(string.Format("Issue {0} has been converted into a pull request {1}.", issueNumber, result.HtmlUrl));
             }

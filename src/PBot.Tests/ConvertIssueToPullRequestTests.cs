@@ -10,7 +10,7 @@
         [Explicit]
         public void CanConvertAnExistingIssue()
         {
-            Execute("convert issue", "64", "from repository", "NServiceBus.SqlServer", "into pull request from", "semaphore-based-throttling", "to", "develop");
+            Execute("convert", "PBot.TestRepo", "18", "to pull from", "failed-pull-1", "to", "master");
         }
     }
 }
