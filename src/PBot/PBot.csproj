@@ -133,6 +133,7 @@
     <Compile Include="BrainExtensions.cs" />
     <Compile Include="Caretakers\ListCaretakers.cs" />
     <Compile Include="Issues\CheckIssuesInMyRepos.cs" />
+    <Compile Include="Issues\ConvertIssueToPullRequest.cs" />
     <Compile Include="Issues\ListIssueStats.cs" />
     <Compile Include="Reminders\RemindCaretakersOfIssuesToBeHandled.cs" />
     <Compile Include="Caretakers\RegisterCaretaker.cs" />
