@@ -10,7 +10,7 @@
         [Explicit]
         public void CanConvertAnExistingIssue()
         {
-            Execute("convert", "PBot.TestRepo", "18", "to pull from", "failed-pull-1", "to", "master");
+            Execute("convert", "PBot.TestRepo", "#", "19", "to pull from", "failed-pull-1", "to", "master");
         }
     }
 }

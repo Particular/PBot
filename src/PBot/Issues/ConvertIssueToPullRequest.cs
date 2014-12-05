@@ -13,23 +13,29 @@
 
         public override async Task Execute(string[] parameters, IResponse response)
         {
+            var repo = parameters[1];
+            var issueNumberString = parameters[3];
+            var from = parameters[5];
+            var to = parameters[7];
+
             var client = GitHubClientBuilder.Build();
             client.Credentials = GitHubHelper.Credentials;
             var apiConnection = new ApiConnection(client.Connection);
 
             int issueNumber;
-            if (!int.TryParse(parameters[2], out issueNumber))
+            if (!int.TryParse(issueNumberString, out issueNumber))
             {
                 await response.Send("Issue number should be a valid number dude!");
                 return;
             }
             try
             {
-                var result = await apiConnection.Post<PullRequest>(ApiUrls.PullRequests("Particular", parameters[1]), new ConvertedPullRequest
+                
+                var result = await apiConnection.Post<PullRequest>(ApiUrls.PullRequests("Particular", repo), new ConvertedPullRequest
                 {
                     Issue = issueNumber.ToString(),
-                    Head = parameters[4],
-                    Base = parameters[6]
+                    Head = from,
+                    Base = to
                 });
                 await response.Send(string.Format("Issue {0} has been converted into a pull request {1}.", issueNumber, result.HtmlUrl));
             }
