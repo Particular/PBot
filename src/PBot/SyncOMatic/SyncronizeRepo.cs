@@ -1,5 +1,6 @@
 namespace PBot.SyncOMatic
 {
+    using System;
     using System.Linq;
     using System.Runtime.ExceptionServices;
     using System.Threading.Tasks;
@@ -55,6 +56,17 @@ namespace PBot.SyncOMatic
                     else
                     {
                         await response.Send(string.Format("Pull created for {0}, click here to review and pull: {1}", repoName, createdSyncBranch));
+                    }
+                }
+                catch (AggregateException aggEx)
+                {
+                    var ex = aggEx.Flatten().InnerException;
+
+                    if (ex is Octokit.NotFoundException)
+                    {
+                        // The github api is weird. NotFound is actually a
+                        // permission error.
+                        capturedException = ExceptionDispatchInfo.Capture(ex);
                     }
                 }
                 catch (Octokit.NotFoundException ex)
