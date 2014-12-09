@@ -1,6 +1,7 @@
 namespace PBot.SyncOMatic
 {
     using System.Linq;
+    using System.Runtime.ExceptionServices;
     using System.Threading.Tasks;
     using global::SyncOMatic;
 
@@ -15,10 +16,7 @@ namespace PBot.SyncOMatic
 
         public override async Task Execute(string[] parameters, IResponse response)
         {
-
             var branchName = parameters[3];
-
-
 
             var ghRepo = await GitHubClientBuilder.Build().Repository.Get("Particular", parameters[1]);
 
@@ -27,13 +25,11 @@ namespace PBot.SyncOMatic
 
             await response.Send(string.Format("Got it! Initiating a sync for {0}/{1}", repoName, branchName));
 
-
             using (var som = new Syncer(GitHubHelper.Credentials, GitHubHelper.Proxy, logEntry =>
             {
                 //no-op logging for low, until we figure out log channels
             }))
             {
-
                 var toSync = new RepoToSync
                 {
                     Name = repoName,
@@ -44,20 +40,36 @@ namespace PBot.SyncOMatic
 
                 var diff = som.Diff(toSync.GetMapper(DefaultTemplateRepo.ItemsToSync));
 
-                var createdSyncBranch = som.Sync(diff, SyncOutput.CreatePullRequest, new[]
+                ExceptionDispatchInfo capturedException = null;
+                try
                 {
-                    "Internal refactoring"
-                }).FirstOrDefault();
+                    var createdSyncBranch = som.Sync(diff, SyncOutput.CreatePullRequest, new[]
+                    {
+                        "Internal refactoring"
+                    }).FirstOrDefault();
 
+                    if (string.IsNullOrEmpty(createdSyncBranch))
+                    {
+                        await response.Send(string.Format("Repo {0} is already in sync, nothing for me to do!", repoName));
+                    }
+                    else
+                    {
+                        await response.Send(string.Format("Pull created for {0}, click here to review and pull: {1}", repoName, createdSyncBranch));
+                    }
+                }
+                catch (Octokit.NotFoundException ex)
+                {
+                    // The github api is weird. NotFound is actually a
+                    // permission error.
+                    capturedException = ExceptionDispatchInfo.Capture(ex);
+                }
+                if (capturedException != null)
+                {
+                    await response.Send(string.Format("I do not have commit access to repo {0}. Please add 'particularbot' to the list of contributers.", repoName));
 
-                if (string.IsNullOrEmpty(createdSyncBranch))
-                {
-                    await response.Send(string.Format("Repo {0} is already in sync, nothing for me to do!", repoName));
+                    //capturedException.Throw();
                 }
-                else
-                {
-                    await response.Send(string.Format("Pull created for {0}, click here to review and pull: {1}", repoName, createdSyncBranch));
-                }
+
                 await response.Send(string.Format("Want to know more about repo syncing? Go here: {0}", @"https://github.com/Particular/Housekeeping/wiki/Repository%20synchronisation"));
             }
         }
