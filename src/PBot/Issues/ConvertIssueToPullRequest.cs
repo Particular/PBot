@@ -7,22 +7,22 @@
     public class ConvertIssueToPullRequest : BotCommand
     {
         public ConvertIssueToPullRequest()
-            : base("convert (.*)#(.*) (to pull from) (.*) to (.*)$",
+            : base("convert (.*)#(.*) to pull from (.*) to (.*)$",
             "pbot convert <repository>#<issue number> to pull from <PR branch> to <target branch> - Converts an issue into a pull request")
         {
         }
 
         public override async Task Execute(string[] parameters, IResponse response)
         {
-            if (parameters.Length < 8)
+            if (parameters.Length < 5)
             {
                 await response.Send(string.Format("I don't understand '{0}'.", string.Join(" ", parameters.Select(x => "["+x+"]"))));
                 return;
             }
             var repo = parameters[1];
-            var issueNumberString = parameters[3];
-            var from = parameters[5];
-            var to = parameters[7];
+            var issueNumberString = parameters[2];
+            var from = parameters[3];
+            var to = parameters[4];
 
             var client = GitHubClientBuilder.Build();
             client.Credentials = GitHubHelper.Credentials;
