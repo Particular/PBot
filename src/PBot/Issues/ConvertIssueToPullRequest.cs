@@ -1,5 +1,6 @@
 ﻿namespace PBot.Issues
 {
+    using System.Linq;
     using System.Threading.Tasks;
     using Octokit;
 
@@ -13,6 +14,11 @@
 
         public override async Task Execute(string[] parameters, IResponse response)
         {
+            if (parameters.Length < 8)
+            {
+                await response.Send(string.Format("I don't understand '{0}'.", string.Join(" ", parameters.Select(x => "["+x+"]"))));
+                return;
+            }
             var repo = parameters[1];
             var issueNumberString = parameters[3];
             var from = parameters[5];
