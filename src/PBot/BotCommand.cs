@@ -2,10 +2,12 @@ namespace PBot
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using MMBot;
     using MMBot.Brains;
     using MMBot.Scripts;
+    using PBot.Users;
 
     public abstract class BotCommand : IMMBotScript
     {
@@ -38,6 +40,7 @@ namespace PBot
                 var adapter = new MmbotResponseAdapter(msg);
                 try
                 {
+                    CurrentUser = msg.Message.User;
                     Execute(msg.Match, adapter)
                          .Wait();
                 }
@@ -52,6 +55,42 @@ namespace PBot
         public void Register(IBrain brain)
         {
             Brain = brain;
+        }
+
+        public User CurrentUser { get; set; }
+
+        public bool TryGetCredential(string credential, out string value)
+        {
+            value = null;
+
+            if (CurrentUser == null)
+            {
+                return false;   
+            }
+
+            var store = Brain.Get<CredentialStore>();
+
+            if (store == null)
+            {
+                return false;
+            }
+
+            UserCredentials userCredentials;
+
+            if (!store.TryGetValue(CurrentUser.Name, out userCredentials))
+            {
+                return false;         
+            }
+
+            var existingCredential = userCredentials.Credentials.SingleOrDefault(c=>c.Name == credential);
+
+            if (existingCredential == null)
+            {
+                return false;
+            }
+            value = existingCredential.Value;
+
+            return true;
         }
 
         public IEnumerable<string> GetHelp()

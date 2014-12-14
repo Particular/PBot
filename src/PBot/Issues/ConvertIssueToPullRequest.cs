@@ -24,7 +24,17 @@
             var from = parameters[3];
             var to = parameters[4];
 
-            var client = GitHubClientBuilder.Build();
+            string accessToken;
+
+            if (!TryGetCredential("github-accesstoken", out accessToken))
+            {
+                await response.Send(string.Format("I couldn't find a github access token in your credentials. If you add one I will be able to create the pull request on your behalf. Does it sound good? Here are the instructions https://github.com/Particular/Housekeeping/wiki/Generate-GitHub-access-token-for-PBot"));
+
+                return;
+            }
+
+            var client = GitHubClientBuilder.Build(accessToken);
+
             client.Credentials = GitHubHelper.Credentials;
             var apiConnection = new ApiConnection(client.Connection);
 
@@ -54,6 +64,7 @@
                 response.Send("Sorry, your request was rejected by GitHub as invalid.").ConfigureAwait(false).GetAwaiter().GetResult();
             }
         }
+
 
         public class ConvertedPullRequest
         {

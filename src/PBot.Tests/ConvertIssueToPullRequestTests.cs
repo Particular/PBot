@@ -1,7 +1,10 @@
 ﻿namespace PBot.Tests
 {
+    using System;
+    using System.Linq;
     using NUnit.Framework;
     using PBot.Issues;
+    using PBot.Users;
 
     [TestFixture]
     public class ConvertIssueToPullRequestTests : BotCommandFixture<ConvertIssueToPullRequest>
@@ -10,7 +13,26 @@
         [Explicit]
         public void CanConvertAnExistingIssue()
         {
+            var token = Environment.GetEnvironmentVariable("PBOT_GH_ACCESSTOKEN");
+
+            Assert.NotNull(token);
+
+            var credentials = new UserCredentials{Username = "testuser"};
+
+            credentials.AddCredential("github-accesstoken",token);
+
+            WithCredentials(credentials);
+
             Execute("convert", "PBot.TestRepo", "#", "19", "to pull from", "failed-pull-1", "to", "master");
+        }
+
+        [Test]
+        public void ShouldAskForGHTokenIfNotPresent()
+        {
+            Execute("convert", "PBot.TestRepo", "#", "19", "to pull from", "failed-pull-1", "to", "master");
+
+
+            Assert.True(Messages.First().Contains("github access token"));
         }
     }
 }
