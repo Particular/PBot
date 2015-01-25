@@ -23,7 +23,7 @@
 
             foreach (var repo in Brain.Get<AvailableRepositories>())
             {
-                await Check(client, response, repo.Name);
+                await Check(client, response, repo.Name);               
             }
         }
 
@@ -32,12 +32,13 @@
             var issueFilter = new RepositoryIssueRequest
             {
                 State = ItemState.Closed,
-                Since = DateTimeOffset.Now.AddDays(-5)
+                Since = DateTimeOffset.Parse("2014-11-01") //cutoff date
             };
 
             issueFilter.Labels.Add("Bug");
 
             var bugs = await client.Issue.GetForRepository("Particular", name, issueFilter);
+
 
             foreach (var bug in bugs)
             {
@@ -51,7 +52,7 @@
                     continue;
                 }
 
-                    
+
                 var hasAffected = bug.Body.Contains("## Who's affected");
                 var hasSymptoms = bug.Body.Contains("## Symptoms");
 
@@ -59,11 +60,11 @@
                 {
                     continue;
                 }
-       
+
                 //todo: need to patch octokit to support ClosedBy
-                var events = await  client.Issue.Events.GetForIssue("Particular", name, bug.Number);
-                
-                
+                var events = await client.Issue.Events.GetForIssue("Particular", name, bug.Number);
+
+
 
                 var closedEvent = events.First(e => e.InfoState == EventInfoState.Closed);
 
@@ -74,12 +75,12 @@
 
                 var chatUsername = Brain.Get<CredentialStore>()
                     .Where(s => s.Credentials.Any(credential => credential.Name == "github-username" && credential.Value == userThatClosedTheIssue))
-                    .Select(c=>c.Username)
-                    .SingleOrDefault();       
+                    .Select(c => c.Username)
+                    .SingleOrDefault();
 
                 if (chatUsername == null)
                 {
-                    introText = string.Format("Hi @channel! The github user {0} closed this issue and I can't seem to find what slack username that maps to. Would you please remind the user that", userThatClosedTheIssue); 
+                    introText = string.Format("Hi @channel! The github user {0} closed this issue and I can't seem to find what slack username that maps to. Would you please remind the user that", userThatClosedTheIssue);
                 }
                 else
                 {

@@ -35,7 +35,7 @@
             command.CurrentUser = new User("x", user, null, "myRoom", "test");
        
             command.Execute(parameters, testResponder)
-                .IgnoreWaitContext();
+                .Wait();
 
             if (Messages.Any())
             {
