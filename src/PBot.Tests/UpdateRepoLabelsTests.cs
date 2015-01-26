@@ -30,9 +30,40 @@
                 {
                     continue;
                 }
+
+                if (repository.Name == "Requirements")
+                {
+                    continue;
+                }
+
                 Console.Out.WriteLine("-------- Checking {0} -----", repository.Name);
                 SyncRepo(client, repository.Name, labelsToSync);
             }
+
+
+
+
+
+        }
+
+
+        [Test, Explicit("Performs the actual sync for now")]
+        public void SyncOneRepo()
+        {
+            var client = GitHubClientBuilder.Build();
+            var sourceRepo = "RepoStandards";
+
+
+            var labelsToSync = client.Issue.Labels.GetForRepository(Organization, sourceRepo).Result;
+
+            //go through all repos
+            var repos = client.Repository.GetAllForOrg(Organization).Result;
+
+
+            var repository = repos.Single(r => r.Name == "Capability.Routing");
+
+            Console.Out.WriteLine("-------- Checking {0} -----", repository.Name);
+            SyncRepo(client, repository.Name, labelsToSync);
 
 
 
@@ -47,7 +78,7 @@
 
             foreach (var templateLabel in labelsToSync)
             {
-                var existingLabel = existingLabels.SingleOrDefault(l => string.Equals(l.Name,templateLabel.Name,StringComparison.InvariantCulture));
+                var existingLabel = existingLabels.SingleOrDefault(l => string.Equals(l.Name, templateLabel.Name, StringComparison.InvariantCulture));
 
                 if (existingLabel == null)
                 {
