@@ -136,7 +136,7 @@
     <Compile Include="ConvertIssueToPullRequestTests.cs" />
     <Compile Include="ListCredentialTests.cs" />
     <Compile Include="RegisterCredentialTests.cs" />
-    <Compile Include="RemindProductRoadmapTeamTests.cs" />
+    <Compile Include="RemindRequirementTeamTests.cs" />
     <Compile Include="RemindUsersOfBugsWithMissingSectionsTests.cs" />
     <Compile Include="RemoveRepoTests.cs" />
     <Compile Include="AddRepoTests.cs" />

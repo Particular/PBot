@@ -4,12 +4,12 @@
     using PBot.Reminders;
 
     [TestFixture]
-    public class RemindProductRoadmapTeamTests : BotCommandFixture<RemindProductRoadmapTeam>
+    public class RemindRequirementTeamTests : BotCommandFixture<RemindRequirementsTeam>
     {
         [Test]
         public void IntegrationTest()
         {
-            Execute("remind product roadmap team");
+            Execute("remind requirement team");
         }
 
     }
