@@ -43,15 +43,18 @@ _{3}_
                 await client.Issue.Comment.Create(targetRepository.Owner, targetRepository.Name, targetIssue.Number, targetCommentBody);
             }
 
-            await client.Issue.Comment.Create(sourceRepository.Owner, sourceRepository.Name, sourceIssueNumber, "moved to " + targetIssue.HtmlUrl);
+            await client.Issue.Comment.Create(sourceRepository.Owner, sourceRepository.Name, sourceIssueNumber, (closeOriginal ? "moved to " : "copied to") + targetIssue.HtmlUrl);
 
-            if (sourceIssue.ClosedAt == null && closeOriginal)
+            if (sourceIssue.ClosedAt == null)
             {
-                var issueUpdate = new IssueUpdate
+                if (closeOriginal)
                 {
-                    State = ItemState.Closed
-                };
-                await client.Issue.Update(sourceRepository.Owner, sourceRepository.Name, sourceIssueNumber, issueUpdate);
+                    var issueUpdate = new IssueUpdate
+                        {
+                            State = ItemState.Closed
+                        };
+                    await client.Issue.Update(sourceRepository.Owner, sourceRepository.Name, sourceIssueNumber, issueUpdate);
+                }
             }
             else
             {
