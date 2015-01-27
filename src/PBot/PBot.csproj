@@ -132,6 +132,8 @@
     <Compile Include="BotCommand.cs" />
     <Compile Include="BrainExtensions.cs" />
     <Compile Include="Caretakers\ListCaretakers.cs" />
+    <Compile Include="Issues\CopyIssue.cs" />
+    <Compile Include="Issues\IssueUtility.cs" />
     <Compile Include="Issues\MoveIssue.cs" />
     <Compile Include="Reminders\RemindRequirementsTeam.cs" />
     <Compile Include="Repositories\ListRepositories.cs" />

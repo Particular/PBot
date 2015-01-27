@@ -3,11 +3,11 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    public class MoveIssue : BotCommand
+    public class CopyIssue : BotCommand
     {
-        public MoveIssue()
-            : base("move issue (.*)#(.*) to (.*)$",
-            "pbot move issue <repository>#<issue number> to <target repository> - Moves an issue from one repository to the other.")
+        public CopyIssue()
+            : base("copy issue (.*)#(.*) to (.*)$",
+            "pbot copy issue <repository>#<issue number> to <target repository> - Copies an issue from one repository to the other.")
         {
         }
 
@@ -33,11 +33,11 @@
             var src = new RepoInfo { Owner = "Particular", Name = repo };
             var dst = new RepoInfo { Owner = "Particular", Name = targetRepo };
 
-            await response.Send(string.Format("Moving issue https://github.com/Particular/{0}/issues/{1}", repo, issueNumber)).IgnoreWaitContext();
+            await response.Send(string.Format("Copying issue https://github.com/Particular/{0}/issues/{1}", repo, issueNumber)).IgnoreWaitContext();
 
-            var newIssue = await IssueUtility.Transfer(src, issueNumber, dst, true).IgnoreWaitContext();
+            var newIssue = await IssueUtility.Transfer(src, issueNumber, dst, false).IgnoreWaitContext();
 
-            await response.Send(string.Format("Issue moved to https://github.com/Particular/{0}/issues/{1}", targetRepo, newIssue.Number)).IgnoreWaitContext();
+            await response.Send(string.Format("Issue copyied to https://github.com/Particular/{0}/issues/{1}", targetRepo, newIssue.Number)).IgnoreWaitContext();
         }
     }
 }
