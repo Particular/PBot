@@ -28,8 +28,8 @@
             brain.Set(repos);
             Execute("list repos");
 
-            Assert.True(Messages.Contains("<https://github.com/Particular/NServiceBus.RabbitMq|NServiceBus.RabbitMq>"));
-            Assert.True(Messages.Contains("<https://github.com/Particular/NServiceBus.SqlServer|NServiceBus.SqlServer>"));
+            Assert.True(Messages.Contains("NServiceBus.RabbitMq"));
+            Assert.True(Messages.Contains("NServiceBus.SqlServer"));
         }
     }
 }

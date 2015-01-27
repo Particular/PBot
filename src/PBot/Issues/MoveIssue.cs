@@ -35,7 +35,11 @@
             var src = new RepoInfo { Owner = "Particular", Name = repo };
             var dst = new RepoInfo { Owner = "Particular", Name = targetRepo };
 
-            await Transfer(src, issueNumber, dst);
+            await response.Send(string.Format("Moving issue https://github.com/Particular/{0}/issues/{1}", repo, issueNumber)).IgnoreWaitContext();
+
+            var newIssue = await Transfer(src, issueNumber, dst).IgnoreWaitContext();
+
+            await response.Send(string.Format("Issue moved to https://github.com/Particular/{0}/issues/{1}", targetRepo, newIssue.Number)).IgnoreWaitContext();
         }
 
         private async Task<Issue> Transfer(RepoInfo sourceRepository, int sourceIssueNumber, RepoInfo targetRepository)

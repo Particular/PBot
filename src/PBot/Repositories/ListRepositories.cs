@@ -16,9 +16,14 @@
         {
             var allRepos = Brain.Get<AvailableRepositories>() ?? new AvailableRepositories();
 
+            if (allRepos.Any())
+            {
+                await response.Send("Here is all the repositories I know about.").IgnoreWaitContext();
+            }
+
             foreach (var repo in allRepos.Select(r => r.Name).OrderBy(n => n))
             {
-                await response.Send(string.Format("<https://github.com/Particular/{0}|{0}>", repo)).IgnoreWaitContext();
+                await response.Send(repo).IgnoreWaitContext();
             }
         }
     }

@@ -9,5 +9,10 @@ namespace PBot
         {
             return t.ConfigureAwait(false);
         }
+
+        public static ConfiguredTaskAwaitable<T> IgnoreWaitContext<T>(this Task<T> t)
+        {
+            return t.ConfigureAwait(false);
+        }
     }
 }
