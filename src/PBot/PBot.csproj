@@ -132,6 +132,7 @@
     <Compile Include="BotCommand.cs" />
     <Compile Include="BrainExtensions.cs" />
     <Compile Include="Caretakers\ListCaretakers.cs" />
+    <Compile Include="Issues\MoveIssue.cs" />
     <Compile Include="Reminders\RemindRequirementsTeam.cs" />
     <Compile Include="Repositories\ListRepositories.cs" />
     <Compile Include="Users\CredentialStore.cs" />
