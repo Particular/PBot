@@ -41,7 +41,7 @@ namespace PBot
                 try
                 {
                     CurrentUser = msg.Message.User;
-                    Execute(msg.Match, adapter)
+                    Execute(msg.Match.Select(CleanupLinkFormattedMatches).ToArray(), adapter)
                          .Wait();
                 }
                 catch (Exception ex)
@@ -50,6 +50,17 @@ namespace PBot
                     throw;
                 }
             });
+        }
+
+        public static string CleanupLinkFormattedMatches(string match)
+        {
+            if (match.StartsWith("<") && match.EndsWith(">") && match.Contains("|"))
+            {
+                return match.Substring(1, match.Length - 2)
+                    .Split('|').Last();
+            }
+
+            return match;
         }
 
         public void Register(IBrain brain)
@@ -65,7 +76,7 @@ namespace PBot
 
             if (CurrentUser == null)
             {
-                return false;   
+                return false;
             }
 
             var store = Brain.Get<CredentialStore>();
@@ -79,10 +90,10 @@ namespace PBot
 
             if (!store.TryGetValue(CurrentUser.Name, out userCredentials))
             {
-                return false;         
+                return false;
             }
 
-            var existingCredential = userCredentials.Credentials.SingleOrDefault(c=>c.Name == credential);
+            var existingCredential = userCredentials.Credentials.SingleOrDefault(c => c.Name == credential);
 
             if (existingCredential == null)
             {
