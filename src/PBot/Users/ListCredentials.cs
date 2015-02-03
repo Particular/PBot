@@ -6,7 +6,7 @@
     {
         public ListCredentials()
             : base("list credentials",
-                "pbot list credential - Lists credentials for the user")
+                "pbot list credentials - Lists credentials for the user")
         {
         }
 
