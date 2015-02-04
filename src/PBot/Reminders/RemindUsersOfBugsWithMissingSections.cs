@@ -66,7 +66,7 @@
 
 
 
-                var closedEvent = events.First(e => e.InfoState == EventInfoState.Closed);
+                var closedEvent = events.First(e => e.Event == EventInfoState.Closed);
 
                 var userThatClosedTheIssue = closedEvent.Actor.Login;
 

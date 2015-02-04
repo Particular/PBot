@@ -31,6 +31,22 @@
         }
 
         [Test]
+        public void CheckRaven()
+        {
+            var repos = new AvailableRepositories
+            {
+                new AvailableRepositories.Repository
+                {
+                    Name = "NServiceBus.RavenDB"
+                }
+            };
+
+            brain.Set(repos);
+            Execute("remind users of mandatory bug sections");
+        }
+
+
+        [Test]
         public void CheckWithMappedUser()
         {
             var repos = new AvailableRepositories
