@@ -35,7 +35,6 @@
 
             var client = GitHubClientBuilder.Build(accessToken);
 
-            client.Credentials = GitHubHelper.Credentials;
             var apiConnection = new ApiConnection(client.Connection);
 
             int issueNumber;
