@@ -11,11 +11,14 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1D36BE9C-4846-4661-85E8-E2527598607D}"
 	ProjectSection(SolutionItems) = preProject
 		..\packaging\nuget\PBot.nuspec = ..\packaging\nuget\PBot.nuspec
+		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBot", "PBot\PBot.csproj", "{45712176-F30A-4FE9-B8CD-0EA527905417}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBot.Tests", "PBot.Tests\PBot.Tests.csproj", "{D83A72E3-DBD2-42F2-A4B7-41F2A4ADF715}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBot.Tests.Integration", "PBot.Tests.Integration\PBot.Tests.Integration.csproj", "{4CCBC2B7-FE56-44F4-9A50-F20EBAA9B632}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +34,10 @@ Global
 		{D83A72E3-DBD2-42F2-A4B7-41F2A4ADF715}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D83A72E3-DBD2-42F2-A4B7-41F2A4ADF715}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D83A72E3-DBD2-42F2-A4B7-41F2A4ADF715}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CCBC2B7-FE56-44F4-9A50-F20EBAA9B632}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CCBC2B7-FE56-44F4-9A50-F20EBAA9B632}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CCBC2B7-FE56-44F4-9A50-F20EBAA9B632}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CCBC2B7-FE56-44F4-9A50-F20EBAA9B632}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

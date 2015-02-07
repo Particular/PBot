@@ -1,4 +1,4 @@
-IssueButler
+PBot
 ===========
 
 Provides pbot commands to help us manage our issues.
@@ -12,4 +12,20 @@ Provides pbot commands to help us manage our issues.
 
 ### Required setup on local machine
 
+#### For our unit tests
+
 * Octokit environment variables: OCTOKIT_GITHUBUSERNAME + OCTOKIT_GITHUBPASSWORD
+
+#### For our integration tests
+
+The integration tests is meant to do as much end to end testing as possible.
+
+##### Testing operations against GitHub repos
+
+We do this kind of testing by creating repos on the fly (and deleting them after) under the github account you specify.
+
+For this to work you need to specify the following environment variables:
+
+
+* PBOT_GITHUBUSERNAME: The username to use, most likely your regular GH user
+* PBOT_OAUTHTOKEN: Since we all have 2 factor auth on you need to [create a access token](https://github.com/settings/tokens/new). Remember to tick the delete_repo scope since the tests will delete repos that it creates. 
