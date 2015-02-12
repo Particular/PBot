@@ -29,7 +29,11 @@
                 select r.Name + ":" +  r.Caretaker);
 
             await response.Send("Found the following repos: ");
-            await response.Send(repoStrings.ToArray());
+            var dump = repoStrings.ToArray();
+            
+            DumpToConsole(dump, repos.Length);
+            await response.Send(dump);
+
             
 
             foreach (var repo in Brain.Get<AvailableRepositories>())
@@ -37,6 +41,13 @@
                 await response.Send("Checking " + repo.Name);
                 await Check(client, response, repo.Name);               
             }
+        }
+
+        static void DumpToConsole(string[] reposFound, int numberOfRepos)
+        {
+            Console.WriteLine("Found {0} repos", numberOfRepos);
+            Console.WriteLine("Found the following repos: ");
+            Console.WriteLine(reposFound);
         }
 
         async Task Check(GitHubClient client, IResponse response, string name)
