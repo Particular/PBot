@@ -4,7 +4,6 @@
     using System.Linq;
     using System.Threading.Tasks;
     using IssueButler.Mmbot.Repositories;
-    using NuGet;
     using Octokit;
     using PBot.Users;
 
