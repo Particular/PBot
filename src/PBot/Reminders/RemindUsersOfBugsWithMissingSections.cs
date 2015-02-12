@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using IssueButler.Mmbot.Repositories;
+    using NuGet;
     using Octokit;
     using PBot.Users;
 
@@ -21,8 +22,15 @@
             var client = GitHubClientBuilder.Build();
 
 
+            await response.Send("Found the following repos: ");
             foreach (var repo in Brain.Get<AvailableRepositories>())
             {
+                await response.Send(repo.Name);
+            }
+
+            foreach (var repo in Brain.Get<AvailableRepositories>())
+            {
+                await response.Send("Checking " + repo.Name);
                 await Check(client, response, repo.Name);               
             }
         }
