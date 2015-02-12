@@ -21,11 +21,16 @@
             var client = GitHubClientBuilder.Build();
 
 
+            var repos = Brain.Get<AvailableRepositories>().ToArray();
+
+            await response.Send(string.Format("Found {0} repos", repos.Length));
+            
+            var repoStrings = (from r in repos
+                select r.Name + ":" +  r.Caretaker);
+
             await response.Send("Found the following repos: ");
-            foreach (var repo in Brain.Get<AvailableRepositories>())
-            {
-                await response.Send(repo.Name);
-            }
+            await response.Send(repoStrings.ToArray());
+            
 
             foreach (var repo in Brain.Get<AvailableRepositories>())
             {
