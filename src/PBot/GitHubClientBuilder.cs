@@ -13,7 +13,7 @@
             var httpClient = new HttpClientAdapter(GitHubHelper.Proxy);
 
             var connection = new Connection(
-                new ProductHeaderValue("IssueButler"),
+                new ProductHeaderValue("PBot"),
                 GitHubClient.GitHubApiUrl,
                 credentialStore,
                 httpClient,
