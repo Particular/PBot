@@ -12,6 +12,26 @@ Provides pbot commands to help us manage our issues.
 
 ### Required setup on local machine
 
+1. Copy c:\mmbot from deploy server. This way you get both binaries, packages and brain(persisted storage)
+2. Set enviroment variables OCTOKIT_GITHUBUSERNAME and OCTOKIT_GITHUBPASSWORD. Check lastpass.
+3. Edit mmbot.ini 
+	* Run against TEST - https://particular-test.slack.com (add yourself as user if needed)
+	```		
+		TEAM = particular-test
+		TOKEN = <get from lastpass>		
+	```
+	* Run against PROD - https://particularsoftware.slack.com
+	```		
+		TEAM = particularsoftware
+		TOKEN = <get from lastpass>		
+	```
+4. Fork pbot https://github.com/Particular/Pbot
+5. Make changes in local pbot repo
+6. Copy binaries from local pbot output to <mmbot-dir>/packages/PBot.x.x.xx
+7. (Re)start mmbot
+8. Repeat 5 to 7
+9. Push when happy :)
+
 #### For our unit tests
 
 * Octokit environment variables: OCTOKIT_GITHUBUSERNAME + OCTOKIT_GITHUBPASSWORD
