@@ -14,7 +14,7 @@
         public void CanConvertAnExistingIssue()
         {
             var token = Environment.GetEnvironmentVariable("PBOT_GH_ACCESSTOKEN");
-
+            
             Assert.NotNull(token);
 
             var credentials = new UserCredentials{Username = "testuser"};
@@ -22,8 +22,8 @@
             credentials.AddCredential("github-accesstoken",token);
 
             WithCredentials(credentials);
-
-            Execute("convert", "PBot.TestRepo", "#", "19", "to pull from", "failed-pull-1", "to", "master");
+      
+            Execute("convert", "PBot.TestRepo", "19", "failed-pull-1", "master");
         }
 
         [Test]

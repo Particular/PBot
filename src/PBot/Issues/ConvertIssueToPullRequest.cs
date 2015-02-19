@@ -1,5 +1,6 @@
 ﻿namespace PBot.Issues
 {
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
     using Octokit;
@@ -51,16 +52,17 @@
                     Issue = issueNumber.ToString(),
                     Head = from,
                     Base = to
-                });
+                }, null, "application/json");
                 await response.Send(string.Format("Issue {0} has been converted into a pull request {1}.", issueNumber, result.HtmlUrl));
             }
             catch (NotFoundException)
             {
                 response.Send("Sorry, GitHub could not find the issue or repository you are talking about.").ConfigureAwait(false).GetAwaiter().GetResult();
             }
-            catch (ApiValidationException)
+            catch (ApiValidationException ex)
             {
-                response.Send("Sorry, your request was rejected by GitHub as invalid.").ConfigureAwait(false).GetAwaiter().GetResult();
+                const string errorMessage = "Sorry, your request was rejected by GitHub as invalid.";
+                response.Send(String.Join(Environment.NewLine, errorMessage, ex.GetExtendedErrorMessage())).ConfigureAwait(false).GetAwaiter().GetResult();
             }
         }
 
