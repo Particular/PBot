@@ -24,7 +24,7 @@
             var sb = new StringBuilder();
             foreach (var error in ex.ApiError.Errors)
             {
-                bool codeOrFieldSet = false;
+                var codeOrFieldSet = false;
                 
                 if (!error.Code.IsNullOrEmpty())
                 {
