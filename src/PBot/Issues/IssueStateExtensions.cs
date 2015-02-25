@@ -22,11 +22,5 @@ namespace PBot
 
         }
 
-
-
-        public static void MoveToState(this Issue issue, string newState)
-        {
-            issue.Labels.Add(new Label { Name = newState });
-        }
     }
 }

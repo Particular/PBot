@@ -14,33 +14,14 @@
 
         static Label[] labels =
         {
-            new Label
-            {
-                Name = "Bug",
-                Color = "fc2929"
-            },
-                new Label
-            {
-                Name = "Feature",
-                Color = "159818"
-            },
-                new Label
-            {
-                Name = "Improvement",
-                Color = "159818"
-            },
-                new Label
-            {
-                Name = "Internal Refactoring",
-                Color = "159818"
-            },
-                new Label
-            {
-                Name = "Question",
-                Color = "84b6eb"
-            }
-     
+            new Label(null, "Bug", "fc2929"),
+            new Label(null, "Feature", "159818"),
+            new Label(null, "Improvement", "159818"),
+            new Label(null, "Internal Refactoring","159818"),
+            new Label(null, "Question", "84b6eb")
         };
+
+    
 
         public static IEnumerable<Label> All
         {
