@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using Octokit;
@@ -8,17 +9,9 @@ public class IssueStateExtensionTests
     [Test]
     public void ShouldDetectExistingState()
     {
-        var issue = new Issue
-        {
-            Labels = new List<Label>
-            {
-                new Label
-                {
-                    Name = "Needs: Something"
-                }
-            }
-        };
+        var labels = new List<Label> { new Label(null, "Needs: Something", null) };
 
+        var issue = CreateIssueWithLabels(labels);
 
         Assert.True(issue.IsInState(MyStates.SomeState),"Should be in some state");
         Assert.False(issue.IsInState(MyStates.SomeOtherState),"Should not be in some other state");
@@ -28,15 +21,20 @@ public class IssueStateExtensionTests
     [Test]
     public void ShouldDetectInitialState()
     {
-        var issue = new Issue
-        {
-            Labels = new List<Label>()
-        };
+        var labels = new List<Label>();
+
+       var issue = CreateIssueWithLabels(labels);
 
 
         Assert.False(issue.IsInState(MyStates.SomeState), "Should not be in some state");
         Assert.False(issue.IsInState(MyStates.SomeOtherState), "Should not be in some other state");
         Assert.True(issue.IsInInitialState<MyStates>(), "Should be in inital state");
+    }
+
+
+    private Issue CreateIssueWithLabels(List<Label> labels)
+    {
+        return new Issue(null, null, 0, ItemState.All, null, null, null, labels, null, null, 0, null, null, DateTimeOffset.MinValue, null);
     }
 
     class MyStates
