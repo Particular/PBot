@@ -40,14 +40,18 @@ namespace PBot.SyncOMatic
                 };
 
                 var diff = som.Diff(toSync.GetMapper(DefaultTemplateRepo.ItemsToSync));
-
+                
                 ExceptionDispatchInfo capturedException = null;
                 try
                 {
-                    var createdSyncBranch = som.Sync(diff, SyncOutput.CreatePullRequest, new[]
+                    await diff;
+                    var sync = som.Sync(diff.Result, SyncOutput.CreatePullRequest, new[]
                     {
                         "Internal refactoring"
-                    }).FirstOrDefault();
+                    });
+                    await sync;
+                    
+                    var createdSyncBranch = sync.Result.FirstOrDefault();
 
                     if (string.IsNullOrEmpty(createdSyncBranch))
                     {
