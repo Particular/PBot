@@ -152,7 +152,7 @@
             const string input = "docs.particular.net578#";
             string repo;
             string issue;
-            Assert.False(RepoParser.ParseRepoAndIssueNumber(input, out repo, out issue));
+            Assert.False(RepoParser.ParseRepoAndIssueNumber(input, out repo, out issue)); 
         }
     }
 }
