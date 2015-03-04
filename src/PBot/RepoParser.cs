@@ -51,7 +51,7 @@
 
         private static bool ParseManualRepoAndIssue(string input, out string repo, out string issueNumberString)
         {
-            var withIssue = new Regex(@"(^[\w\.]*)#(\d*)");
+            var withIssue = new Regex(@"(^[\w\.]*)#(\d+)");
             var match = withIssue.Match(input);
             if (match.Groups.Count == 3)
             {
@@ -66,7 +66,7 @@
 
         private static bool ParseSlackFormattedLinkWithIssue(string input, out string repo, out string issueNumberString)
         {
-            var withIssue = new Regex(@"<(.*)\|([\w\.]*)#(\d*)>");
+            var withIssue = new Regex(@"<(.*)\|([\w\.]*)#(\d+)>");
             var match = withIssue.Match(input);
             if (match.Groups.Count == 4)
             {
@@ -110,7 +110,7 @@
         private static bool ParseFromUrlWithIssue(string input, out string repo, out string issueNumberString)
         {
             var inputWithoutTags = input.Replace("<", "").Replace(">", "");
-            var withIssue = new Regex(@"https://github.com/Particular/([\w\.]*)/issues/(\d*)$", RegexOptions.IgnoreCase);
+            var withIssue = new Regex(@"https://github.com/Particular/([\w\.]*)/issues/(\d+)$", RegexOptions.IgnoreCase);
             var withIssueMatch = withIssue.Match(inputWithoutTags);
             if (withIssueMatch.Groups.Count == 3)
             {

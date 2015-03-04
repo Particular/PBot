@@ -145,5 +145,14 @@
             Assert.True(RepoParser.ParseRepo(input, out repo));
             Assert.AreEqual("docs.particular.net", repo);
         }
+
+        [Test]
+        public void ParseManualWithIncorrectIssueSyntaxHashInWrongPlace()
+        {
+            const string input = "docs.particular.net578#";
+            string repo;
+            string issue;
+            Assert.False(RepoParser.ParseRepoAndIssueNumber(input, out repo, out issue));
+        }
     }
 }
