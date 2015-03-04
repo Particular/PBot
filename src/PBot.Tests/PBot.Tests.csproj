@@ -134,6 +134,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RepoParserTests.cs" />
     <Compile Include="BotCommandTests.cs" />
     <Compile Include="ConvertIssueToPullRequestTests.cs" />
     <Compile Include="ListCredentialTests.cs" />

@@ -139,6 +139,7 @@
     <Compile Include="Issues\IssueUtility.cs" />
     <Compile Include="Issues\MoveIssue.cs" />
     <Compile Include="OctoExtensions.cs" />
+    <Compile Include="RepoParser.cs" />
     <Compile Include="Requirements\EnforceRequirementsProcess.cs" />
     <Compile Include="Reminders\RemindRequirementsTeam.cs" />
     <Compile Include="Repositories\ListRepositories.cs" />

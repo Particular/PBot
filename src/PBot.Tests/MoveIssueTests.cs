@@ -10,7 +10,7 @@
         [Explicit]
         public void CanMoveIssue()
         {
-            Execute("move issue", "PBot.TestRepo", "20", "PBot.TestRepo");
+            Execute("move issue", "PBot.TestRepo#20", "PBot.TestRepo");
         }
     }
 }
