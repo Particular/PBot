@@ -1,5 +1,6 @@
 namespace PBot.Octopus
 {
+    using System;
     using System.Threading.Tasks;
     using OctopusProjectUpdater;
 
@@ -14,14 +15,22 @@ namespace PBot.Octopus
 
         public override async Task Execute(string[] parameters, IResponse response)
         {
-            var octopusProject = parameters[1];
-            await response.Send(string.Format("Got it! Updating project {0}.", octopusProject));
+            var apiKey = Environment.GetEnvironmentVariable("OCTOPUS_API_KEY");
+            if (string.IsNullOrWhiteSpace(apiKey))
+            {
+                await response.Send("Octopus Deploy API key has not been configured. Please set it as environment variable `OCTOPUS_API_KEY`");
+            }
+            else
+            {
+                var octopusProject = parameters[1];
+                await response.Send(string.Format("Got it! Updating project {0}.", octopusProject));
 
-            var facade = new Facade("", new TeamCityArtifactTemplateRepository());
+                var facade = new Facade("", new TeamCityArtifactTemplateRepository());
 
-            facade.UpdateProject(octopusProject);
+                facade.UpdateProject(octopusProject);
 
-            await response.Send("Done!");
+                await response.Send("Done!");
+            }
         }
     }
 }
