@@ -9,7 +9,7 @@ namespace PBot.Octopus
         public CreateProject()
             : base(
                 "create octopus project (.*) for repo (.*) in group (.*)$",
-                "pbot create octopus project <name of the project in Octopus> for project <name of the project in Team City or repo in GitHub> in group <name of group in Octopus> - Creates an Octopus Deploy project for a given repo/TeamCity project.")
+                "pbot create octopus project <name of the project in Octopus> for repo <name of the project in Team City or repo in GitHub> in group <name of group in Octopus> - Creates an Octopus Deploy project for a given repo/TeamCity project.")
         {
         }
 
