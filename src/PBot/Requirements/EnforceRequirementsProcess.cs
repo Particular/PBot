@@ -20,6 +20,9 @@
             await new MoveConcernsToIAStateAutomatically(client, repo)
                 .Perform();
 
+            await new RemindWhenMoreRequirementsNeedsToBeApproved(client, repo, response)
+                .Perform();
+
         }
     }
 }

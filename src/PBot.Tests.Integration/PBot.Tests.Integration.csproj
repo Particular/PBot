@@ -140,12 +140,18 @@
     <Compile Include="GitHubIntegrationTest.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RemindWhenMoreRequirementsNeedsToBeApproved.cs" />
+    <Compile Include="RemindWhenMoreRequirementsNeedsToBeApprovedTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PBot.Tests\PBot.Tests.csproj">
+      <Project>{D83A72E3-DBD2-42F2-A4B7-41F2A4ADF715}</Project>
+      <Name>PBot.Tests</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PBot\PBot.csproj">
       <Project>{45712176-F30A-4FE9-B8CD-0EA527905417}</Project>
       <Name>PBot</Name>

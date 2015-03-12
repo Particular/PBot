@@ -8,7 +8,7 @@ public class GitHubIntegrationTest
     protected string RepositoryOwner;
     protected string RepositoryName;
 
-    [TestFixtureSetUp]
+    [SetUp]
     public void FixtureSetup()
     {
         GitHubClient = Helper.GetAuthenticatedClient();
@@ -20,7 +20,7 @@ public class GitHubIntegrationTest
         RepositoryName = Repository.Name;
     }
 
-    [TestFixtureTearDown]
+    [TearDown]
     public void FixtureTearDown()
     {
         Helper.DeleteRepo(Repository);

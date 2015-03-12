@@ -22,5 +22,22 @@ namespace PBot.Requirements
 
             return issue;
         }
+
+        public static NewIssue NewFeature(string title, string body = null, IssueState state = null)
+        {
+            var issue = new NewIssue(title);
+
+            if (!string.IsNullOrEmpty(body))
+            {
+                issue.Body = body;
+            }
+
+            if (state != null)
+            {
+                issue.Labels.Add(state);
+            }
+
+            return issue;
+        }
     }
 }

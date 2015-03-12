@@ -141,7 +141,6 @@
     <Compile Include="ListRepositoriesTests.cs" />
     <Compile Include="MoveIssueTests.cs" />
     <Compile Include="RegisterCredentialTests.cs" />
-    <Compile Include="RemindRequirementTeamTests.cs" />
     <Compile Include="RemindUsersOfBugsWithMissingSectionsTests.cs" />
     <Compile Include="RemoveRepoTests.cs" />
     <Compile Include="AddRepoTests.cs" />
