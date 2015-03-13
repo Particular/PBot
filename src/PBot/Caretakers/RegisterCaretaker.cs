@@ -9,7 +9,7 @@ namespace PBot.Caretakers
         public RegisterCaretaker()
             : base(
                 "register (.*) (as caretaker for) (.*)$",
-                "mmbot register <user> as caretaker for <repository> - registers the given user as the caretaker for the repo. The repo must exist. If not register is using mmbot register repository <name of repo>") { }
+                "register <username:my self> as caretaker for <repository> - registers the given user/your self as the caretaker for the repo. The repo must exist. If not register is using mmbot register repository <name of repo>") { }
 
         public override async Task Execute(string[] parameters, IResponse response)
         {
@@ -26,8 +26,15 @@ namespace PBot.Caretakers
                 return;
             }
 
-            repo.Caretaker = username;
-
+            if (username.ToLower() == "my self")
+            {
+                repo.Caretaker = CurrentUser.Name;    
+            }
+            else
+            {
+                repo.Caretaker = username;
+            }
+            
             Brain.Set(activeRepositories);
 
             await response.Send(username + " is now caretaker for " + repo.Name);

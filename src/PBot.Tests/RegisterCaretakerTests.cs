@@ -9,7 +9,7 @@
     public class RegisterCaretakerTests:BotCommandFixture<RegisterCaretaker>
     {
         [Test]
-        public void AddCaretakerToExistingRepo()
+        public void ExplicitUserToExistingRepo()
         {
             var username = "testuser";
             var repoName = "nservicebus";
@@ -26,6 +26,26 @@
             Execute("register", username,"as caretaker for",repoName);
 
             Assert.AreEqual(repos.Single(r=>r.Name == repoName).Caretaker,username);
+        }
+        [Test]
+        public void CurrentUserToExistingRepo()
+        {
+            var username = "current";
+            var repoName = "nservicebus";
+            var repos = new AvailableRepositories
+            {
+                new AvailableRepositories.Repository
+                {
+                    Name = repoName
+                }
+            };
+
+            brain.Set(repos);
+
+            AsUser(username);
+            Execute("register", "my self", "as caretaker for", repoName);
+
+            Assert.AreEqual(repos.Single(r => r.Name == repoName).Caretaker, username);
         }
 
         [Test]
