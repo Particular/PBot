@@ -136,12 +136,15 @@
   <ItemGroup>
     <Compile Include="EnforceRequirementsProcessTests.cs" />
     <Compile Include="IssueStateExtensionTests.cs" />
+    <Compile Include="ListCurrentlyFailingBuildsTests.cs" />
     <Compile Include="MoveConcernsToIAStateAutomaticallyTests.cs" />
     <Compile Include="GitHubIntegrationTest.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RemindWhenMoreRequirementsNeedsToBeApproved.cs" />
     <Compile Include="RemindWhenMoreRequirementsNeedsToBeApprovedTests.cs" />
+    <Compile Include="ShowAllCurrentlyFailedBuildsTests.cs" />
+    <Compile Include="TeamCityTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

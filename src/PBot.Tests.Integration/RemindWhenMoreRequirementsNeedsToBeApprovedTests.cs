@@ -15,7 +15,7 @@ public class RemindWhenMoreRequirementsNeedsToBeApprovedTests : GitHubIntegratio
         var chore = new RemindWhenMoreRequirementsNeedsToBeApproved(GitHubClient, Repository, response);
 
 
-      
+
         await chore.Perform();
 
         Assert.AreEqual(1, response.Messages.Count);

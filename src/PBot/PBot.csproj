@@ -91,6 +91,9 @@
     <Reference Include="ReactiveUI">
       <HintPath>..\packages\reactiveui-core.5.5.1\lib\Portable-Net45+WinRT45+WP8\ReactiveUI.dll</HintPath>
     </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>..\packages\RestSharp.105.0.1\lib\net4\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="Roslyn.Compilers">
       <HintPath>..\packages\Roslyn.Compilers.Common.1.2.20906.2\lib\net45\Roslyn.Compilers.dll</HintPath>
     </Reference>
@@ -144,6 +147,12 @@
   <ItemGroup>
     <Compile Include="BotCommand.cs" />
     <Compile Include="BrainExtensions.cs" />
+    <Compile Include="Buildserver\Build.cs" />
+    <Compile Include="Buildserver\BuildType.cs" />
+    <Compile Include="Buildserver\ListCurrentlyFailingBuilds.cs" />
+    <Compile Include="Buildserver\Project.cs" />
+    <Compile Include="Buildserver\ProjectDetails.cs" />
+    <Compile Include="Buildserver\TeamCity.cs" />
     <Compile Include="Caretakers\ListCaretakers.cs" />
     <Compile Include="Issues\CopyIssue.cs" />
     <Compile Include="Issues\IssueState.cs" />
