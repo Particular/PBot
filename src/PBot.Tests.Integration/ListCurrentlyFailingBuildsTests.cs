@@ -1,3 +1,4 @@
+using System.Linq;
 using IssueButler.Mmbot.Repositories;
 using NUnit.Framework;
 using PBot;
@@ -10,6 +11,14 @@ class ListCurrentlyFailingBuildsTests : BotCommandFixture<ListCurrentlyFailingBu
     public void ListSpecificProject()
     {
         Execute(new[] { "", "ServiceControl" });
+    }
+
+    [Test]
+    public void ListNonExistingProject()
+    {
+        Execute(new[] { "", "xyz" });
+
+        Assert.True(Messages.First().Contains("`xyz`"));
     }
 
     [Test, Explicit("Long running")]

@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net;
     using RestSharp;
     using RestSharp.Deserializers;
 
@@ -19,7 +20,7 @@
             {
                 client = new RestClient(url + "/httpAuth/app/rest/")
                 {
-                    Authenticator = new HttpBasicAuthenticator(username, password + "1")
+                    Authenticator = new HttpBasicAuthenticator(username, password)
                 };
             }
             else
@@ -32,7 +33,7 @@
         {
             var request = new RestRequest("projects");
 
-            return client.Get<ListProjectsResponse>(request).Data.Projects;
+            return ExecuteGet<ListProjectsResponse>(request).Projects;
         }
 
 
@@ -51,14 +52,14 @@
 
             request.AddUrlSegment("locator", locator);
 
-            var response = client.Get<ProjectDetailsResponse>(request);
+            var response = ExecuteGet<ProjectDetailsResponse>(request);
 
             return new ProjectDetails
             {
-                Id = response.Data.Id,
-                Name = response.Data.Name,
-                Url = response.Data.Url,
-                BuildTypes = response.Data.BuildTypes.BuildType
+                Id = response.Id,
+                Name = response.Name,
+                Url = response.Url,
+                BuildTypes = response.BuildTypes.BuildType
             };
         }
 
@@ -91,14 +92,19 @@
 
             request.AddUrlSegment("branch", branch);
             request.AddUrlSegment("build-type-id", buildTypeId);
-            var response = client.Get<GetCurrentBuildResponse>(request);
+            var response = ExecuteGet<GetCurrentBuildResponse>(request);
 
-            return response.Data.build != null ? response.Data.build.First() : null;
+            return response.build != null ? response.build.First() : null;
         }
 
         TResponse ExecuteGet<TResponse>(RestRequest request) where TResponse : new()
         {
             var response = client.Get<TResponse>(request);
+
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                throw new Exception(string.Format("Requestfailed with code: {0} - {1}",response.StatusCode,response.StatusDescription));
+            }
 
             return response.Data;
         }

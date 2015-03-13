@@ -9,7 +9,7 @@ namespace PBot.Buildserver
     public class ListCurrentlyFailingBuilds : BotCommand
     {
         public ListCurrentlyFailingBuilds()
-            : base("list failing builds for (.*)$", "pbot list failing builds for <buildname|all builds|my builds> - Checks all issues in the specified repository and reports needed actions")
+            : base("list failing builds for (.*)$", "pbot list failing builds for <buildname|all projects|my repos> - Checks all issues in the specified repository and reports needed actions")
         {
         }
 
@@ -21,12 +21,15 @@ namespace PBot.Buildserver
             var client = new TeamCity("http://builds.particular.net");
             var allProjects = client.ListProjects();
 
+            var displaySuccessMessage = true;
+
             switch (projectName)
             {
-                case "all builds":
+                case "all projects":
                     projects = allProjects;
+                    displaySuccessMessage = false;
                     break;
-                case "my builds":
+                case "my repos":
                     var username = response.User.Name;
 
                     var repoNames = Brain.Get<AvailableRepositories>()
@@ -43,6 +46,7 @@ namespace PBot.Buildserver
                     if (project == null)
                     {
                         await response.Send(string.Format("No build with name `{0}` could be found on the buildserver", projectName));
+                        return;
                     }
                     projects = new[]
                     {
@@ -82,6 +86,11 @@ namespace PBot.Buildserver
                 }
 
                 await response.Send(sb.ToString());
+            }
+
+            if (projectWithFailures.Count == 0 && displaySuccessMessage)
+            {
+                await response.Send("All builds green for: " + string.Join(",", projects.Select(p => p.Name)));
             }
         }
     }
