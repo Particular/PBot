@@ -70,7 +70,7 @@ namespace PBot.Buildserver
                 var sb = new StringBuilder();
 
 
-                sb.AppendLine("### " + project.Key.Name);
+                sb.AppendLine("*" + project.Key.Name + "*");
                 var buildTypes = project.GroupBy(b => b.BuildType);
 
                 foreach (var buildType in buildTypes)
@@ -80,7 +80,7 @@ namespace PBot.Buildserver
 
                     foreach (var failedBuild in buildType)
                     {
-                        sb.AppendLine(string.Format("     - [{0} - {1}]({2})", failedBuild.Number, failedBuild.Branch, failedBuild.Url));
+                        sb.AppendLine(string.Format("     - {0}({1}) {2}", failedBuild.Number, failedBuild.Branch, failedBuild.Url));
 
                     }
                 }
