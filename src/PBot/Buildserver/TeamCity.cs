@@ -1,5 +1,6 @@
 ﻿namespace PBot.Buildserver
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using RestSharp;
@@ -11,7 +12,20 @@
 
         public TeamCity(string url)
         {
-            client = new RestClient(url + "/guestAuth/app/rest/");
+            var username = Environment.GetEnvironmentVariable("PBOT_TCUSERNAME");
+            var password = Environment.GetEnvironmentVariable("PBOT_TCPASSWORD");
+
+            if (username != null && password != null)
+            {
+                client = new RestClient(url + "/httpAuth/app/rest/")
+                {
+                    Authenticator = new HttpBasicAuthenticator(username, password + "1")
+                };
+            }
+            else
+            {
+                client = new RestClient(url + "/guestAuth/app/rest/");
+            }
         }
 
         public IEnumerable<Project> ListProjects()
@@ -63,7 +77,7 @@
                         build.Project = project;
                         build.BuildType = buildType;
 
-                        yield return build;              
+                        yield return build;
                     }
                 }
             }
@@ -80,6 +94,13 @@
             var response = client.Get<GetCurrentBuildResponse>(request);
 
             return response.Data.build != null ? response.Data.build.First() : null;
+        }
+
+        TResponse ExecuteGet<TResponse>(RestRequest request) where TResponse : new()
+        {
+            var response = client.Get<TResponse>(request);
+
+            return response.Data;
         }
 
         class GetCurrentBuildResponse
@@ -119,7 +140,7 @@
 
         class BuildTypesResponse
         {
-            public List<BuildType> BuildType { get; set; }  
+            public List<BuildType> BuildType { get; set; }
         }
 
 
