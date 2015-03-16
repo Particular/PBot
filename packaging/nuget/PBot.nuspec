@@ -12,7 +12,7 @@
     <dependencies>
       <dependency id="Octokit" version="0.6.2" />
       <dependency id="SyncOMatic" version="0.1.2" />
-      <dependency id="OctopusProjectUpdater" version="0.1.1" />
+      <dependency id="OctopusProjectUpdater" version="0.1.4" />
       <dependency id="RestSharp" version="105.0.1"/>
     </dependencies>
   </metadata>
