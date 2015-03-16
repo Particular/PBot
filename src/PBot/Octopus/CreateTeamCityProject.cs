@@ -29,7 +29,11 @@ namespace PBot.Octopus
                 var facade = new Facade(apiKey, new TeamCityArtifactTemplateRepository());
 
                 var url = facade.StartScriptTask(string.Format(
-@"C:\ProgramData\JetBrains\TeamCity\plugins\.tools\TeamCityProjectCreator\tools\CreateProject.ps1 -ProjectName {0} -ParentId {1}", repo, parentId));
+                    @"C:\ProgramData\JetBrains\TeamCity\plugins\.tools\TeamCityProjectCreator\tools\CreateProject.ps1 -ProjectName {0} -ParentId {1}", repo, parentId),
+                    new[]
+                    {
+                        "machines-65" //TeamCity server
+                    });
 
                 await response.Send(string.Format("Process started! Check out the result here {0}", url));
             }
