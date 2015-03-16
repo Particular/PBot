@@ -82,8 +82,9 @@
     <Reference Include="Octopus.Platform">
       <HintPath>..\packages\Octopus.Client.2.6.3.886\lib\net40\Octopus.Platform.dll</HintPath>
     </Reference>
-    <Reference Include="OctopusProjectUpdater">
-      <HintPath>..\packages\OctopusProjectUpdater.0.1.1\lib\net45\OctopusProjectUpdater.dll</HintPath>
+    <Reference Include="OctopusProjectUpdater, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\OctopusProjectUpdater.0.1.4\lib\net45\OctopusProjectUpdater.dll</HintPath>
     </Reference>
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
@@ -160,6 +161,8 @@
     <Compile Include="Issues\IssueUtility.cs" />
     <Compile Include="Issues\MoveIssue.cs" />
     <Compile Include="OctoExtensions.cs" />
+    <Compile Include="Octopus\CreateTeamCityProject.cs" />
+    <Compile Include="Octopus\UpdateProjectGroup.cs" />
     <Compile Include="Octopus\UpdateProject.cs" />
     <Compile Include="Octopus\CreateProject.cs" />
     <Compile Include="RepoParser.cs" />

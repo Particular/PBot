@@ -27,9 +27,9 @@ namespace PBot.Octopus
 
                 var facade = new Facade(apiKey, new TeamCityArtifactTemplateRepository());
 
-                facade.UpdateProject(octopusProject);
+                var url = facade.UpdateProject(octopusProject);
 
-                await response.Send("Done!");
+                await response.Send(string.Format("Done! Check out the updated project here {0}", url));
             }
         }
     }
