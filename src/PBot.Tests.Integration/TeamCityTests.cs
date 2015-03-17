@@ -57,6 +57,24 @@ class TeamCityTests
         }
     }
 
+
+    [Test]
+    public void Should_get_build_details()
+    {
+        var client = GetClient();
+       
+        var build = client.ListCurrentBuilds("ServiceControl", new[]
+        {
+            "master"
+        }).First();
+
+        var details = client.GetBuild(build.Id);
+
+        Assert.AreEqual(build.Id,details.Id);
+
+        Assert.GreaterOrEqual(DateTime.UtcNow, details.FinishedAt);
+    }
+
     TeamCity GetClient()
     {
         return new TeamCity("http://builds.particular.net");

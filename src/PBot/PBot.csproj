@@ -149,6 +149,7 @@
     <Compile Include="BotCommand.cs" />
     <Compile Include="BrainExtensions.cs" />
     <Compile Include="Buildserver\Build.cs" />
+    <Compile Include="Buildserver\BuildDetails.cs" />
     <Compile Include="Buildserver\BuildType.cs" />
     <Compile Include="Buildserver\ListCurrentlyFailingBuilds.cs" />
     <Compile Include="Buildserver\NotifyCaretakersOfCurrentlyFailedBuilds.cs" />

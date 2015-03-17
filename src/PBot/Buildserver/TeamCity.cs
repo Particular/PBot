@@ -84,6 +84,17 @@
             }
         }
 
+        public BuildDetails GetBuild(string id)
+        {
+
+            var request = new RestRequest("builds/{locator}");
+
+            request.AddUrlSegment("locator", id);
+
+            return ExecuteGet<BuildDetails>(request);
+
+        }
+
         Build GetCurrentBuild(string projectId, string buildTypeId, string branch)
         {
             var request = new RestRequest("projects/id:{project-id}/buildTypes/id:{build-type-id}/builds/?locator=count:1,branch:{branch}");
@@ -99,6 +110,8 @@
 
         TResponse ExecuteGet<TResponse>(RestRequest request) where TResponse : new()
         {
+            request.DateFormat = "yyyyMMdd'T'HHmmsszzz";//20150226T123215+0000
+
             var response = client.Get<TResponse>(request);
 
             if (response.StatusCode != HttpStatusCode.OK)

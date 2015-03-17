@@ -10,7 +10,7 @@ class ListCurrentlyFailingBuildsTests : BotCommandFixture<ListCurrentlyFailingBu
     [Test]
     public void ListSpecificProject()
     {
-        Execute(new[] { "", "ServiceControl" });
+        Execute(new[] { "", "NServiceBus.NHibernate" });
     }
 
     [Test]
@@ -49,6 +49,6 @@ class ListCurrentlyFailingBuildsTests : BotCommandFixture<ListCurrentlyFailingBu
 
         brain.Set(repos);
         AsUser(username);
-        Execute(new[] { "", "my builds" });
+        Execute(new[] { "", "my repos" });
     }
 }

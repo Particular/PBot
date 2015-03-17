@@ -6,6 +6,8 @@ using IssueButler.Mmbot.Repositories;
 
 namespace PBot.Buildserver
 {
+    using System;
+
     public class ListCurrentlyFailingBuilds : BotCommand
     {
         public ListCurrentlyFailingBuilds()
@@ -86,6 +88,16 @@ namespace PBot.Buildserver
                 }
 
                 await response.Send(sb.ToString());
+            }
+
+            if (projectWithFailures.Count > 0)
+            {
+                var totalDownTimeT = projectWithFailures.SelectMany(p=>p.Select(bt => DateTime.Now - client.GetBuild(bt.Id).FinishedAt)).ToList();
+
+
+                var totalDownTime  =  totalDownTimeT.Sum(ts=>ts.TotalDays);
+
+                await response.Send(string.Format("Summary: {0} failed builds, Total down time: {1} days", projectWithFailures.SelectMany(p=>p).Count(), totalDownTime));
             }
 
             if (projectWithFailures.Count == 0 && displaySuccessMessage)
