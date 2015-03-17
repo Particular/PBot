@@ -151,6 +151,7 @@
     <Compile Include="Buildserver\Build.cs" />
     <Compile Include="Buildserver\BuildType.cs" />
     <Compile Include="Buildserver\ListCurrentlyFailingBuilds.cs" />
+    <Compile Include="Buildserver\NotifyCaretakersOfCurrentlyFailedBuilds.cs" />
     <Compile Include="Buildserver\Project.cs" />
     <Compile Include="Buildserver\ProjectDetails.cs" />
     <Compile Include="Buildserver\TeamCity.cs" />
