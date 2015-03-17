@@ -31,7 +31,8 @@ namespace PBot.Buildserver
 
                 if (reposWithNoBuild.Any())
                 {
-                    await response.Send(string.Format("Hi there @{0}! It seems that there is no build setup for {1} Just type `help create` if you want to help setting it up?", repoGroup.Key, string.Join(", ", reposWithNoBuild))).IgnoreWaitContext();                 
+                    //Until we have a better way excluding repos that doesn't need a build
+                    //await response.Send(string.Format("Hi there @{0}! It seems that there is no build setup for {1} Just type `help create` if you want to help setting it up?", repoGroup.Key, string.Join(", ", reposWithNoBuild))).IgnoreWaitContext();                 
                 }
 
                 var reposWithABuild = repoGroup.Where(r => allBuilds.Contains(r.Name)).ToList();

@@ -31,7 +31,7 @@
             Execute("notify caretakers of failed builds");
         }
 
-        [Test]
+        [Test,Ignore("Until we have a better way excluding repos that doesn't need a build")]
         public void RepoNoBuild()
         {
             var repos = new AvailableRepositories

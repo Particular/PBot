@@ -24,7 +24,7 @@ class ListCurrentlyFailingBuildsTests : BotCommandFixture<ListCurrentlyFailingBu
     [Test, Explicit("Long running")]
     public void ListAllBuilds()
     {
-        Execute(new[] { "", "all builds" });
+        Execute(new[] { "", "all projects" });
     }
 
 
