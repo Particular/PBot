@@ -23,6 +23,8 @@
             await new RemindWhenMoreRequirementsNeedsToBeApproved(client, repo, response)
                 .Perform();
 
+            await new RemindWhenMoreRequirementsNeedsToBeReviewed(client, repo, response)
+                .Perform();
         }
     }
 }

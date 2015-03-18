@@ -171,6 +171,7 @@
     <Compile Include="Requirements\EnforceRequirementsProcess.cs" />
     <Compile Include="Repositories\ListRepositories.cs" />
     <Compile Include="Requirements\MoveConcernsToIAStateAutomatically.cs" />
+    <Compile Include="Requirements\RemindWhenMoreRequirementsNeedsToBeReviewed.cs" />
     <Compile Include="Requirements\RemindWhenMoreRequirementsNeedsToBeApproved.cs" />
     <Compile Include="Requirements\Requirements.cs" />
     <Compile Include="Requirements\RequirementStates.cs" />
