@@ -30,16 +30,6 @@ namespace PBot.SyncOMatic
                 Target = "{{src.root}}/{{solution.name}}.sln.DotSettings",
                 Parts = new Parts("Particular/RepoStandards", TreeEntryTargetType.Blob, "master", "src/RepoName.sln.DotSettings")
             });
-
-            ItemsToSync.Add(new SyncItem
-            {
-                Parts = new Parts("Particular/RepoStandards", TreeEntryTargetType.Blob, "master", "Octopus/Project.json")
-            });
-
-            ItemsToSync.Add(new SyncItem
-            {
-                Parts = new Parts("Particular/RepoStandards", TreeEntryTargetType.Blob, "master", "Octopus/DeploymentProcess.json")
-            });
         }
     }
 }
