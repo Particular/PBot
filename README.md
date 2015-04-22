@@ -13,7 +13,7 @@ Provides pbot commands to help us manage our issues.
 ### Required setup on local machine
 
 1. Copy c:\mmbot from deploy server. This way you get both binaries, packages and brain(persisted storage). Deploy server details in lastpass. (deploy.nservicebus.com - RDP access)
-2. Set environment variables OCTOKIT_GITHUBUSERNAME and OCTOKIT_GITHUBPASSWORD. Check lastpass.
+2. Set environment variables OCTOKIT_GITHUBUSERNAME and OCTOKIT_GITHUBPASSWORD. Check lastpass by searching for `pbot`.
 3. Edit mmbot.ini 
 	* Run against TEST - https://particular-test.slack.com (add yourself as a user by signing up)
 	```		
