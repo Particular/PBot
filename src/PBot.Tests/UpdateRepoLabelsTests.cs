@@ -39,11 +39,6 @@
                 Console.Out.WriteLine("-------- Checking {0} -----", repository.Name);
                 SyncRepo(client, repository.Name, labelsToSync);
             }
-
-
-
-
-
         }
 
 
@@ -60,15 +55,10 @@
             var repos = client.Repository.GetAllForOrg(Organization).Result;
 
 
-            var repository = repos.Single(r => r.Name == "Capability.Routing");
+            var repository = repos.Single(r => r.Name == "TempRepo4PBot");
 
             Console.Out.WriteLine("-------- Checking {0} -----", repository.Name);
             SyncRepo(client, repository.Name, labelsToSync);
-
-
-
-
-
         }
 
         static void SyncRepo(GitHubClient client, string repoToUpdate, IReadOnlyList<Label> labelsToSync)
@@ -78,7 +68,7 @@
 
             foreach (var templateLabel in labelsToSync)
             {
-                var existingLabel = existingLabels.SingleOrDefault(l => string.Equals(l.Name, templateLabel.Name, StringComparison.InvariantCulture));
+                var existingLabel = existingLabels.SingleOrDefault(l => string.Equals(l.Name, templateLabel.Name, StringComparison.InvariantCultureIgnoreCase));
 
                 if (existingLabel == null)
                 {
@@ -87,9 +77,9 @@
                 }
                 else
                 {
-                    if (existingLabel.Color != templateLabel.Color)
+                    if (existingLabel.Color != templateLabel.Color || !existingLabel.Name.Equals(templateLabel.Name, StringComparison.InvariantCulture))
                     {
-                        Console.Out.WriteLine("{0} has non matching color, will be updated", existingLabel.Name);
+                        Console.Out.WriteLine("{0} has non matching color or case, will be updated", existingLabel.Name);
                         client.Issue.Labels.Update(Organization, repoToUpdate, existingLabel.Name, new LabelUpdate(templateLabel.Name, templateLabel.Color))
                             .Wait();
                     }
