@@ -27,7 +27,7 @@ Provides pbot commands to help us manage our issues.
 	```
 4. Fork pbot https://github.com/Particular/Pbot
 5. Make changes in local pbot repo
-6. Copy binaries from local pbot output to <mmbot-dir>/packages/PBot.x.x.xx
+6. Copy `PBot.Mmbot.dll` and `PBot.Mmbot.pdb` from local pbot output to <mmbot-dir>/packages/PBot.x.x.xx
 7. (Re)start mmbot
 8. Repeat 5 to 7
 9. Push when happy :)
