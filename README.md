@@ -48,4 +48,4 @@ For this to work you need to specify the following environment variables:
 
 
 * PBOT_GITHUBUSERNAME: The username to use, most likely your regular GH user
-* PBOT_OAUTHTOKEN: Since we all have 2 factor auth on you need to [create a access token](https://github.com/settings/tokens/new). Remember to tick the delete_repo scope since the tests will delete repos that it creates. 
+* PBOT_OAUTHTOKEN: Since we all have 2 factor authentication turned on, you'll need to [create an access token](https://github.com/settings/tokens/new). Remember to tick the delete_repo scope since the tests will delete repos that it creates. 
