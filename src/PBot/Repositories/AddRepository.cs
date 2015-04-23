@@ -6,6 +6,7 @@ namespace IssueButler.Mmbot.Caretakers
     using IssueButler.Mmbot.Repositories;
     using Octokit;
     using PBot;
+    using PBot.Requirements;
 
     public class AddRepository : BotCommand
     {
@@ -21,6 +22,8 @@ namespace IssueButler.Mmbot.Caretakers
 
             var allRepos = Brain.Get<AvailableRepositories>() ?? new AvailableRepositories();
 
+            var repoCollaboratorsClient = GitHubRepoCollaboratorsClientBuilder.Build();
+
             if (repoName.EndsWith("*"))
             {
                 await response.Send("Oh, wildcard add, you have guts!").IgnoreWaitContext();
@@ -33,6 +36,13 @@ namespace IssueButler.Mmbot.Caretakers
                 {
                     if (allRepos.Any(r => r.Name == matchingRepo.Name))
                     {
+                        continue;
+                    }
+
+                    var pbotHasAccessToRepo = await new PBotHasAccessToRepositoryValidator(repoCollaboratorsClient, matchingRepo.Name).Perform();
+                    if (!pbotHasAccessToRepo)
+                    {
+                        await response.Send(string.Format("Bummer, I have no access to '{0}' repository. Please grant me access before adding this repo.", matchingRepo.Name));
                         continue;
                     }
 
@@ -53,9 +63,11 @@ namespace IssueButler.Mmbot.Caretakers
                     return;
                 }
 
-                if (!UserHasAccessToRepository(repoName))
+                var pbotHasAccessToRepo = await new PBotHasAccessToRepositoryValidator(repoCollaboratorsClient, repoName).Perform();
+
+                if (!pbotHasAccessToRepo)
                 {
-                    await response.Send(string.Format("PBot has no access to repo '{0}'. Grant PBot access to this repo first and then try again.", repoName));
+                    await response.Send(string.Format("Bummer, I have no access to '{0}' repository. Please grant me access before adding this repo.", repoName));
                     return;
                 }
 
@@ -73,11 +85,6 @@ namespace IssueButler.Mmbot.Caretakers
             }
 
             Brain.Set(allRepos);
-        }
-
-        bool UserHasAccessToRepository(string repoName)
-        {
-            return GitHubRepoCollaboratorsClientBuilder.Build().IsCollaborator("Particular", repoName, "particularbot").Result;
         }
 
         static bool TryFetchRepoDetails(string repoName, out Repository result)

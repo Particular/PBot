@@ -71,18 +71,5 @@
             Assert.NotNull(repos.Single(r => r.Name == repoName));
             Assert.NotNull(Messages.Single(m=>m.Contains("already exists")));
         }
-
-        [Test]
-        public void Add_repository_pbot_has_no_access_to()
-        {
-            var repoName = "Design"; // ideally would be a repo like PBot.TestRepo.no-bots-allowed
-            var repos = new AvailableRepositories();
-
-            brain.Set(repos);
-            Execute("add", repoName);
-
-            Assert.False(repos.Any());
-            Assert.NotNull(Messages.SingleOrDefault(m => m.Contains(" has no access")));
-        }
     }
 }
