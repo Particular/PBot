@@ -3,11 +3,11 @@
     using Octokit;
     using Octokit.Internal;
 
-    public static class GitHubClientBuilder
+    public static class GitHubRepoCollaboratorsClientBuilder
     {
-        public static GitHubClient Build(string accessToken = null)
+        public static RepoCollaboratorsClient Build(string accessToken = null)
         {
-            var credentialStore = new InMemoryCredentialStore(accessToken == null? GitHubHelper.Credentials : new Credentials(accessToken));
+            var credentialStore = new InMemoryCredentialStore(accessToken == null ? GitHubHelper.Credentials : new Credentials(accessToken));
 
             var httpClient = new HttpClientAdapter(GitHubHelper.Proxy);
 
@@ -18,7 +18,7 @@
                 httpClient,
                 new SimpleJsonSerializer());
 
-            return new GitHubClient(connection);
+            return new RepoCollaboratorsClient(new ApiConnection(connection));
         }
     }
 }

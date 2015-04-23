@@ -53,6 +53,12 @@ namespace IssueButler.Mmbot.Caretakers
                     return;
                 }
 
+                if (!UserHasAccessToRepository(repoName))
+                {
+                    await response.Send(string.Format("PBot has no access to repo '{0}'. Grant PBot access to this repo first and then try again.", repoName));
+                    return;
+                }
+
                 if (allRepos.Any(r => r.Name == repo.Name))
                 {
                     await response.Send(repo.Name + " already exists").IgnoreWaitContext();
@@ -67,6 +73,11 @@ namespace IssueButler.Mmbot.Caretakers
             }
 
             Brain.Set(allRepos);
+        }
+
+        bool UserHasAccessToRepository(string repoName)
+        {
+            return GitHubRepoCollaboratorsClientBuilder.Build().IsCollaborator("Particular", repoName, "particularbot").Result;
         }
 
         static bool TryFetchRepoDetails(string repoName, out Repository result)
