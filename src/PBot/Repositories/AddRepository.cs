@@ -6,6 +6,7 @@ namespace IssueButler.Mmbot.Caretakers
     using IssueButler.Mmbot.Repositories;
     using Octokit;
     using PBot;
+    using PBot.Requirements;
 
     public class AddRepository : BotCommand
     {
@@ -21,6 +22,8 @@ namespace IssueButler.Mmbot.Caretakers
 
             var allRepos = Brain.Get<AvailableRepositories>() ?? new AvailableRepositories();
 
+            var repoCollaboratorsClient = GitHubRepoCollaboratorsClientBuilder.Build();
+
             if (repoName.EndsWith("*"))
             {
                 await response.Send("Oh, wildcard add, you have guts!").IgnoreWaitContext();
@@ -33,6 +36,13 @@ namespace IssueButler.Mmbot.Caretakers
                 {
                     if (allRepos.Any(r => r.Name == matchingRepo.Name))
                     {
+                        continue;
+                    }
+
+                    var pbotHasAccessToRepo = await new PBotHasAccessToRepositoryValidator(repoCollaboratorsClient, matchingRepo.Name).Perform();
+                    if (!pbotHasAccessToRepo)
+                    {
+                        await response.Send(string.Format("Bummer, I have no access to '{0}' repository. Please grant me access before adding this repo.", matchingRepo.Name));
                         continue;
                     }
 
@@ -50,6 +60,14 @@ namespace IssueButler.Mmbot.Caretakers
                 if (!TryFetchRepoDetails(repoName, out repo))
                 {
                     await response.Send(repoName + " doesn't exist").IgnoreWaitContext();
+                    return;
+                }
+
+                var pbotHasAccessToRepo = await new PBotHasAccessToRepositoryValidator(repoCollaboratorsClient, repoName).Perform();
+
+                if (!pbotHasAccessToRepo)
+                {
+                    await response.Send(string.Format("Bummer, I have no access to '{0}' repository. Please grant me access before adding this repo.", repoName));
                     return;
                 }
 

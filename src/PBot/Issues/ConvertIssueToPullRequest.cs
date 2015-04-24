@@ -29,7 +29,7 @@
 
             if (!TryGetCredential("github-accesstoken", out accessToken))
             {
-                await response.Send(string.Format("I couldn't find a github access token in your credentials. If you add one I will be able to create the pull request on your behalf. Does it sound good? Here are the instructions https://github.com/Particular/Housekeeping/wiki/Generate-GitHub-access-token-for-PBot"));
+                await response.Send("I couldn\'t find a github access token in your credentials. If you add one I will be able to create the pull request on your behalf. Does it sound good? Here are the instructions https://github.com/Particular/Housekeeping/wiki/Generate-GitHub-access-token-for-PBot");
 
                 return;
             }

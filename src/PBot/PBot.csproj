@@ -157,6 +157,7 @@
     <Compile Include="Buildserver\ProjectDetails.cs" />
     <Compile Include="Buildserver\TeamCity.cs" />
     <Compile Include="Caretakers\ListCaretakers.cs" />
+    <Compile Include="GitHubRepoCollaboratorsClientBuilder.cs" />
     <Compile Include="Issues\CopyIssue.cs" />
     <Compile Include="Issues\IssueState.cs" />
     <Compile Include="Issues\IssueStateExtensions.cs" />
@@ -177,6 +178,7 @@
     <Compile Include="Requirements\Requirements.cs" />
     <Compile Include="Requirements\RequirementStates.cs" />
     <Compile Include="Requirements\RequirementTypes.cs" />
+    <Compile Include="Requirements\PBotHasAccessToRepositoryValidator.cs" />
     <Compile Include="Users\CredentialStore.cs" />
     <Compile Include="Users\ListCredentials.cs" />
     <Compile Include="Users\RegisterCredential.cs" />
