@@ -134,6 +134,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bug_statistics.cs" />
     <Compile Include="EnforceRequirementsProcessTests.cs" />
     <Compile Include="IssueStateExtensionTests.cs" />
     <Compile Include="ListCurrentlyFailingBuildsTests.cs" />
