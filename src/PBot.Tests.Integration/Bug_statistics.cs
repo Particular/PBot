@@ -13,10 +13,12 @@
         {
             var client = GitHubClientBuilder.Build();
 
-            var request = new RepositoryIssueRequest();
+            var request = new RepositoryIssueRequest
+            {
+                Since = DateTimeOffset.Parse("2014-01-01")
+            };
 
-          //  request.Labels.Add("Bug");
-            request.Since = DateTimeOffset.Parse("2014-01-01");
+            //  request.Labels.Add("Bug");
 
 
             var organisation = "Particular";
