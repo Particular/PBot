@@ -1,5 +1,6 @@
 namespace PBot
 {
+    using System;
     using System.Linq;
     using System.Reflection;
     using Octokit;
@@ -22,5 +23,37 @@ namespace PBot
 
         }
 
+
+        public static IssueState CurrentState<T>(this Issue issue)
+        {
+            if (issue.IsInInitialState<T>())
+            {
+                return "State: Initial";
+            }
+
+            var allStates = typeof(T)
+                .GetFields(BindingFlags.Public | BindingFlags.Static)
+                .Where(f => f.FieldType == typeof(IssueState))
+                .Select(f => (IssueState)f.GetValue(null))
+                .ToList();
+
+            var actualStates = issue.Labels.Where(l => allStates.Contains(l.Name))
+                .Select(l=>l.Name)
+                .ToList();
+
+            if (actualStates.Any())
+            {
+                if (actualStates.Count > 1)
+                {
+                    throw new Exception(string.Format("Issue {0} has multiple states - {1}",issue.HtmlUrl,string.Join(";",actualStates)));
+                }
+
+                return actualStates.Single();
+            }
+            else
+            {
+                return "State: Initial";         
+            }
+        }
     }
 }

@@ -11,6 +11,11 @@ namespace PBot
             stateIdentifier = state;
         }
 
+        public override string ToString()
+        {
+            return stateIdentifier;
+        }
+
         public static implicit operator string(IssueState state)
         {
             return state.stateIdentifier;
