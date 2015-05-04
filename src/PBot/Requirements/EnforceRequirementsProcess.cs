@@ -29,7 +29,8 @@
             await new RemindWhenMoreRequirementsNeedsToBeReviewed(client, repo, response)
                 .Perform();
 
-
+            await new MoveStaleInProgressRequirementsToApproved(client, repo, TimeSpan.FromDays(7))
+                .Perform();
         }
     }
 }

@@ -20,7 +20,6 @@ namespace PBot
                 .Select(f => (IssueState)f.GetValue(null));
 
             return !issue.Labels.Any(l => allStates.Any(s => s == l.Name));
-
         }
 
 
