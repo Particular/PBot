@@ -40,10 +40,10 @@ There hasn't been any progress on this one in the last {0} days so I've moved it
 * Was there progress and you think I did the wrong thing? Sorry but you're wrong :) During a week there should be at least a few updates either as comments or as items in the `Plan of attack` section?
 * Has priorities changed? Is this one still relevant?
 
-Move it back to inprogress when work on this one resumes again!
+Move it back to `In progress` when work on this one resumes again!
 
 
-Ping @particular/requriments or the #requirements slack channel if you need a hand to reevalutate this requirement!
+Ping @particular/requirements or the #requirements slack channel if you need a hand to reevalutate this requirement!
 ", maxStaleness.TotalDays);
 
                     await client.Issue.Comment.Create(repository.Owner.Login, repository.Name, issue.Number, message);
