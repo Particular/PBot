@@ -38,7 +38,7 @@ There hasn't been any progress on this one in the last {0} days so I've moved it
 
 * Do you think this requirement is stuck and need help? 
 * Was there progress and you think I did the wrong thing? Sorry but you're wrong :) During a week there should be at least a few updates either as comments or as items in the `Plan of attack` section?
-* Has prioities changed? Is this one still relevant?
+* Has priorities changed? Is this one still relevant?
 
 Move it back to inprogress when work on this one resumes again!
 
