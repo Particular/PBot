@@ -158,6 +158,7 @@
     <Compile Include="Buildserver\TeamCity.cs" />
     <Compile Include="Caretakers\ListCaretakers.cs" />
     <Compile Include="GitHubRepoCollaboratorsClientBuilder.cs" />
+    <Compile Include="Requirements\CreateRequirement.cs" />
     <Compile Include="Issues\CopyIssue.cs" />
     <Compile Include="Issues\IssueState.cs" />
     <Compile Include="Issues\IssueStateExtensions.cs" />
