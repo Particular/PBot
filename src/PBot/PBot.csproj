@@ -169,6 +169,7 @@
     <Compile Include="Octopus\UpdateProject.cs" />
     <Compile Include="Octopus\CreateProject.cs" />
     <Compile Include="RepoParser.cs" />
+    <Compile Include="Requirements\CreateRequirement.cs" />
     <Compile Include="Requirements\EnforceRequirementsProcess.cs" />
     <Compile Include="Repositories\ListRepositories.cs" />
     <Compile Include="Requirements\MoveConcernsToIAStateAutomatically.cs" />
