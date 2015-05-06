@@ -134,7 +134,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CreateRequirementTests.cs" />
     <Compile Include="Feature_development_statistics.cs" />
     <Compile Include="Bug_statistics.cs" />
     <Compile Include="EnforceRequirementsProcessTests.cs" />
