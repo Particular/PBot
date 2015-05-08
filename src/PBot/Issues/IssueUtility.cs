@@ -1,6 +1,7 @@
 ﻿namespace PBot.Issues
 {
     using System.IO;
+    using System.Linq;
     using System.Threading.Tasks;
     using Octokit;
 
@@ -12,6 +13,7 @@
 
             var sourceIssue = await client.Issue.Get(sourceRepository.Owner, sourceRepository.Name, sourceIssueNumber);
             var sourceComments = await client.Issue.Comment.GetForIssue(sourceRepository.Owner, sourceRepository.Name, sourceIssueNumber);
+            var sourceLabels = await client.Issue.Labels.GetForIssue(sourceRepository.Owner, sourceRepository.Name, sourceIssueNumber);
 
             var newBody = string.Format(
                 @"<a href=""{0}""><img src=""{1}"" align=""left"" width=""96"" height=""96"" hspace=""10""></img></a> **Issue by [{2}]({0})**
@@ -64,6 +66,12 @@ _{3}_
                 };
                 await client.Issue.Update(targetRepository.Owner, targetRepository.Name, targetIssue.Number, issueUpdate);
             }
+
+            if (sourceLabels.Any())
+            {
+                await client.Issue.Labels.AddToIssue(targetRepository.Owner, targetRepository.Name, targetIssue.Number, sourceLabels.Select(x => x.Name).ToArray());
+            }
+
             return await client.Issue.Get(targetRepository.Owner, targetRepository.Name, targetIssue.Number);
         }
     }

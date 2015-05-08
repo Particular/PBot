@@ -45,7 +45,7 @@
             var labelsExist = await LabelUtility.RepositoryHasLabels(dst, labels.ToArray());
             if (!labelsExist)
             {
-                await response.Send(string.Format("Could not move issue https://github.com/Particular/{0}/issues/{1}. Destination repo {2} doesn't have issue labels. Please create labels in target repo first.", sourceRepo, issueNumber, targetRepo)).IgnoreWaitContext();
+                await response.Send(string.Format("Could not move issue https://github.com/Particular/{0}/issues/{1} due to missing labels in destination repo {2}. Please execute Pbot.Tests.UpdateRepoLabelsTests test to create label in destination repo.", sourceRepo, issueNumber, targetRepo)).IgnoreWaitContext();
             }
 
             var newIssue = await IssueUtility.Transfer(src, issueNumber, dst, true).IgnoreWaitContext();
