@@ -1,5 +1,6 @@
 ﻿namespace PBot.Issues
 {
+    using System.Linq;
     using System.Threading.Tasks;
 
     public class MoveIssue : BotCommand
@@ -38,6 +39,14 @@
             var dst = new RepoInfo { Owner = "Particular", Name = targetRepo };
 
             await response.Send($"Moving issue https://github.com/Particular/{sourceRepo}/issues/{issueNumber}").IgnoreWaitContext();
+
+            var client = GitHubClientBuilder.Build();
+            var labels = await client.Issue.Labels.GetForIssue(src.Owner, src.Name, issueNumber);
+            var labelsExist = await LabelUtility.RepositoryHasLabels(dst, labels.ToArray());
+            if (!labelsExist)
+            {
+                await response.Send(string.Format("Could not move issue https://github.com/Particular/{0}/issues/{1}. Destination repo {2} doesn't have issue labels. Please create labels in target repo first.", sourceRepo, issueNumber, targetRepo)).IgnoreWaitContext();
+            }
 
             var newIssue = await IssueUtility.Transfer(src, issueNumber, dst, true).IgnoreWaitContext();
 

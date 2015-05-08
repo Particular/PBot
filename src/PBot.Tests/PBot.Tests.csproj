@@ -137,6 +137,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LabelUtilityTest.cs" />
     <Compile Include="NotifyCaretakersOfCurrentlyFailedBuildsTests.cs" />
     <Compile Include="RepoParserTests.cs" />
     <Compile Include="BotCommandTests.cs" />
