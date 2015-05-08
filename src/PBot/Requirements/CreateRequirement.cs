@@ -74,16 +74,25 @@ Make sure to document both negative and positive impact on the relevant personas
 After you've done this you should be able to label this issue with one of the `Impact: X` labels
 -->
 #### How many customers will be impacted?
-#### Impact on personas
 <!--
-How does this impact our personas? 
+Try to reason about what user segment this one impacts. For example features releated to sagas would only affect customers that are actually using sagas
+-->
+#### Impact on roles
+<!--
+How does this impact our the different roles in our industry? 
 What use cases does it unlock/ block?
 
 Only list the ones that are impacted
 
-Personas (https://github.com/Particular/Vision/labels/Persona): 
+Some examples of roles:
 
-Developer Dave,Tech. Lead Tom,Architect Archie, Ops person Opie, DevOps person Deva,Manager,Operations (Particular), Sales (Particular), Engineering (Particular), Marketing (Particular), Guidance (Particular), Support (Particular), Product (Particular), HR (Particular)
+* Developer
+* Dev. lead
+* Architect
+* Operations
+* DevOps
+* Manager
+
 -->
 
 ### Alignment with vision
