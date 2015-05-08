@@ -14,6 +14,7 @@
             var issue = client.Issue;
             var sourceIssue = await issue.Get(sourceRepository.Owner, sourceRepository.Name, sourceIssueNumber);
             var sourceComments = await issue.Comment.GetForIssue(sourceRepository.Owner, sourceRepository.Name, sourceIssueNumber);
+            var sourceLabels = await client.Issue.Labels.GetForIssue(sourceRepository.Owner, sourceRepository.Name, sourceIssueNumber);
 
             var newBody = string.Format(
                 @"**Issue by [{1}]({0})** _{2}_ _Originally opened as {3}_
@@ -62,7 +63,13 @@
                 };
                 await issue.Update(targetRepository.Owner, targetRepository.Name, targetIssue.Number, issueUpdate);
             }
-            return await issue.Get(targetRepository.Owner, targetRepository.Name, targetIssue.Number);
+
+            if (sourceLabels.Any())
+            {
+                await client.Issue.Labels.AddToIssue(targetRepository.Owner, targetRepository.Name, targetIssue.Number, sourceLabels.Select(x => x.Name).ToArray());
+            }
+
+            return await client.Issue.Get(targetRepository.Owner, targetRepository.Name, targetIssue.Number);
         }
     }
 
