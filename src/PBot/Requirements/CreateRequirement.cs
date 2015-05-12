@@ -62,12 +62,7 @@ Please see https://github.com/Particular/Strategy/issues/5 for a detailed explan
 * What would we tell existing customers about this feature/concern?
 * How would we describe this impact in a way that our end users would understand?
 -->
-### Stories
-<!---
-* What would we tell people that doesn't know about our platform or even messaging that would make them understand why the platform is a good fit for them?
 
-* Is there a more general story that could be told that would help make developers better?
--->
 ### Impact assessment
 <!--
 Make sure to document both negative and positive impact on the relevant personas.
@@ -106,6 +101,16 @@ Improves our [Installation Experience](https://github.com/Particular/Vision/issu
 ### Plan of Attack
 <!--
 What is the high level plan of attack to get this issue done done?
+-->
+
+### Stories
+<!---
+
+Note: This is section is optional
+
+* What would we tell people that doesn't know about our platform or even messaging that would make them understand why the platform is a good fit for them?
+
+* Is there a more general story that could be told that would help make developers better?
 -->
 ";
     }
