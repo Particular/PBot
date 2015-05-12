@@ -11,7 +11,7 @@
     {
         public AnnouncementWebHookHandler()
         {
-            Get["/webhooks/issues", true] = async (x, ct) =>
+            Post["/webhooks/issues", true] = async (x, ct) =>
             {
                 try
                 {
