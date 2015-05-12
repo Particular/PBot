@@ -65,6 +65,9 @@
     <Reference Include="MMBot.Core">
       <HintPath>..\packages\MMBot.Core.0.9.8.6\lib\net45\MMBot.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Nancy">
+      <HintPath>..\packages\Nancy.0.23.2\lib\net40\Nancy.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -146,6 +149,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Announcements\AnnouncementWebHookHandler.cs" />
     <Compile Include="BotCommand.cs" />
     <Compile Include="BrainExtensions.cs" />
     <Compile Include="Buildserver\Build.cs" />
