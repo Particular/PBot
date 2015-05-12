@@ -15,7 +15,7 @@
 
             var request = new RepositoryIssueRequest
             {
-                Since = DateTimeOffset.Parse("2014-01-01"),
+                Since = DateTimeOffset.Parse("2015-04-12"),
                 State = ItemState.All
             };
 
@@ -46,13 +46,17 @@
             var concernCount = activeRequirements.Count(r => r.Labels.Any(l => l.Name == RequirementTypes.Concern));
             Console.Out.WriteLine("{0} - {1}",concernCount, activeRequirements.Count - concernCount);
 
-            Console.Out.WriteLine("#### Completed last week");
+            Console.Out.WriteLine("#### Completed last period");
 
-            foreach (var completed in  requirements.Where(r => r.ClosedAt.HasValue && r.ClosedAt.Value > DateTimeOffset.UtcNow - TimeSpan.FromDays(7)))
+            var completedLastPeriod = requirements.Where(r => r.ClosedAt.HasValue && r.ClosedAt.Value > DateTimeOffset.UtcNow - TimeSpan.FromDays(30) && r.Labels.All(l => l.Name != "Closed as won't fix"))
+                .ToList();
+
+            foreach (var completed in completedLastPeriod)
             {
-                Console.Out.WriteLine(completed.HtmlUrl);     
+                Console.Out.WriteLine("{0} ({1})", completed.HtmlUrl, completed.Labels.Any(l => l.Name == RequirementTypes.Concern)? "Concern":"Feature");     
             }
-           
+            Console.Out.WriteLine("Total: " + completedLastPeriod.Count());
+
         }
     }
 }
