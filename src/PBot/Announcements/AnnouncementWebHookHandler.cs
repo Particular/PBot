@@ -27,7 +27,7 @@
                         EnableSsl = true,
                         Credentials = new NetworkCredential("szymon.pobiega@particular.net", "9mdVX4ur")
                     };
-                    await smtp.SendMailAsync("bla", "monika.pobiega@gmail.com", "Test", body);
+                    await smtp.SendMailAsync("szymon.pobiega@particular.net", "monika.pobiega@gmail.com", "Test", body);
                 }
                 catch (Exception ex)
                 {
