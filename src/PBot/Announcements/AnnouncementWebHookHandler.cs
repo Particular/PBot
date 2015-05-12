@@ -22,12 +22,12 @@
                     var issue = await client.Issue.Get(issueEvent.Repository.Owner.Login, issueEvent.Repository.Name, issueEvent.Issue.Number);
                     var body = issue.Body;
 
-                    var smtp = new SmtpClient("smtp.gmail.com", 465)
+                    var smtp = new SmtpClient("smtp.gmail.com", 587)
                     {
                         EnableSsl = true,
-                        Credentials = new NetworkCredential("szymon.pobiega@particular.net", "9mdVX4ur")
+                        Credentials = new NetworkCredential("szymon.pobiega@nservicebus.com", "hkkv7ky2yc")
                     };
-                    await smtp.SendMailAsync("szymon.pobiega@particular.net", "monika.pobiega@gmail.com", "Test", body);
+                    await smtp.SendMailAsync("szymon.pobiega@particular.net", "szymon.pobiega@gmail.com", "Test", body);
                 }
                 catch (Exception ex)
                 {
