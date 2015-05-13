@@ -1,10 +1,14 @@
 ﻿namespace PBot.Announcements
 {
     using System;
+    using System.Linq;
     using System.Net;
     using System.Net.Mail;
+    using System.Security.Cryptography;
+    using System.Text;
     using Nancy;
     using Nancy.ModelBinding;
+    using Octokit;
     using HttpStatusCode = Nancy.HttpStatusCode;
 
     public class AnnouncementWebHookHandler : NancyModule
@@ -15,10 +19,20 @@
             {
                 try
                 {
+                    using (var hmac = new HMACSHA1(Encoding.UTF8.GetBytes("Secret")))
+                    {
+                        var hashValue = hmac.ComputeHash(Request.Body);
+
+                        var hashString = "sha1=" + Encoding.UTF8.GetString(hashValue);
+
+                        if (hashString != Request.Headers["X-Hub-Signature"].FirstOrDefault())
+                        {
+                            return HttpStatusCode.Forbidden;
+                        }
+                    }
+
                     var issueEvent = this.Bind<IssueEvent>();
-
                     var client = GitHubClientBuilder.Build();
-
                     var issue = await client.Issue.Get(issueEvent.Repository.Owner.Login, issueEvent.Repository.Name, issueEvent.Issue.Number);
                     var body = issue.Body;
 
