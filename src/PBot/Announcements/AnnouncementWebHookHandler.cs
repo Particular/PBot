@@ -8,7 +8,6 @@
     using System.Text;
     using Nancy;
     using Nancy.ModelBinding;
-    using Octokit;
     using HttpStatusCode = Nancy.HttpStatusCode;
 
     public class AnnouncementWebHookHandler : NancyModule
