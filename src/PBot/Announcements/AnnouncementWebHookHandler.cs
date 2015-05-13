@@ -21,7 +21,7 @@
                     using (var hmac = new HMACSHA1(Encoding.UTF8.GetBytes("Secret")))
                     {
                         var hashValue = hmac.ComputeHash(Request.Body);
-                        var hashString = "sha1=" + Encoding.UTF8.GetString(hashValue);
+                        var hashString = "sha1=" + BitConverter.ToString(hashValue).Replace("-", "");
                         var receivedHash = Request.Headers["X-Hub-Signature"].FirstOrDefault();
 
                         if (hashString != receivedHash)
