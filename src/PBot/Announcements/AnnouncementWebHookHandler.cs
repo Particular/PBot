@@ -21,12 +21,12 @@
                     using (var hmac = new HMACSHA1(Encoding.UTF8.GetBytes("Secret")))
                     {
                         var hashValue = hmac.ComputeHash(Request.Body);
-
                         var hashString = "sha1=" + Encoding.UTF8.GetString(hashValue);
+                        var receivedHash = Request.Headers["X-Hub-Signature"].FirstOrDefault();
 
-                        if (hashString != Request.Headers["X-Hub-Signature"].FirstOrDefault())
+                        if (hashString != receivedHash)
                         {
-                            return HttpStatusCode.Forbidden;
+                            return string.Format("Received signature: {0}, Calculated signature: {1}", receivedHash, hashString);
                         }
                     }
 
