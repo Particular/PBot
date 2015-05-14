@@ -14,14 +14,11 @@
             var sourceComments = await client.Issue.Comment.GetForIssue(sourceRepository.Owner, sourceRepository.Name, sourceIssueNumber);
 
             var newBody = string.Format(
-                @"<a href=""{0}""><img src=""{1}"" align=""left"" width=""96"" height=""96"" hspace=""10""></img></a> **Issue by [{2}]({0})**
-_{3}_
-
-_Originally opened as {4}_
+                @"**Issue by [{1}]({0})** _{2}_ _Originally opened as {3}_
 
 ----
 
-{5}", sourceIssue.User.HtmlUrl, sourceIssue.User.AvatarUrl, sourceIssue.User.Login, sourceIssue.CreatedAt, sourceIssue.HtmlUrl, sourceIssue.Body);
+{4}", sourceIssue.User.HtmlUrl, sourceIssue.User.Login, sourceIssue.CreatedAt, sourceIssue.HtmlUrl, sourceIssue.Body);
 
             var createIssue = new NewIssue(sourceIssue.Title)
             {
@@ -33,13 +30,11 @@ _Originally opened as {4}_
             foreach (var sourceComment in sourceComments)
             {
                 var targetCommentBody = string.Format(
-                    @"<a href=""{0}""><img src=""{1}"" align=""left"" width=""96"" height=""96"" hspace=""10""></img></a> **Comment by [{2}]({0})**
-<br />
-_{3}_
+                    @" **Comment by [{1}]({0})** _{2}_
 
 ----
 
-{4}", sourceComment.User.HtmlUrl, sourceComment.User.AvatarUrl, sourceComment.User.Login, sourceComment.HtmlUrl, sourceComment.Body);
+{3}", sourceComment.User.HtmlUrl, sourceComment.User.Login, sourceComment.HtmlUrl, sourceComment.Body);
                 await client.Issue.Comment.Create(targetRepository.Owner, targetRepository.Name, targetIssue.Number, targetCommentBody);
             }
 
