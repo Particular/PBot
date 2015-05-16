@@ -12,7 +12,7 @@
         [Test, Explicit]
         public async void AllBugs()
         {
-            
+            Console.Out.WriteLine("### All bugs");
             await GenerateReport(bugsOnly: true)
                 ;
         }
@@ -20,17 +20,19 @@
         [Test, Explicit]
         public async void ByExternalUsers()
         {
-
-            await GenerateReport(byExternalUsers: true)
-                ;
+            Console.Out.WriteLine("### All issues from external users");
+            await GenerateReport(byExternalUsers: true);
         }
+
         public async Task GenerateReport(bool bugsOnly = false,bool byExternalUsers = false)
         {
             var client = GitHubClientBuilder.Build();
 
+            var period = DateTimeOffset.Parse("2015-05-01");
+
             var request = new RepositoryIssueRequest
             {
-                Since = DateTimeOffset.Parse("2014-01-01")
+                Since = period
             };
 
             //  request.Labels.Add("Bug");
@@ -45,7 +47,7 @@
             foreach (var repo in repos.Where(r=>!r.Private))
             {
                 var issues = await client.Issue.GetForRepository(organisation, repo.Name, request);
-                foreach (var issue in issues)
+                foreach (var issue in issues.Where(i => i.CreatedAt >= period))
                 {
                     var createdByExternalUser = members.All(m => m.Login != issue.User.Login);
                     var isBug = issue.Labels.Any(l => l.Name.ToLower() == "bug");
