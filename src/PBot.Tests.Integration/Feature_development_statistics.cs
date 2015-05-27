@@ -12,10 +12,10 @@
         public async void GenerateReport()
         {
             var client = GitHubClientBuilder.Build();
+            var period = TimeSpan.FromDays(7);
 
             var request = new RepositoryIssueRequest
             {
-                Since = DateTimeOffset.Parse("2015-04-12"),
                 State = ItemState.All
             };
 
@@ -33,29 +33,50 @@
             var activeRequirementsGroupedByState = requirements.Where(r => r.State == ItemState.Open)
                 .GroupBy(r => r.CurrentState<RequirementStates>()).ToList();
 
-            Console.Out.WriteLine("### Requirement statistics");
-
-            Console.Out.WriteLine("#### By state");
+            Console.Out.WriteLine("## By state");
 
             foreach (var states in activeRequirementsGroupedByState)
             {
                 Console.Out.WriteLine("* " + states.Key + ": " + states.Count());
             }
 
-            Console.Out.WriteLine("#### Conserns vs Features");
+            Console.Out.WriteLine("## Concerns vs Features");
             var concernCount = activeRequirements.Count(r => r.Labels.Any(l => l.Name == RequirementTypes.Concern));
-            Console.Out.WriteLine("{0} - {1}",concernCount, activeRequirements.Count - concernCount);
+            Console.Out.WriteLine("* {0} - {1}",concernCount, activeRequirements.Count - concernCount);
 
-            Console.Out.WriteLine("#### Completed last period");
 
-            var completedLastPeriod = requirements.Where(r => r.ClosedAt.HasValue && r.ClosedAt.Value > DateTimeOffset.UtcNow - TimeSpan.FromDays(30) && r.Labels.All(l => l.Name != "Closed as won't fix"))
+            var newLastPeriod = requirements.Where(r => !r.ClosedAt.HasValue && r.CreatedAt > DateTimeOffset.UtcNow - period)
                 .ToList();
+
+            Console.Out.WriteLine("## New last week ({0})",newLastPeriod.Count);
+
+            foreach (var newIssue in newLastPeriod)
+            {
+                Console.Out.WriteLine("* [{0}]({1}) ({2})", newIssue.Title, newIssue.HtmlUrl, newIssue.Labels.Any(l => l.Name == RequirementTypes.Concern) ? "Concern" : "Feature");
+            }
+            Console.Out.WriteLine("Total: " + newLastPeriod.Count());
+
+    
+            var completedLastPeriod = requirements.Where(r => r.ClosedAt.HasValue && r.ClosedAt.Value > DateTimeOffset.UtcNow - period && r.Labels.All(l => l.Name != "Closed as won't fix"))
+                .ToList();
+
+            Console.Out.WriteLine("## Completed last week ({0})",completedLastPeriod.Count);
 
             foreach (var completed in completedLastPeriod)
             {
-                Console.Out.WriteLine("{0} ({1})", completed.HtmlUrl, completed.Labels.Any(l => l.Name == RequirementTypes.Concern)? "Concern":"Feature");     
+                Console.Out.WriteLine("* [{0}]({1}) ({2})", completed.Title, completed.HtmlUrl, completed.Labels.Any(l => l.Name == RequirementTypes.Concern) ? "Concern" : "Feature");     
             }
-            Console.Out.WriteLine("Total: " + completedLastPeriod.Count());
+
+
+
+            var nonAligned = activeRequirements.Where(r => !r.Body.Contains("# Alignment with vision"))
+                .ToList();
+            Console.Out.WriteLine("## Issues with no alignment with vision ({0})", nonAligned.Count);
+            
+            foreach (var nonAlignedIssue in nonAligned)
+            {
+                Console.Out.WriteLine("* [{0}]({1})",nonAlignedIssue.Title, nonAlignedIssue.HtmlUrl);
+            }
 
         }
     }
