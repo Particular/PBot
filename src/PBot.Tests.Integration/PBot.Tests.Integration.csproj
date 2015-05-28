@@ -143,6 +143,7 @@
     <Compile Include="MoveConcernsToIAStateAutomaticallyTests.cs" />
     <Compile Include="GitHubIntegrationTest.cs" />
     <Compile Include="Helper.cs" />
+    <Compile Include="MoveStaleIAIdeasToBacklogTests.cs" />
     <Compile Include="MoveStaleInProgressRequirementsToApprovedTests.cs" />
     <Compile Include="MoveStaleIARequirementsToBacklogTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

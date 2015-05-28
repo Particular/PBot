@@ -31,6 +31,11 @@
 
             await new MoveStaleInProgressRequirementsToApproved(client, repo, TimeSpan.FromDays(7))
                 .Perform();
+
+            await new MoveStaleRequirementIdeasToBacklog(client, repo, TimeSpan.FromDays(14))
+                .Perform();
+
+            
         }
     }
 }
