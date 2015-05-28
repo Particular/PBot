@@ -65,7 +65,7 @@ Please see https://github.com/Particular/Strategy/issues/5 for a detailed explan
 
 ### Impact assessment
 <!--
-Make sure to document both negative and positive impact on the relevant personas.
+Make sure to document both negative and positive impact on the relevant user roles (see below).
 After you've done this you should be able to label this issue with one of the `Impact: X` labels
 -->
 #### How many customers will be impacted?
@@ -79,14 +79,7 @@ What use cases does it unlock/ block?
 
 Only list the ones that are impacted
 
-Some examples of roles:
-
-* Developer
-* Dev. lead
-* Architect
-* Operations
-* DevOps
-* Manager
+Full list of roles: https://github.com/Particular/Vision/labels/User%20role
 
 -->
 
@@ -96,7 +89,7 @@ Add links back to items in our vision repo that is the main driver for this spec
 
 Eg:
 
-Improves our [Installation Experience](https://github.com/Particular/Vision/issues/13)
+Improves our [Installation Experience](https://github.com/Particular/Vision/issues/13) for the Xyz capability
 -->
 ### Plan of Attack
 <!--
