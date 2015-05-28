@@ -32,8 +32,17 @@
                     await client.Issue.Labels.RemoveFromIssue(repository.Owner.Login, repository.Name, issue.Number, RequirementStates.InProgress);
                     await client.Issue.Labels.AddToIssue(repository.Owner.Login, repository.Name, issue.Number, new[] { (string)RequirementStates.Approved });
 
+                    var taskLead = "Not assigned?";
+
+                    if (issue.Assignee != null)
+                    {
+                        taskLead = issue.Assignee.Login;
+                    }
+
                     var message = @"
 During the last week I haven't noticed any updates either as comment or as items in the `Plan of attack` section beeing changed or completed. I've therefor decided to moved it back to `Approved`.
+
+@{0} what's the status?
 
 * Do you think this requirement is stuck and need help? 
 * Has priorities changed? 
@@ -44,7 +53,7 @@ Move it back to `In progress` when work on this one resumes again!
 Ping @particular/requirements or the #requirements slack channel if you need a hand to reevalutate this requirement!
 ";
 
-                    await client.Issue.Comment.Create(repository.Owner.Login, repository.Name, issue.Number, message);
+                    await client.Issue.Comment.Create(repository.Owner.Login, repository.Name, issue.Number, string.Format(message, taskLead));
                 }
             }
 
