@@ -57,7 +57,7 @@
             Console.Out.WriteLine("Total: " + newLastPeriod.Count());
 
     
-            var completedLastPeriod = requirements.Where(r => r.ClosedAt.HasValue && r.ClosedAt.Value > DateTimeOffset.UtcNow - period && r.Labels.All(l => l.Name != "Closed as won't fix"))
+            var completedLastPeriod = requirements.Where(r => r.ClosedAt.HasValue && r.ClosedAt.Value > DateTimeOffset.UtcNow - period && r.Labels.All(l => l.Name != "Closed as won't do"))
                 .ToList();
 
             Console.Out.WriteLine("## Completed last week ({0})",completedLastPeriod.Count);
@@ -71,7 +71,7 @@
 
             var nonAligned = activeRequirements.Where(r => !r.Body.Contains("# Alignment with vision"))
                 .ToList();
-            Console.Out.WriteLine("## Issues with no alignment with vision ({0})", nonAligned.Count);
+            Console.Out.WriteLine("## Issues with no alignment with vision ({0}%)", Math.Round(Convert.ToDouble(nonAligned.Count) / Convert.ToDouble(activeRequirements.Count) * 100.0));
             
             foreach (var nonAlignedIssue in nonAligned)
             {
