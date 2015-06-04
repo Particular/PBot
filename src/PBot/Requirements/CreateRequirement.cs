@@ -94,6 +94,12 @@ Improves our [Installation Experience](https://github.com/Particular/Vision/issu
 ### Plan of Attack
 <!--
 What is the high level plan of attack to get this issue done done?
+
+Use checkboxes like this:
+
+- [ ] Task1
+- [ ] Task2
+
 -->
 
 ### Stories
