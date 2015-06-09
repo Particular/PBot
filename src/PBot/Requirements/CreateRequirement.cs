@@ -47,13 +47,13 @@
             
             var issue = await client.Issue.Create(owner, repoName, new NewIssue(title)
             {
-                Body = bodyTemplate
+                Body = BodyTemplate
             });
 
             await response.Send("Requirement created " + issue.HtmlUrl);
         }
 
-        static string bodyTemplate =
+        public const string BodyTemplate =
 @"<!---
 Please see https://github.com/Particular/Strategy/issues/5 for a detailed explanation of each section.
 -->
