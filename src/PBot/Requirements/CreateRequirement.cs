@@ -65,21 +65,22 @@ Please see https://github.com/Particular/Strategy/issues/5 for a detailed explan
 
 ### Impact assessment
 <!--
-Make sure to document both negative and positive impact on the relevant user roles (see below).
+
+The goal of this section is to describe the impact on the end user. 
+
+For `Concerns` this impact will most likely be focused on the negative impact and for `Features` it would be the positive impact
+
 After you've done this you should be able to label this issue with one of the `Impact: X` labels
--->
-#### How many customers will be impacted?
-<!--
-Try to reason about what user segment this one impacts. For example features releated to sagas would only affect customers that are actually using sagas
--->
-#### Impact on roles
-<!--
-How does this impact our the different roles in our industry? 
-What use cases does it unlock/ block?
 
-Only list the ones that are impacted
+Question to help you reason about the impact:
 
-Full list of roles: https://github.com/Particular/Vision/labels/User%20role
+* How many customers will be impacted? 
+    -Try to reason about what user segment this one impacts. For example features releated to sagas would only affect customers that are actually using sagas
+
+
+* How big is the impact? 
+   - Try to specify how specific role(s) are impacted
+   - Full list of potential roles: https://github.com/Particular/Vision/labels/User%20role
 
 -->
 
