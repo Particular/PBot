@@ -136,7 +136,6 @@
   <ItemGroup>
     <Compile Include="CreateRequirementTests.cs" />
     <Compile Include="Feature_development_statistics.cs" />
-    <Compile Include="Issue_statistics.cs" />
     <Compile Include="EnforceRequirementsProcessTests.cs" />
     <Compile Include="IssueStateExtensionTests.cs" />
     <Compile Include="ListCurrentlyFailingBuildsTests.cs" />
