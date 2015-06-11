@@ -7,15 +7,15 @@
     public class CheckRepoForIssuesThatNeedsAttentionTests : BotCommandFixture<CheckRepoForIssuesThatNeedsAttention>
     {
         [Test]
-        public void CheckIssuesInNServiceBus()
+        public async void CheckIssuesInNServiceBus()
         {
-            Execute("check repo","NServiceBus");
+            await Execute("check repo", "NServiceBus");
         }
 
         [Test]
-        public void CheckIssuesInServiceControl()
+        public async void CheckIssuesInServiceControl()
         {
-            Execute("check repo", "ServiceControl");
+            await Execute("check repo", "ServiceControl");
         }
     }
 }

@@ -11,7 +11,7 @@
     public class RemindUsersOfBugsWithMissingSectionsTests : BotCommandFixture<RemindUsersOfBugsWithMissingSections>
     {
         [Test]
-        public void CheckWithNonMappedUser()
+        public async void CheckWithNonMappedUser()
         {
             var repos = new AvailableRepositories
             {
@@ -22,7 +22,7 @@
             };
 
             brain.Set(repos);
-            Execute("remind users of mandatory bug sections");
+            await Execute("remind users of mandatory bug sections");
 
 
             Assert.True(Messages.First().Contains(@"https://github.com/Particular/PBot.TestRepo/issues/15"));
@@ -31,7 +31,7 @@
         }
 
         [Test]
-        public void CheckRaven()
+        public async void CheckRaven()
         {
             var repos = new AvailableRepositories
             {
@@ -42,12 +42,12 @@
             };
 
             brain.Set(repos);
-            Execute("remind users of mandatory bug sections");
+            await Execute("remind users of mandatory bug sections");
         }
 
 
         [Test]
-        public void CheckWithMappedUser()
+        public async void CheckWithMappedUser()
         {
             var repos = new AvailableRepositories
             {
@@ -72,7 +72,7 @@
 
             brain.Set(store);
 
-            Execute("remind users of mandatory bug sections");
+            await Execute("remind users of mandatory bug sections");
 
             var message = Messages.Single(m => m.Contains(@"https://github.com/Particular/PBot.TestRepo/issues/15"));
 

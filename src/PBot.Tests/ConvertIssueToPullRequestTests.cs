@@ -11,7 +11,7 @@
     {
         [Test]
         [Explicit]
-        public void CanConvertAnExistingIssue()
+        public async void CanConvertAnExistingIssue()
         {
             var token = Environment.GetEnvironmentVariable("PBOT_GH_ACCESSTOKEN");
             
@@ -22,14 +22,14 @@
             credentials.AddCredential("github-accesstoken",token);
 
             WithCredentials(credentials);
-      
-            Execute("convert", "PBot.TestRepo", "19", "failed-pull-1", "master");
+
+            await Execute("convert", "PBot.TestRepo", "19", "failed-pull-1", "master");
         }
 
         [Test]
-        public void ShouldAskForGHTokenIfNotPresent()
+        public async void ShouldAskForGHTokenIfNotPresent()
         {
-            Execute("convert", "PBot.TestRepo", "#", "19", "to pull from", "failed-pull-1", "to", "master");
+            await Execute("convert", "PBot.TestRepo", "#", "19", "to pull from", "failed-pull-1", "to", "master");
 
 
             Assert.True(Messages.First().Contains("github access token"));

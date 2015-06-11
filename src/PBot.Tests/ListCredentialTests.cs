@@ -9,7 +9,7 @@ namespace PBot.Tests
     public class ListCredentialTests : BotCommandFixture<ListCredentials>
     {
         [Test]
-        public void ListUserWithExistingCreds()
+        public async void ListUserWithExistingCreds()
         {
 
             var store = new CredentialStore
@@ -24,7 +24,7 @@ namespace PBot.Tests
             brain.Set(store);
 
             AsUser("testuser");
-            Execute("list credentials");
+            await Execute("list credentials");
 
             Assert.True(Messages.Single(m => m.Contains("github-username")).EndsWith("xyz"));
 

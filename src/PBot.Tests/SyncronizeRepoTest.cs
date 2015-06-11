@@ -1,22 +1,22 @@
 ﻿namespace PBot.Tests
 {
-    using System;
     using NUnit.Framework;
+    using Octokit;
     using PBot.SyncOMatic;
 
     [TestFixture]
     public class SyncronizeRepoTest : BotCommandFixture<SyncronizeRepo>
     {
         [Test,Explicit]
-        public void SyncTestRepo()
+        public async void SyncTestRepo()
         {
-            Execute("sync", "PBot.testrepo", "target branch", "master");
+            await Execute("sync", "PBot.testrepo", "target branch", "master");
         }
 
         [Test]
         public void BadRepoName()
         {
-            Assert.Throws<AggregateException>(() => Execute("sync", "PBot.dddddd", "target branch", "master"));
+            Assert.Throws<NotFoundException>(async () => await Execute("sync", "PBot.dddddd", "target branch", "master"));
         }
     }
 }

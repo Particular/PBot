@@ -9,7 +9,7 @@
     public class RegisterCaretakerTests:BotCommandFixture<RegisterCaretaker>
     {
         [Test]
-        public void ExplicitUserToExistingRepo()
+        public async void ExplicitUserToExistingRepo()
         {
             var username = "testuser";
             var repoName = "nservicebus";
@@ -23,12 +23,12 @@
 
             brain.Set(repos);
 
-            Execute("register", username,"as caretaker for",repoName);
+            await Execute("register", username, "as caretaker for", repoName);
 
             Assert.AreEqual(repos.Single(r=>r.Name == repoName).Caretaker,username);
         }
         [Test]
-        public void CurrentUserToExistingRepo()
+        public async void CurrentUserToExistingRepo()
         {
             var username = "current";
             var repoName = "nservicebus";
@@ -43,18 +43,18 @@
             brain.Set(repos);
 
             AsUser(username);
-            Execute("register", "my self", "as caretaker for", repoName);
+            await Execute("register", "my self", "as caretaker for", repoName);
 
             Assert.AreEqual(repos.Single(r => r.Name == repoName).Caretaker, username);
         }
 
         [Test]
-        public void AddCaretakerToUnknownRepo()
+        public async void AddCaretakerToUnknownRepo()
         {
             brain.Set(new AvailableRepositories());
 
 
-            Execute("register", "someuser", "as caretaker for", "unknownrepo");
+            await Execute("register", "someuser", "as caretaker for", "unknownrepo");
 
             Assert.True(Messages.Any(m=>m.StartsWith("Repository not found")));
         }

@@ -6,8 +6,9 @@
     using System.Threading.Tasks;
     using NUnit.Framework;
     using Octokit;
+    using PBot.Issues;
 
-    public class Issue_statistics
+    public class Issue_statistics:BotCommandFixture<ListIssuesFromExternalContributors>
     {
         [Test, Explicit]
         public async void AllBugs()
@@ -20,8 +21,7 @@
         [Test, Explicit]
         public async void ByExternalUsers()
         {
-            Console.Out.WriteLine("### All issues from external users");
-            await GenerateReport(byExternalUsers: true);
+           await Execute("","2015-05-01 to 2015-06-01");
         }
 
         public async Task GenerateReport(bool bugsOnly = false,bool byExternalUsers = false)

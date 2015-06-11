@@ -8,10 +8,10 @@
     public class RegisterCredentialTests : BotCommandFixture<RegisterCredential>
     {
         [Test]
-        public void AddForNewUser()
+        public async void AddForNewUser()
         {
             AsUser("testuser");
-            Execute("","credential=value");
+            await Execute("", "credential=value");
 
             var credential = brain.Get<CredentialStore>().Single(c=>c.Username == "testuser").Credentials.First();
             Assert.AreEqual("credential",credential.Name);
@@ -19,11 +19,11 @@
         }
 
         [Test]
-        public void UpdateCredential()
+        public async void UpdateCredential()
         {
             AsUser("testuser");
-            Execute("", "credential=value");
-            Execute("", "credential=value2");
+            await Execute("", "credential=value");
+            await Execute("", "credential=value2");
 
             var credential = brain.Get<CredentialStore>().Single(c=>c.Username == "testuser").Credentials.First();
             Assert.AreEqual("credential", credential.Name);

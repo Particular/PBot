@@ -8,9 +8,9 @@
     {
         [Test]
         [Explicit]
-        public void CanMoveIssue()
+        public async void CanMoveIssue()
         {
-            Execute("move issue", "PBot.TestRepo#20", "PBot.TestRepo");
+            await  Execute("move issue", "PBot.TestRepo#20", "PBot.TestRepo");
         }
     }
 }

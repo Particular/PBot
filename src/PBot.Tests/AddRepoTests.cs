@@ -10,33 +10,33 @@
     public class AddRepoTests : BotCommandFixture<AddRepository>
     {
         [Test]
-        public void AddNewValidRepo()
+        public async void AddNewValidRepo()
         {
          
             var repoName = "nservicebus";
             
             brain.Set(new AvailableRepositories());
 
-            Execute("add", repoName);
+            await Execute("add", repoName);
 
             Assert.NotNull(brain.Get<AvailableRepositories>().Single(r => r.Name == repoName));
         }
       
         [Test]
-        public void AddByWildcard()
+        public async void AddByWildcard()
         {
             var repoName = "nservicebus*";
 
             brain.Set(new AvailableRepositories());
 
-            Execute("add", repoName);
+            await Execute("add", repoName);
 
             Console.Out.WriteLine(string.Join(";", brain.Get<AvailableRepositories>()));
             Assert.True(brain.Get<AvailableRepositories>().Count() > 2);
         }
 
         [Test]
-        public void AddInvalidRepo()
+        public async void AddInvalidRepo()
         {
 
             var repoName = "NonExistingRepo";
@@ -44,7 +44,7 @@
 
             brain.Set(repos);
 
-            Execute("add", repoName);
+            await Execute("add", repoName);
 
 
             Assert.False(repos.Any());
@@ -52,7 +52,7 @@
         }
 
         [Test]
-        public void AddDuplicateValidRepo()
+        public async void AddDuplicateValidRepo()
         {
 
             var repoName = "nservicebus";
@@ -66,7 +66,7 @@
 
             brain.Set(repos);
 
-            Execute("add", repoName);
+            await Execute("add", repoName);
 
             Assert.NotNull(repos.Single(r => r.Name == repoName));
             Assert.NotNull(Messages.Single(m=>m.Contains("already exists")));

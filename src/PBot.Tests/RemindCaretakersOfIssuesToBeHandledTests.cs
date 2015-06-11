@@ -9,7 +9,7 @@
     public class RemindCaretakersOfIssuesToBeHandledTests : BotCommandFixture<RemindCaretakersOfIssuesToBeHandled>
     {
         [Test]
-        public void MakeSureOnlyReposWithACaretakerIsChecked()
+        public async void MakeSureOnlyReposWithACaretakerIsChecked()
         {
             var username = "testuser";
             var repoName = "PBot.TestRepo";
@@ -29,7 +29,7 @@
 
             brain.Set(repos);
 
-            Execute("remind caretakers of issues if needed");
+            await Execute("remind caretakers of issues if needed");
 
             Assert.NotNull(Messages.Single(m => m.Contains("PBot.TestRepo")));
         }

@@ -9,7 +9,7 @@
     public class RemoveRepositoryTests : BotCommandFixture<RemoveRepository>
     {
         [Test]
-        public void RemoveValidRepo()
+        public async void RemoveValidRepo()
         {
          
             var repoName = "nservicebus";
@@ -24,14 +24,14 @@
             brain.Set(repos);
 
 
-            Execute("remove", repoName);
+            await Execute("remove", repoName);
 
             Assert.Null(brain.Get<AvailableRepositories>().SingleOrDefault(r => r.Name == repoName));
         }
       
 
         [Test]
-        public void RemoveValidButNonExistingRepo()
+        public async void RemoveValidButNonExistingRepo()
         {
 
             var repoName = "nservicebus";
@@ -39,7 +39,7 @@
 
             brain.Set(repos);
 
-            Execute("remove", repoName);
+            await Execute("remove", repoName);
 
             Assert.NotNull(Messages.Single(m => m.Contains("doesn't exist")));
         }

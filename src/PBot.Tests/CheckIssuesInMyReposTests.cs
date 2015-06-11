@@ -9,7 +9,7 @@
     public class CheckIssuesInMyReposTests : BotCommandFixture<CheckIssuesInMyRepos>
     {
         [Test]
-        public void CheckIssuesForExistingUser()
+        public async void CheckIssuesForExistingUser()
         {
             var repos = new AvailableRepositories
             {
@@ -28,11 +28,11 @@
 
             brain.Set(repos);
             AsUser("andreas");
-            Execute("check my repos");
+            await Execute("check my repos");
         }
 
         [Test]
-        public void CheckIssuesForUserWitnNoRepos()
+        public async void CheckIssuesForUserWitnNoRepos()
         {
             var repos = new AvailableRepositories
             {
@@ -45,7 +45,7 @@
 
             brain.Set(repos);
             AsUser("some user");
-            Execute("check my repos");
+            await Execute("check my repos");
 
             Assert.True(Messages.Any(m => m.Contains("couldn't find any repos")));
         }

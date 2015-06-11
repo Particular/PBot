@@ -8,7 +8,7 @@
     class NotifyCaretakersOfCurrentlyFailedBuildsTests : BotCommandFixture<NotifyCaretakersOfCurrentlyFailedBuilds>
     {
         [Test]
-        public void RepoWithExistingBuild()
+        public async void RepoWithExistingBuild()
         {
             var repos = new AvailableRepositories
             {
@@ -28,11 +28,11 @@
 
             brain.Set(repos);
 
-            Execute("notify caretakers of failed builds");
+            await Execute("notify caretakers of failed builds");
         }
 
         [Test,Ignore("Until we have a better way excluding repos that doesn't need a build")]
-        public void RepoNoBuild()
+        public async void RepoNoBuild()
         {
             var repos = new AvailableRepositories
             {
@@ -46,7 +46,7 @@
 
             brain.Set(repos);
 
-            Execute("notify caretakers of failed builds");
+            await Execute("notify caretakers of failed builds");
 
             Assert.True(Messages.First().Contains("help create"));
         }

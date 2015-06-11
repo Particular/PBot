@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using MMBot;
     using MMBot.Brains;
     using NUnit.Framework;
@@ -29,14 +30,14 @@
         TestResponder testResponder;
         string user;
         
-        protected void Execute(params string[] parameters)
+        protected async Task Execute(params string[] parameters)
         {
             command.Register(brain);
             command.CurrentUser = new User("x", user, null, "myRoom", "test");
-       
-            command.Execute(parameters, testResponder)
-                .Wait();
 
+            await command.Execute(parameters, testResponder)
+                .ConfigureAwait(false);
+            
             if (Messages.Any())
             {
                 Console.Out.WriteLine(string.Join(Environment.NewLine, Messages));             

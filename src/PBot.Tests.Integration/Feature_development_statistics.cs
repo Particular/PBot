@@ -12,7 +12,7 @@
         public async void GenerateReport()
         {
             var client = GitHubClientBuilder.Build();
-            var period = TimeSpan.FromDays(7);
+            var period = TimeSpan.FromDays(30);
 
             var request = new RepositoryIssueRequest
             {
@@ -24,7 +24,7 @@
             var organisation = "Particular";
 
 
-            var repo = await client.Repository.Get(organisation, "Requirements");
+            var repo = await client.Repository.Get(organisation, "FeatureDevelopment");
 
             var requirements = await client.Issue.GetForRepository(organisation, repo.Name, request);
             var activeRequirements = requirements.Where(r => r.State == ItemState.Open).ToList();

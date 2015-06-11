@@ -9,7 +9,7 @@
     public class ListCaretakersTests : BotCommandFixture<ListCaretakers>
     {
         [Test]
-        public void ShouldGroupTheRepos()
+        public async void ShouldGroupTheRepos()
         {
             var username = "testuser";
             var repos = new AvailableRepositories
@@ -34,7 +34,7 @@
 
             brain.Set(repos);
 
-            Execute("list caretakers");
+            await Execute("list caretakers");
 
             var caretaker = Messages.Single(l=>l.Contains(username));
 

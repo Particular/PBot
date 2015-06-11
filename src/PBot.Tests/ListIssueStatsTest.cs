@@ -8,7 +8,7 @@
     public class ListIssueStatsTest : BotCommandFixture<ListIssueStats>
     {
         [Test]
-        public void ShowStats()
+        public async void ShowStats()
         {
             var repos = new AvailableRepositories
             {
@@ -26,7 +26,7 @@
             };
 
             brain.Set(repos);
-            Execute("list issue stats");
+            await Execute("list issue stats");
         }
     }
 }

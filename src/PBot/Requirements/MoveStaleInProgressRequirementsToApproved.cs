@@ -40,7 +40,7 @@
                     }
 
                     var message = @"
-During the last week I haven't noticed any updates either as comment or as items in the `Plan of attack` section beeing changed or completed. I've therefor decided to moved it back to `Approved`.
+During the last week I haven't noticed any updates either as comment or as items in the `Plan of attack` section being changed or completed. I've therefor decided to moved it back to `Approved`.
 
 @{0} what's the status?
 
@@ -50,7 +50,7 @@ During the last week I haven't noticed any updates either as comment or as items
 
 Move it back to `In progress` when work on this one resumes again!
 
-Ping @particular/requirements or the #requirements slack channel if you need a hand to reevalutate this requirement!
+Ping @particular/featuredevelopment or the #feature-development slack channel if you need a hand to re-evaluate this requirement!
 ";
 
                     await client.Issue.Comment.Create(repository.Owner.Login, repository.Name, issue.Number, string.Format(message, taskLead));
