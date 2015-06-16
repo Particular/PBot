@@ -11,7 +11,7 @@
     public class ListIssuesFromExternalContributors : BotCommand
     {
         public ListIssuesFromExternalContributors()
-            : base("show external issues from (*.)$", "show external issues <Period> - Shows issue stats for the specified period, period syntax `yyy-mm-dd to yyyy-MM-dd`")
+            : base("show external issues from (*.)$", "show external issues <Period> - Shows issue stats for the specified period, period syntax yyy-mm-dd to yyyy-MM-dd")
         {
         }
 
@@ -30,7 +30,8 @@
 
             var request = new RepositoryIssueRequest
             {
-                Since = start
+                Since = start,
+                State = ItemState.All
             };
 
 
