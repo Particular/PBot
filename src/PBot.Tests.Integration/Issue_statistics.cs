@@ -6,9 +6,8 @@
     using System.Threading.Tasks;
     using NUnit.Framework;
     using Octokit;
-    using PBot.Issues;
 
-    public class Issue_statistics : BotCommandFixture<ListIssuesFromExternalContributors>
+    public class Issue_statistics //: BotCommandFixture<ListIssuesFromExternalContributors>
     {
         [Test, Explicit]
         public async void AllBugs()
@@ -20,7 +19,7 @@
         [Test, Explicit]
         public async void ByExternalUsers()
         {
-            await Execute("", "2015-01-01 to 2015-07-01");
+            //await Execute("", "2015-01-01 to 2015-07-01");
         }
 
         public async Task GenerateReport()
