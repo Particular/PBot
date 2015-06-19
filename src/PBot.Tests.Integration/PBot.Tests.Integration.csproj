@@ -151,6 +151,7 @@
     <Compile Include="RemindWhenMoreRequirementsNeedsToBeApprovedTests.cs" />
     <Compile Include="ShowAllCurrentlyFailedBuildsTests.cs" />
     <Compile Include="TeamCityTests.cs" />
+    <Compile Include="UpdateRequirementTests.cs" />
     <Compile Include="When_adding_a_new_repo_to_pbot.cs" />
   </ItemGroup>
   <ItemGroup>
