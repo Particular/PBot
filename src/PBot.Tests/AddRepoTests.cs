@@ -25,14 +25,14 @@
         [Test]
         public async void AddByWildcard()
         {
-            var repoName = "nservicebus*";
+            var repoName = "nservicebus.rabb*";
 
             brain.Set(new AvailableRepositories());
 
             await Execute("add", repoName);
 
             Console.Out.WriteLine(string.Join(";", brain.Get<AvailableRepositories>()));
-            Assert.True(brain.Get<AvailableRepositories>().Count() > 2);
+            Assert.True(brain.Get<AvailableRepositories>().Any());
         }
 
         [Test]
