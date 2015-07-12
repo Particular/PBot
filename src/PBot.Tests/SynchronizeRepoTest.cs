@@ -5,7 +5,7 @@
     using PBot.SyncOMatic;
 
     [TestFixture]
-    public class SyncronizeRepoTest : BotCommandFixture<SyncronizeRepo>
+    public class SynchronizeRepoTest : BotCommandFixture<SynchronizeRepo>
     {
         [Test,Explicit]
         public async void SyncTestRepo()

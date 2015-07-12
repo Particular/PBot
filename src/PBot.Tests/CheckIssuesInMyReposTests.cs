@@ -32,7 +32,7 @@
         }
 
         [Test]
-        public async void CheckIssuesForUserWitnNoRepos()
+        public async void CheckIssuesForUserWithNoRepos()
         {
             var repos = new AvailableRepositories
             {

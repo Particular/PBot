@@ -210,7 +210,7 @@
     <Compile Include="SyncOMatic\DefaultTemplateRepo.cs" />
     <Compile Include="SyncOMatic\RepoToSync.cs" />
     <Compile Include="SyncOMatic\SyncItem.cs" />
-    <Compile Include="SyncOMatic\SyncronizeRepo.cs" />
+    <Compile Include="SyncOMatic\SynchronizeRepo.cs" />
     <Compile Include="TaskExtensions.cs" />
   </ItemGroup>
   <ItemGroup>

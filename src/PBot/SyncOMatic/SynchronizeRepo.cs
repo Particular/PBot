@@ -6,9 +6,9 @@ namespace PBot.SyncOMatic
     using System.Threading.Tasks;
     using global::SyncOMatic;
 
-    public class SyncronizeRepo : BotCommand
+    public class SynchronizeRepo : BotCommand
     {
-        public SyncronizeRepo()
+        public SynchronizeRepo()
             : base(
                 "sync (.*) (target branch) (.*)$",
                 "pbot sync <name of repo> target branch <name of target branch> - Performs a syncomatic run against the given repo and branch")
