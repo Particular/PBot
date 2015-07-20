@@ -137,6 +137,7 @@
     <Compile Include="Feature_development_statistics.cs" />
     <Compile Include="EnforceRequirementsProcessTests.cs" />
     <Compile Include="IssueStateExtensionTests.cs" />
+    <Compile Include="List_my_TaskForces.cs" />
     <Compile Include="Issue_statistics.cs" />
     <Compile Include="ListCurrentlyFailingBuildsTests.cs" />
     <Compile Include="MoveConcernsToIAStateAutomaticallyTests.cs" />
