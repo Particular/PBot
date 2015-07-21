@@ -33,7 +33,7 @@
                 foreach (var issue in result)
                 {
                     Console.Out.WriteLine("\t- _{0}_ ({1})", issue.Issue.Title, issue.Issue.HtmlUrl);
-                    Console.Out.WriteLine("\tLabels: {0}", string.Join(" ", issue.Issue.Labels.Select(l => "`" + l + "`")));
+                    Console.Out.WriteLine("\tLabels: {0}", string.Join(" ", issue.Issue.Labels.Select(l => "`" + l.Name + "`")));
                     Console.Out.WriteLine("\tTeam: {0}", string.Join(", ", issue.Team));
                 }
             }
