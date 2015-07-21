@@ -12,7 +12,7 @@
         public ListTaskForces()
             : base(
                 "pig (.*)$",
-                "pbot pig <me:github username> - Show issues that the nominated github user is a PIG on") { }
+                "pbot pig <me:username> - Show issues that the nominated user is a PIG for") { }
 
         public override async Task Execute(string[] parameters, IResponse response)
         {
@@ -55,15 +55,15 @@
 
                 if (self)
                 {
-                    await response.Send(string.Format("If {0} is not your github username then use the following command to tell me what it is:", username));
+                    await response.Send(string.Format("If `{0}` is not your github username then use the following command to tell me what it is:", username));
                 }
                 else
                 {
-                    await response.Send(string.Format("{0} may not be a valid github username. Tell the owner of this account to use the following command to tell me their github username:", username));
+                    await response.Send(string.Format("`{0}` may not be a valid github username. Tell the owner of this account to use the following command to tell me their github username:", username));
                 }
 
-                await response.Send("`pbot add credential github-username=<github username>`");
-                await response.Send(string.Format("Alternatively, {0} may not be on any task forces URL FOR TASK FORCES GOES HERE", username));
+                await response.Send("`pbot register credential github-username=<github username>`");
+                await response.Send(string.Format("Alternatively, `{0}` may not be on any task forces URL FOR TASK FORCES GOES HERE", username));
             }
 
             await response.Send(results.Select(FormatIssue).ToArray());
