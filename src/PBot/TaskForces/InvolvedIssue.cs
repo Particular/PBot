@@ -1,0 +1,12 @@
+namespace PBot.TaskForces
+{
+    using Octokit;
+
+    public class InvolvedIssue
+    {
+        public Repository Repo { get; set; }
+        public Issue Issue { get; set; }
+        public IssueInvolvement Involvement { get; set; }
+        public string[] Team { get; set; }
+    }
+}
