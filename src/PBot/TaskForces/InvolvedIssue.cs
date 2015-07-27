@@ -2,7 +2,7 @@ namespace PBot.TaskForces
 {
     using Octokit;
 
-    public class InvolvedIssue
+    internal class InvolvedIssue
     {
         public Repository Repo { get; set; }
         public Issue Issue { get; set; }

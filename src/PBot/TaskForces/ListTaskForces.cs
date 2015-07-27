@@ -69,11 +69,10 @@
 
             await response.Send(string.Format("All issues `{0}` is mentioned in: https://github.com/issues?q=is%3Aopen+is%3Aissue+mentions%3A{0}+user%3AParticular", username));
 
-            sw.Stop();
             await response.Send(string.Format("Total time (in seconds): {0}", sw.Elapsed.TotalSeconds));
         }
 
-        private string FormatIssue(InvolvedIssue issue)
+        private static string FormatIssue(InvolvedIssue issue)
         {
             var items = new List<string>
             {

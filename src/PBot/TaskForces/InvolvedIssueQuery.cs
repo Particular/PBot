@@ -7,7 +7,7 @@ namespace PBot.TaskForces
     using System.Threading.Tasks;
     using Octokit;
 
-    public class InvolvedIssueQuery
+    internal class InvolvedIssueQuery
     {
         static Regex TaskForceRx = new Regex(@"Task[\s-]?Force:\s*(.*)$", RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
         static Regex Mentions = new Regex(@"@[a-z0-9.-]+", RegexOptions.Compiled | RegexOptions.IgnoreCase);

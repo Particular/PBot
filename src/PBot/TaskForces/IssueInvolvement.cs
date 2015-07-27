@@ -1,6 +1,6 @@
 namespace PBot.TaskForces
 {
-    public enum IssueInvolvement
+    internal enum IssueInvolvement
     {
         Chicken,
         Pig
