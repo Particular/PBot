@@ -48,7 +48,7 @@ namespace PBot.TaskForces
             foreach (var issue in issues)
             {
                 var team = ExtractTeam(issue.Body).ToArray();
-                var isOwner = issue.Assignee != null && String.Equals(issue.Assignee.Login, username, StringComparison.InvariantCultureIgnoreCase);
+                var isOwner = issue.Assignee != null && string.Equals(issue.Assignee.Login, username, StringComparison.InvariantCultureIgnoreCase);
                 var isOnTeam = team.Contains(username, StringComparer.InvariantCultureIgnoreCase);
 
                 results.Add(new InvolvedIssue
@@ -56,14 +56,13 @@ namespace PBot.TaskForces
                     Repo = repo,
                     Issue = issue,
                     Involvement = isOwner || isOnTeam ? IssueInvolvement.Pig : IssueInvolvement.Chicken,
-                    Team = team
                 });
             }
 
             return results;
         }
 
-        private IEnumerable<string> ExtractTeam(string issueBody)
+        private static IEnumerable<string> ExtractTeam(string issueBody)
         {
             if (issueBody == null)
                 return Enumerable.Empty<string>();
