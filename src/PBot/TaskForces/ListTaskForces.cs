@@ -19,7 +19,7 @@
             var self = false;
 
             if (username.ToLower() == "me")
-            {                
+            {
                 username = response.User.Name;
                 self = true;
             }
@@ -77,25 +77,17 @@
             var items = new List<string>
             {
                 " - ",
-                string.Format("{0}", issue.Repo.Name)
+                string.Format("{0}", issue.Repo.Name), 
+                issue.Issue.HtmlUrl.ToString(), 
+                "-", 
+                string.Format("*{0}*", issue.Issue.Title)
             };
 
-            var stateLabels = issue.Issue.Labels
+            var labels = issue.Issue.Labels
                 .Select(x => x.Name)
-                //.Where(x => x.StartsWith("State:", StringComparison.InvariantCultureIgnoreCase))
-                //.Select(x => x.Substring(6))
                 .Select(x => string.Format("`{0}`", x.Trim()));
 
-            items.Add(issue.Issue.HtmlUrl.ToString());
-
-            if (issue.Repo.Private)
-            {
-                // NOTE: GitHub issues get "Unfurled" for public repos so we only need title for private repos
-                items.Add("-");
-                items.Add(string.Format("*{0}*", issue.Issue.Title));
-            }
-
-            items.AddRange(stateLabels);
+            items.AddRange(labels);
             return string.Join(" ", items);
         }
     }
