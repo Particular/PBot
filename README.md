@@ -15,7 +15,7 @@ Provides pbot commands to help us manage our issues.
 If the package fails to update, check that:
 * the master branch has indeed been built, creating the new version
 * the build artifacts contain the NuGet package
-* the TeamCity NuGet feed is working. If empty, a TeamCity restart my be required.
+* the TeamCity NuGet feed is working and contains the package. If not, a TeamCity restart my be required.
 
 ### Required setup on local machine
 
