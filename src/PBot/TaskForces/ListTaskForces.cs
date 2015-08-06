@@ -65,22 +65,19 @@
                 await response.Send(string.Format("Alternatively, `{0}` may not be on any task forces. See https://github.com/Particular/Strategy/blob/master/definitions/taskforces.md", username));
             }
 
-            await response.Send(results.Select(FormatIssue).ToArray());
+            await response.Send(results.SelectMany(FormatIssue).ToArray());
 
             await response.Send(string.Format("All issues `{0}` is mentioned in: https://github.com/issues?q=is%3Aopen+is%3Aissue+mentions%3A{0}+user%3AParticular", username));
 
             await response.Send(string.Format("Total time (in seconds): {0}", stopwatch.Elapsed.TotalSeconds));
         }
 
-        private static string FormatIssue(InvolvedIssue issue)
+        private static IEnumerable<string> FormatIssue(InvolvedIssue issue)
         {
+            yield return string.Format("*{0}*", issue.Issue.Title);
             var items = new List<string>
             {
-                " - ",
-                string.Format("{0}", issue.Repo.Name), 
-                issue.Issue.HtmlUrl.ToString(), 
-                "-", 
-                string.Format("*{0}*", issue.Issue.Title)
+                issue.Issue.HtmlUrl.ToString()
             };
 
             var labels = issue.Issue.Labels
@@ -88,7 +85,9 @@
                 .Select(x => string.Format("`{0}`", x.Trim()));
 
             items.AddRange(labels);
-            return string.Join(" ", items);
+
+
+            yield return string.Join(" ", items);
         }
     }
 }
