@@ -37,13 +37,22 @@ namespace PBot.TaskForces
         {
             var results = new List<InvolvedIssue>();
 
-            var filter = new RepositoryIssueRequest
+            var mentionedFilter = new RepositoryIssueRequest
             {
                 State = ItemState.Open,
                 Mentioned = username
             };
 
-            var issues = await client.Issue.GetForRepository("Particular", repo.Name, filter);
+            var assigneeFilter = new RepositoryIssueRequest
+            {
+                State = ItemState.Open,
+                Assignee = username
+            };
+
+            var issues = (await client.Issue.GetForRepository("Particular", repo.Name, mentionedFilter))
+                .Concat(await client.Issue.GetForRepository("Particular", repo.Name, assigneeFilter))
+                .GroupBy(issue => issue.Url)
+                .Select(g => g.First());
 
             foreach (var issue in issues)
             {
