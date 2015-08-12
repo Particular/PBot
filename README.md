@@ -10,6 +10,13 @@ Provides pbot commands to help us manage our issues.
 3. The bot is setup to watch the TC nuget feed so just go into a channel and type `pbot update package PBot restart`
 4. The bot will now update and restart, this take 1-2 min, just check that the bot is alive using `pbot ping`
 
+##### Troubleshooting
+
+If the package fails to update, check that:
+* the master branch has indeed been built, creating the new version
+* the build artifacts contain the NuGet package
+* the TeamCity NuGet feed is working and contains the package. If not, a TeamCity restart my be required.
+
 ### Required setup on local machine
 
 1. Copy c:\mmbot from deploy server. This way you get both binaries, packages and brain(persisted storage). Deploy server details in lastpass. (deploy.nservicebus.com - RDP access)
