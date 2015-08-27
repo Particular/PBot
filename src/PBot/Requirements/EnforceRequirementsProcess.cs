@@ -16,7 +16,7 @@
         {
             var client = GitHubClientBuilder.Build();
 
-            var repo = await client.Repository.Get("Particular", "FeatureDevelopment");
+            var repo = await client.Repository.Get("Particular", "PlatformDevelopment");
 
             await new MoveConcernsToIAStateAutomatically(client, repo)
                 .Perform();

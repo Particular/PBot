@@ -31,7 +31,7 @@
                     continue;
                 }
 
-                if (repository.Name == "FeatureDevelopment")
+                if (repository.Name == "PlatformDevelopment")
                 {
                     continue;
                 }

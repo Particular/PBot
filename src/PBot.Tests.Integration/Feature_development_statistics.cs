@@ -24,7 +24,7 @@
             var organisation = "Particular";
 
 
-            var repo = await client.Repository.Get(organisation, "FeatureDevelopment");
+            var repo = await client.Repository.Get(organisation, "PlatformDevelopment");
 
             var requirements = await client.Issue.GetForRepository(organisation, repo.Name, request);
             var activeRequirements = requirements.Where(r => r.State == ItemState.Open).ToList();
