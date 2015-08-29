@@ -1,6 +1,5 @@
 ﻿namespace PBot.Requirements
 {
-    using System;
     using System.Threading.Tasks;
 
     public class EnforceRequirementsProcess : BotCommand
@@ -14,9 +13,9 @@
 
         public override async Task Execute(string[] parameters, IResponse response)
         {
-            var client = GitHubClientBuilder.Build();
+            //var client = GitHubClientBuilder.Build();
 
-            var repo = await client.Repository.Get("Particular", "PlatformDevelopment");
+            //var repo = await client.Repository.Get("Particular", "PlatformDevelopment");
 
             //await new MoveConcernsToIAStateAutomatically(client, repo)
             //    .Perform();
