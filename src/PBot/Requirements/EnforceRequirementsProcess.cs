@@ -18,19 +18,19 @@
 
             var repo = await client.Repository.Get("Particular", "PlatformDevelopment");
 
-            await new MoveConcernsToIAStateAutomatically(client, repo)
-                .Perform();
+            //await new MoveConcernsToIAStateAutomatically(client, repo)
+            //    .Perform();
 
-            await new MoveStaleIARequirementsToBacklog(client, repo, TimeSpan.FromDays(14))
-                .Perform();
-            await new RemindWhenMoreRequirementsNeedsToBeApproved(client, repo, response)
-                .Perform();
+            //await new MoveStaleIARequirementsToBacklog(client, repo, TimeSpan.FromDays(14))
+            //    .Perform();
+            //await new RemindWhenMoreRequirementsNeedsToBeApproved(client, repo, response)
+            //    .Perform();
 
-            await new RemindWhenMoreRequirementsNeedsToBeReviewed(client, repo, response)
-                .Perform();
+            //await new RemindWhenMoreRequirementsNeedsToBeReviewed(client, repo, response)
+            //    .Perform();
 
-            await new MoveStaleRequirementIdeasToBacklog(client, repo, TimeSpan.FromDays(14))
-                .Perform();
+            //await new MoveStaleRequirementIdeasToBacklog(client, repo, TimeSpan.FromDays(14))
+            //    .Perform();
 
         }
     }
