@@ -41,7 +41,7 @@
 
             var newIssue = await IssueUtility.Transfer(src, issueNumber, dst, false).IgnoreWaitContext();
 
-            await response.Send(string.Format("Issue copyied to https://github.com/Particular/{0}/issues/{1}", targetRepo, newIssue.Number)).IgnoreWaitContext();
+            await response.Send(string.Format("Issue copied to https://github.com/Particular/{0}/issues/{1}", targetRepo, newIssue.Number)).IgnoreWaitContext();
         }
     }
 }
