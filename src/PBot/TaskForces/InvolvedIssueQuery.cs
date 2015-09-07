@@ -9,10 +9,10 @@ namespace PBot.TaskForces
 
     internal class InvolvedIssueQuery
     {
-        static Regex TaskForceRx = new Regex(@"Task[\s-]?Force:\s*(.*)$", RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        static Regex Mentions = new Regex(@"@[a-z0-9.-]+", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex TaskForceRegex = new Regex(@"Task[\s-]?Force:\s*(.*)$", RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex MentionRegex = new Regex(@"@[a-z0-9.-]+", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-        GitHubClient client;
+        private readonly GitHubClient client;
 
         public InvolvedIssueQuery(GitHubClient client)
         {
@@ -22,38 +22,16 @@ namespace PBot.TaskForces
         public async Task<IEnumerable<InvolvedIssue>> Perform(string username)
         {
             var repos = (await client.Repository.GetAllForOrg("Particular")).ToList();
+            var tasks = repos.Select(x => GetInvolvedIssuesForRepo(x, username));
 
-            var tasks = repos.Select(x => GetInvolvedIssuesForRepo(x, username)).ToArray();
-
-            await Task.WhenAll(tasks);
-
-            return from task in tasks
-                from issue in task.Result
-                orderby issue.Involvement descending, issue.Repo.Name ascending
-                select issue;
+            return (await Task.WhenAll(tasks)).SelectMany(issue => issue);
         }
 
         private async Task<IEnumerable<InvolvedIssue>> GetInvolvedIssuesForRepo(Repository repo, string username)
         {
-            var results = new List<InvolvedIssue>();
-
-            var mentionedFilter = new RepositoryIssueRequest
-            {
-                State = ItemState.Open,
-                Mentioned = username
-            };
-
-            var assigneeFilter = new RepositoryIssueRequest
-            {
-                State = ItemState.Open,
-                Assignee = username
-            };
-
-            var creatorFilter = new RepositoryIssueRequest
-            {
-                State = ItemState.Open,
-                Creator = username
-            };
+            var mentionedFilter = new RepositoryIssueRequest { State = ItemState.Open, Mentioned = username };
+            var assigneeFilter = new RepositoryIssueRequest { State = ItemState.Open, Assignee = username };
+            var creatorFilter = new RepositoryIssueRequest { State = ItemState.Open, Creator = username };
 
             var issues = (await client.Issue.GetForRepository("Particular", repo.Name, mentionedFilter))
                 .Concat(await client.Issue.GetForRepository("Particular", repo.Name, assigneeFilter))
@@ -61,37 +39,43 @@ namespace PBot.TaskForces
                 .GroupBy(issue => issue.Url)
                 .Select(g => g.First());
 
+            var involvedIssues = new List<InvolvedIssue>();
             foreach (var issue in issues)
             {
-                var team = ExtractTeam(issue.Body).ToArray();
+                var isOnTeam = ExtractTeam(issue.Body).ToArray().Contains(username, StringComparer.InvariantCultureIgnoreCase);
                 var isOwner = issue.Assignee != null && string.Equals(issue.Assignee.Login, username, StringComparison.InvariantCultureIgnoreCase);
-                var isOnTeam = team.Contains(username, StringComparer.InvariantCultureIgnoreCase);
                 var isCreator = issue.User != null && string.Equals(issue.User.Login, username, StringComparison.InvariantCultureIgnoreCase);
 
-                results.Add(new InvolvedIssue
+                involvedIssues.Add(new InvolvedIssue
                 {
                     Repo = repo,
                     Issue = issue,
-                    Involvement = isOwner || isOnTeam || (isCreator && issue.PullRequest != null) ? IssueInvolvement.Pig : IssueInvolvement.Chicken,
+                    Involvement = isOwner || isOnTeam || (isCreator && issue.PullRequest != null)
+                        ? IssueInvolvement.Pig
+                        : IssueInvolvement.Chicken,
                 });
             }
 
-            return results;
+            return involvedIssues;
         }
 
         private static IEnumerable<string> ExtractTeam(string issueBody)
         {
             if (issueBody == null)
+            {
                 return Enumerable.Empty<string>();
+            }
 
-            var match = TaskForceRx.Match(issueBody);
+            var taskForceMatch = TaskForceRegex.Match(issueBody);
 
-            if (!match.Success)
+            if (!taskForceMatch.Success)
+            {
                 return Enumerable.Empty<string>();
+            }
 
-            return Mentions.Matches(match.Result("$1"))
+            return MentionRegex.Matches(taskForceMatch.Result("$1"))
                 .Cast<Match>()
-                .Select(x => x.Value.TrimStart('@'));
+                .Select(mentionMatch => mentionMatch.Value.TrimStart('@'));
         }
     }
 }
