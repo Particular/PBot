@@ -46,14 +46,14 @@ namespace PBot.TaskForces
                 var isOwner = issue.Assignee != null && string.Equals(issue.Assignee.Login, username, StringComparison.InvariantCultureIgnoreCase);
                 var isCreator = issue.User != null && string.Equals(issue.User.Login, username, StringComparison.InvariantCultureIgnoreCase);
 
-                involvedIssues.Add(new InvolvedIssue
+                if (isOwner || isOnTeam || (isCreator && issue.PullRequest != null))
                 {
-                    Repo = repo,
-                    Issue = issue,
-                    Involvement = isOwner || isOnTeam || (isCreator && issue.PullRequest != null)
-                        ? IssueInvolvement.Pig
-                        : IssueInvolvement.Chicken,
-                });
+                    involvedIssues.Add(new InvolvedIssue
+                    {
+                        Repo = repo,
+                        Issue = issue,
+                    });
+                }
             }
 
             return involvedIssues;

@@ -40,7 +40,6 @@
             var client = GitHubClientBuilder.Build();
             var query = new InvolvedIssueQuery(client);
             var results = ((await query.Perform(username))
-                .Where(issue => issue.Involvement == IssueInvolvement.Pig)
                 .OrderBy(issue => issue.Repo.Name)
                 .ThenBy(issue => issue.Issue.CreatedAt)).ToList();
 

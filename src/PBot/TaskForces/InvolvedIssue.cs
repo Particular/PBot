@@ -6,6 +6,5 @@ namespace PBot.TaskForces
     {
         public Repository Repo { get; set; }
         public Issue Issue { get; set; }
-        public IssueInvolvement Involvement { get; set; }
     }
 }
