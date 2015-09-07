@@ -49,8 +49,15 @@ namespace PBot.TaskForces
                 Assignee = username
             };
 
+            var creatorFilter = new RepositoryIssueRequest
+            {
+                State = ItemState.Open,
+                Creator = username
+            };
+
             var issues = (await client.Issue.GetForRepository("Particular", repo.Name, mentionedFilter))
                 .Concat(await client.Issue.GetForRepository("Particular", repo.Name, assigneeFilter))
+                .Concat(await client.Issue.GetForRepository("Particular", repo.Name, creatorFilter))
                 .GroupBy(issue => issue.Url)
                 .Select(g => g.First());
 
@@ -59,12 +66,13 @@ namespace PBot.TaskForces
                 var team = ExtractTeam(issue.Body).ToArray();
                 var isOwner = issue.Assignee != null && string.Equals(issue.Assignee.Login, username, StringComparison.InvariantCultureIgnoreCase);
                 var isOnTeam = team.Contains(username, StringComparer.InvariantCultureIgnoreCase);
+                var isCreator = issue.User != null && string.Equals(issue.User.Login, username, StringComparison.InvariantCultureIgnoreCase);
 
                 results.Add(new InvolvedIssue
                 {
                     Repo = repo,
                     Issue = issue,
-                    Involvement = isOwner || isOnTeam ? IssueInvolvement.Pig : IssueInvolvement.Chicken,
+                    Involvement = isOwner || isOnTeam || (isCreator && issue.PullRequest != null) ? IssueInvolvement.Pig : IssueInvolvement.Chicken,
                 });
             }
 
