@@ -1,4 +1,4 @@
-﻿namespace PBot.TaskForces
+﻿namespace PBot.Issues
 {
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -6,9 +6,9 @@
     using System.Threading.Tasks;
     using PBot.Users;
 
-    public class ListTaskForces : BotCommand
+    public class Pig : BotCommand
     {
-        public ListTaskForces()
+        public Pig()
             : base(
                 "pig (.*)$",
                 "pbot pig <me:username> - Show issues that the nominated user is a PIG for") { }

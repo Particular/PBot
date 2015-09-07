@@ -1,4 +1,4 @@
-namespace PBot.TaskForces
+namespace PBot.Issues
 {
     using Octokit;
 
