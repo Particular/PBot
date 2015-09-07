@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Globalization;
     using System.Linq;
     using System.Threading.Tasks;
     using PBot.Users;
@@ -66,10 +67,11 @@
             }
 
             await response.Send(results.SelectMany(FormatIssue).ToArray());
-
-            await response.Send(string.Format("All issues `{0}` is mentioned in: https://github.com/issues?q=is%3Aopen+is%3Aissue+mentions%3A{0}+user%3AParticular", username));
-
-            await response.Send(string.Format("Total time (in seconds): {0}", stopwatch.Elapsed.TotalSeconds));
+            await response.Send(string.Format(
+                    "_{0:N0} issues/PRs found in {1:N2} seconds. To view all issues/PRs which mention `{2}` go to https://github.com/issues?q=is%3Aopen+mentions%3A{0}+user%3AParticular ._",
+                    results.Count,
+                    stopwatch.Elapsed.TotalSeconds,
+                    username));
         }
 
         private static IEnumerable<string> FormatIssue(InvolvedIssue issue)
