@@ -1,6 +1,7 @@
 ﻿namespace PBot.Issues
 {
     using System.IO;
+    using System.Linq;
     using System.Threading.Tasks;
     using Octokit;
 
@@ -10,8 +11,9 @@
         {
             var client = GitHubClientBuilder.Build();
 
-            var sourceIssue = await client.Issue.Get(sourceRepository.Owner, sourceRepository.Name, sourceIssueNumber);
-            var sourceComments = await client.Issue.Comment.GetForIssue(sourceRepository.Owner, sourceRepository.Name, sourceIssueNumber);
+            var issue = client.Issue;
+            var sourceIssue = await issue.Get(sourceRepository.Owner, sourceRepository.Name, sourceIssueNumber);
+            var sourceComments = await issue.Comment.GetForIssue(sourceRepository.Owner, sourceRepository.Name, sourceIssueNumber);
 
             var newBody = string.Format(
                 @"**Issue by [{1}]({0})** _{2}_ _Originally opened as {3}_
@@ -25,20 +27,21 @@
                 Assignee = sourceIssue.GetAssignee(),
                 Body = newBody
             };
-            var targetIssue = await client.Issue.Create(targetRepository.Owner, targetRepository.Name, createIssue);
+            var targetIssue = await issue.Create(targetRepository.Owner, targetRepository.Name, createIssue);
 
-            foreach (var sourceComment in sourceComments)
+            var comment = sourceComments.FirstOrDefault();
+            if (comment != null)
             {
-                var targetCommentBody = string.Format(
+                var body = string.Format(
                     @" **Comment by [{1}]({0})** _{2}_
 
 ----
 
-{3}", sourceComment.User.HtmlUrl, sourceComment.User.Login, sourceComment.HtmlUrl, sourceComment.Body);
-                await client.Issue.Comment.Create(targetRepository.Owner, targetRepository.Name, targetIssue.Number, targetCommentBody);
+{3}", comment.User.HtmlUrl, comment.User.Login, comment.HtmlUrl, comment.Body);
+                await issue.Comment.Create(targetRepository.Owner, targetRepository.Name, targetIssue.Number, body);
             }
 
-            await client.Issue.Comment.Create(sourceRepository.Owner, sourceRepository.Name, sourceIssueNumber, (closeOriginal ? "moved to " : "copied to ") + targetIssue.HtmlUrl);
+            await issue.Comment.Create(sourceRepository.Owner, sourceRepository.Name, sourceIssueNumber, (closeOriginal ? "moved to " : "copied to ") + targetIssue.HtmlUrl);
 
             if (sourceIssue.ClosedAt == null)
             {
@@ -48,7 +51,7 @@
                         {
                             State = ItemState.Closed
                         };
-                    await client.Issue.Update(sourceRepository.Owner, sourceRepository.Name, sourceIssueNumber, issueUpdate);
+                    await issue.Update(sourceRepository.Owner, sourceRepository.Name, sourceIssueNumber, issueUpdate);
                 }
             }
             else
@@ -57,9 +60,9 @@
                 {
                     State = ItemState.Closed
                 };
-                await client.Issue.Update(targetRepository.Owner, targetRepository.Name, targetIssue.Number, issueUpdate);
+                await issue.Update(targetRepository.Owner, targetRepository.Name, targetIssue.Number, issueUpdate);
             }
-            return await client.Issue.Get(targetRepository.Owner, targetRepository.Name, targetIssue.Number);
+            return await issue.Get(targetRepository.Owner, targetRepository.Name, targetIssue.Number);
         }
     }
 
