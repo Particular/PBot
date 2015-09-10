@@ -1,4 +1,4 @@
-﻿namespace PBot.TaskForces
+﻿namespace PBot.Issues
 {
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -6,9 +6,9 @@
     using System.Threading.Tasks;
     using PBot.Users;
 
-    public class ListTaskForces : BotCommand
+    public class Pig : BotCommand
     {
-        public ListTaskForces()
+        public Pig()
             : base(
                 "pig (.*)$",
                 "pbot pig <me:username> - Show issues that the nominated user is a PIG for") { }
@@ -17,7 +17,6 @@
         {
             var username = parameters[1];
             var self = false;
-
             if (username.ToLower() == "me")
             {
                 username = response.User.Name;
@@ -25,12 +24,12 @@
             }
 
             UserCredentials userCredentials;
-
             if (Brain.Get<CredentialStore>().TryGetValue(username, out userCredentials))
             {
-                username = userCredentials.Credentials
-                                          .ToLookup(x => x.Name, x => x.Value)["github-username"]
-                                          .FirstOrDefault() ?? username;
+                username = userCredentials
+                    .Credentials
+                    .ToLookup(x => x.Name, x => x.Value)["github-username"]
+                    .FirstOrDefault() ?? username;
             }
 
             username = username.TrimStart('@');
@@ -38,15 +37,11 @@
             await response.Send(string.Format("### {0} as Pig", username)).IgnoreWaitContext();
 
             var stopwatch = Stopwatch.StartNew();
-
             var client = GitHubClientBuilder.Build();
-
             var query = new InvolvedIssueQuery(client);
-
-            var results = (from issue in await query.Perform(username)
-                           where issue.Involvement == IssueInvolvement.Pig
-                           orderby issue.Repo.Name, issue.Issue.CreatedAt
-                           select issue).ToList();
+            var results = ((await query.Perform(username))
+                .OrderBy(issue => issue.Repo.Name)
+                .ThenBy(issue => issue.Issue.CreatedAt)).ToList();
 
             if (!results.Any())
             {
@@ -65,29 +60,21 @@
                 await response.Send(string.Format("Alternatively, `{0}` may not be on any task forces. See https://github.com/Particular/Strategy/blob/master/definitions/taskforces.md", username));
             }
 
-            await response.Send(results.SelectMany(FormatIssue).ToArray());
-
-            await response.Send(string.Format("All issues `{0}` is mentioned in: https://github.com/issues?q=is%3Aopen+is%3Aissue+mentions%3A{0}+user%3AParticular", username));
-
-            await response.Send(string.Format("Total time (in seconds): {0}", stopwatch.Elapsed.TotalSeconds));
+            await response.Send(results.SelectMany(GetMessages).ToArray());
+            await response.Send(string.Format(
+                    "_{0:N0} issues/PRs found in {1:N2} seconds. To view all issues/PRs which mention `{2}` go to https://github.com/issues?q=is%3Aopen+mentions%3A{0}+user%3AParticular ._",
+                    results.Count,
+                    stopwatch.Elapsed.TotalSeconds,
+                    username));
         }
 
-        private static IEnumerable<string> FormatIssue(InvolvedIssue issue)
+        private static IEnumerable<string> GetMessages(InvolvedIssue issue)
         {
             yield return string.Format("*{0}*", issue.Issue.Title);
-            var items = new List<string>
-            {
-                issue.Issue.HtmlUrl.ToString()
-            };
 
-            var labels = issue.Issue.Labels
-                .Select(x => x.Name)
-                .Select(x => string.Format("`{0}`", x.Trim()));
-
-            items.AddRange(labels);
-
-
-            yield return string.Join(" ", items);
+            var items = new List<string> { issue.Issue.HtmlUrl.ToString(), };
+            yield return string.Join(
+                " ", items.Concat(issue.Issue.Labels.Select(x => string.Format("`{0}`", x.Name.Trim()))));
         }
     }
 }

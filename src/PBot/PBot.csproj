@@ -185,10 +185,9 @@
     <Compile Include="Requirements\RequirementStates.cs" />
     <Compile Include="Requirements\RequirementTypes.cs" />
     <Compile Include="Requirements\PBotHasAccessToRepositoryValidator.cs" />
-    <Compile Include="TaskForces\InvolvedIssue.cs" />
-    <Compile Include="TaskForces\InvolvedIssueQuery.cs" />
-    <Compile Include="TaskForces\IssueInvolvement.cs" />
-    <Compile Include="TaskForces\ListTaskForces.cs" />
+    <Compile Include="Issues\InvolvedIssue.cs" />
+    <Compile Include="Issues\InvolvedIssueQuery.cs" />
+    <Compile Include="Issues\Pig.cs" />
     <Compile Include="Users\CredentialStore.cs" />
     <Compile Include="Users\ListCredentials.cs" />
     <Compile Include="Users\RegisterCredential.cs" />
