@@ -9,7 +9,7 @@ namespace PBot.Buildserver
         public NotifyCaretakersOfCurrentlyFailedBuilds()
             : base(
                 "notify caretakers of failed builds$",
-                "notify caretakers of failed builds - Send a private message to each caretaker if there are currently failed builds")
+                "`notify caretakers of failed builds` - Send a private message to each caretaker if there are currently failed builds")
         {
             client = new TeamCity("http://builds.particular.net");
         }
@@ -32,7 +32,7 @@ namespace PBot.Buildserver
                 if (reposWithNoBuild.Any())
                 {
                     //Until we have a better way excluding repos that doesn't need a build
-                    //await response.Send(string.Format("Hi there @{0}! It seems that there is no build setup for {1} Just type `help create` if you want to help setting it up?", repoGroup.Key, string.Join(", ", reposWithNoBuild))).IgnoreWaitContext();                 
+                    //await response.Send(string.Format("Hi there @{0}! It seems that there is no build setup for {1} Just type `help create` if you want to help setting it up?", repoGroup.Key, string.Join(", ", reposWithNoBuild))).IgnoreWaitContext();
                 }
 
                 var reposWithABuild = repoGroup.Where(r => allBuilds.Contains(r.Name)).ToList();
@@ -50,7 +50,7 @@ namespace PBot.Buildserver
 
         bool HasFailedBuilds(string name)
         {
-       
+
             var tcProj = client.GetProject(name);
 
             return client.ListCurrentBuilds(tcProj.Id, new[]

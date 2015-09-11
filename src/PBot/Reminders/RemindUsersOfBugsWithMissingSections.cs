@@ -12,7 +12,7 @@
         public RemindUsersOfBugsWithMissingSections()
             : base(
                 "remind users of mandatory bug sections$",
-                "pbot remind users of mandatory bug sections - Checks and reminds users to put required sections on issues marked as bugs")
+                "`pbot remind users of mandatory bug sections` - Checks and reminds users to put required sections on issues marked as bugs")
         {
         }
 
@@ -23,7 +23,7 @@
 
             foreach (var repo in Brain.Get<AvailableRepositories>())
             {
-                await Check(client, response, repo.Name);               
+                await Check(client, response, repo.Name);
             }
         }
 

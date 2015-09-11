@@ -9,7 +9,7 @@ namespace PBot.Caretakers
         public ListCaretakers()
             : base(
                 "list caretakers$",
-                "pbot list caretakers - Displays the list of caretakers") { }
+                "`pbot list caretakers` - Displays the list of caretakers") { }
 
         public override async Task Execute(string[] parameters, IResponse response)
         {

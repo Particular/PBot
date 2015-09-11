@@ -9,7 +9,7 @@
     {
         public ConvertIssueToPullRequest()
             : base("convert (.*)#(.*) to pull from (.*) to (.*)$",
-            "pbot convert <repository>#<issue number> to pull from <PR branch> to <target branch> - Converts an issue into a pull request")
+            "`pbot convert <repository>#<issue number> to pull from <PR branch> to <target branch>` - Converts an issue into a pull request")
         {
         }
 
@@ -46,7 +46,7 @@
             }
             try
             {
-                
+
                 var result = await apiConnection.Post<PullRequest>(ApiUrls.PullRequests("Particular", repo), new ConvertedPullRequest
                 {
                     Issue = issueNumber.ToString(),

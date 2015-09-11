@@ -12,7 +12,7 @@ namespace IssueButler.Mmbot.Caretakers
     {
         public AddRepository()
             : base("add repo (.*)$",
-                "pbot add repo <name of repo> -  Adds the given repository to the list of active repos. Repo must exist under the configured organization. Wildcard is supported")
+                "`pbot add repo <name of repo>` -  Adds the given repository to the list of active repos. Repo must exist under the configured organization. Wildcard is supported")
         {
         }
 
@@ -100,7 +100,7 @@ namespace IssueButler.Mmbot.Caretakers
                 if (ex.InnerException is NotFoundException)
                 {
                     result = null;
-                    return false;              
+                    return false;
                 }
                 throw;
             }

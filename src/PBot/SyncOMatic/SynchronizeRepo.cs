@@ -11,7 +11,7 @@ namespace PBot.SyncOMatic
         public SynchronizeRepo()
             : base(
                 "sync (.*) (target branch) (.*)$",
-                "pbot sync <name of repo> target branch <name of target branch> - Performs a syncomatic run against the given repo and branch")
+                "`pbot sync <name of repo> target branch <name of target branch>` - Performs a syncomatic run against the given repo and branch")
         {
         }
 
@@ -40,7 +40,7 @@ namespace PBot.SyncOMatic
                 };
 
                 var diff = som.Diff(toSync.GetMapper(DefaultTemplateRepo.ItemsToSync));
-                
+
                 ExceptionDispatchInfo capturedException = null;
                 try
                 {
@@ -50,7 +50,7 @@ namespace PBot.SyncOMatic
                         "Internal refactoring"
                     });
                     await sync;
-                    
+
                     var createdSyncBranch = sync.Result.FirstOrDefault();
 
                     if (string.IsNullOrEmpty(createdSyncBranch))
