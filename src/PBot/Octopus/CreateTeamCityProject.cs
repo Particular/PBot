@@ -9,7 +9,7 @@ namespace PBot.Octopus
         public CreateTeamCityProject()
             : base(
                 "create TC project for (.*) in (.*)$",
-                "pbot create TC project for <name of the repo> in <id of parent project> - Creates a TeamCity project for a given repo inside a parent project.")
+                "`pbot create TC project for <name of the repo> in <id of parent project>` - Creates a TeamCity project for a given repo inside a parent project.")
         {
         }
 

@@ -7,7 +7,7 @@
     public class CheckRepoForIssuesThatNeedsAttention : BotCommand
     {
         public CheckRepoForIssuesThatNeedsAttention()
-            : base("check repo (.*)$", "mmbot check repo <name of repo> - Checks all issues in the specified repository and reports needed actions")
+            : base("check repo (.*)$", "`mmbot check repo <name of repo>` - Checks all issues in the specified repository and reports needed actions")
         {
         }
 

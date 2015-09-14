@@ -11,7 +11,7 @@
         public Pig()
             : base(
                 "pig (.*)$",
-                "pbot pig <me:username> - Show issues that the nominated user is a PIG for") { }
+                "`pbot pig <me:username>` - Show issues that the nominated user is a PIG for") { }
 
         public override async Task Execute(string[] parameters, IResponse response)
         {

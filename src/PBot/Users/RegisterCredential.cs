@@ -6,7 +6,7 @@
     {
         public RegisterCredential()
             : base("register credential (.*)$",
-                "pbot register credential <credential>=<value> -  Adds the credential value for the user")
+                "`pbot register credential <credential>=<value>` -  Adds the credential value for the user")
         {
         }
 
@@ -19,7 +19,7 @@
             store.Add(response.User.Name, input[0],input[1]);
 
             Brain.Set(store);
-            
+
             await response.Send("Credentials added").IgnoreWaitContext();
         }
     }

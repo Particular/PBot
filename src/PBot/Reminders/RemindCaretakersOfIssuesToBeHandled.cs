@@ -10,7 +10,7 @@ namespace PBot.Reminders
         public RemindCaretakersOfIssuesToBeHandled()
             : base(
                 "remind caretakers of issues$",
-                "pbot remind caretakers of issues - Send a private message to each caretaker if there are issues to be handled") { }
+                "`pbot remind caretakers of issues` - Send a private message to each caretaker if there are issues to be handled") { }
 
         public override async Task Execute(string[] parameters, IResponse response)
         {

@@ -8,7 +8,7 @@ namespace PBot.Repositories
     {
         public RemoveRepository()
             : base("remove repo (.*)$",
-                "pbot remove repo <name of repo> -  Removes the given repository")
+                "`pbot remove repo <name of repo>` -  Removes the given repository")
         {
         }
 

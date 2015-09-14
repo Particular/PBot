@@ -6,7 +6,7 @@
     {
         public ListCredentials()
             : base("list credentials",
-                "pbot list credentials - Lists credentials for the user")
+                "`pbot list credentials` - Lists credentials for the user")
         {
         }
 
@@ -27,7 +27,7 @@
             foreach (var credential in userCredentials.Credentials)
             {
                 await response.Send(credential.Name + ": " + credential.Value).IgnoreWaitContext();
-            }                
+            }
         }
     }
 }

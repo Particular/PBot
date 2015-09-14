@@ -11,7 +11,7 @@ namespace PBot.Issues
         public ListIssueStats()
             : base(
                 "list issue stats$",
-                "pbot list issue stats - Shows various issue stats") { }
+                "`pbot list issue stats` - Shows various issue stats") { }
 
         public override async Task Execute(string[] parameters, IResponse response)
         {

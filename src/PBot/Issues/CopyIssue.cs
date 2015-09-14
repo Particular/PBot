@@ -6,7 +6,7 @@
     {
         public CopyIssue()
             : base("copy issue (.*) to (.*)$",
-            "pbot copy issue <repository>#<issue number>(or https://github.com/Particular/repository/issues/issuenumber) to <target repository>(or https://github.com/Particular/repository) -  Copies an issue from one repository to the other.")
+            "`pbot copy issue <repository>#<issue number>(or https://github.com/Particular/repository/issues/issuenumber) to <target repository>(or https://github.com/Particular/repository)` -  Copies an issue from one repository to the other.")
         {
         }
 

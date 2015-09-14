@@ -9,7 +9,7 @@ namespace PBot.Octopus
         public UpdateProjectGroup()
             : base(
                 "update octopus project group (.*)$",
-                "pbot update octopus project group <name of the project group in Octopus> - Updates all Octopus Deploy projects in a given group with the latest template.")
+                "`pbot update octopus project group <name of the project group in Octopus>` - Updates all Octopus Deploy projects in a given group with the latest template.")
         {
         }
 

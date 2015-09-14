@@ -11,7 +11,7 @@ namespace PBot.Buildserver
     public class ListCurrentlyFailingBuilds : BotCommand
     {
         public ListCurrentlyFailingBuilds()
-            : base("list failing builds for (.*)$", "pbot list failing builds for <buildname|all projects|my repos> - Checks all issues in the specified repository and reports needed actions")
+            : base("`list failing builds for (.*)$", "pbot list failing builds for <buildname|all projects|my repos>` - Checks all issues in the specified repository and reports needed actions")
         {
         }
 

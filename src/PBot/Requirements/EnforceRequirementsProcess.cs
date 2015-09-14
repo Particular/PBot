@@ -7,7 +7,7 @@
         public EnforceRequirementsProcess()
             : base(
                 "enforce requirements process",
-                "pbot enforce requirements process - Makes sure that the requirements process is followed")
+                "`pbot enforce requirements process` - Makes sure that the requirements process is followed")
         {
         }
 

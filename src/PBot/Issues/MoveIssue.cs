@@ -6,7 +6,7 @@
     {
         public MoveIssue()
             : base("move issue (.*) to (.*)$",
-            "pbot move issue <repository>#<issue number>(or https://github.com/Particular/repository/issues/issuenumber) to <target repository>(or https://github.com/Particular/repository) - Moves an issue from one repository to the other.")
+            "`pbot move issue <repository>#<issue number>(or https://github.com/Particular/repository/issues/issuenumber) to <target repository>(or https://github.com/Particular/repository)` - Moves an issue from one repository to the other. Comments aren't moved, so revising description of new issue is advised.")
         {
         }
 
@@ -26,7 +26,7 @@
                 await response.Send(string.Format("I could not parse the target repository from '{0}'. Are you using the correct syntax?", parameters[2]));
                 return;
             }
-            
+
             int issueNumber;
             if (!int.TryParse(issueNumberString, out issueNumber))
             {
