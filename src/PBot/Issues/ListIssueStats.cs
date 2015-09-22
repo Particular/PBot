@@ -46,7 +46,7 @@ namespace PBot.Issues
             return new RepoStats
             {
                 RepoName = name,
-                NumBugs = issues.Count(i => i.Labels.Any(l => l.Name == "Bug")),
+                NumBugs = issues.Count(i => i.Labels.Any(l => l.Name == "Type: Bug")),
                 NumIssues = issues.Count,
                 Trend = trend.Count(i => i.State == ItemState.Open) - trend.Count(i => i.State == ItemState.Closed)
 

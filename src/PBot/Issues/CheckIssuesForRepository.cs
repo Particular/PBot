@@ -45,7 +45,7 @@
         {
             var lastActivityOnIssue = issue.UpdatedAt; //todo: does this include comments?
 
-            if (issue.Labels.Any(l => l.Name == "Bug") && !issue.Labels.Any(l => l.Name.StartsWith("Needs:")))
+            if (issue.Labels.Any(l => l.Name == "Type: Bug") && !issue.Labels.Any(l => l.Name.StartsWith("Needs:")))
             {
                 if (lastActivityOnIssue < DateTime.UtcNow.AddDays(-3))
                 {
