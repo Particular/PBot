@@ -35,7 +35,7 @@
                 Since = DateTimeOffset.Parse("2014-11-01") //cutoff date
             };
 
-            issueFilter.Labels.Add("Bug");
+            issueFilter.Labels.Add("Type: Bug");
 
             var bugs = await client.Issue.GetForRepository("Particular", name, issueFilter);
 

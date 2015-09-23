@@ -12,6 +12,23 @@
     {
         const string Organization = "Particular";
 
+        private static readonly Dictionary<string, string> labelMap =
+            new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase)
+            {
+                { "Breaking Change", "Type: Breaking Change" },
+                { "Bug", "Type: Bug" },
+                { "Critical", null },
+                { "Feature", "Type: Feature" },
+                { "Improvement", "Type: Feature" },
+                { "Internal Refactoring", "Type: Refactoring" },
+                { "Question", "Type: Question" },
+                { "Resolution: Can't Reproduce", "Withdrawn: Invalid" },
+                { "Resolution: Duplicate", "Withdrawn: Duplicate" },
+                { "Resolution: Won't Fix", "Withdrawn: Won't Fix" },
+                { "State: Prioritized", null },
+                { "Urgent", null },
+            };
+
         [Test, Explicit("Performs the actual sync for now")]
         public void SyncAllRepos()
         {
@@ -22,22 +39,93 @@
             var labelsToSync = client.Issue.Labels.GetForRepository(Organization, sourceRepo).Result;
 
             //go through all repos
-            var repos = client.Repository.GetAllForOrg(Organization).Result;
+            var repos = new[]
+            {
+                "Automation.Engineering",
+                "Automation.ITOps",
+                "Automation.Marketing",
+                "GitHubReleaseNotes",
+                "PBot",
+                "PBot.TestRepo",
+                "RepoStandards",
+                "SyncOMatic",
+                "SyncOMatic.TestRepository",
+                "mmbot",
+                "Timestamp",
+                "AutomaticOctopusConfigSandbox",
+                "BuildProcess.StandardNuGet",
+                "ConsoleTweet",
+                "DeploymentProcess.BuildTools",
+                "DeploymentProcess.DeploymentTools",
+                "DeploymentProcess.InternalMyGet",
+                "DeploymentProcess.OperationsContracts",
+                "DeploymentProcess.StandardNuGet",
+                "DeploymentSandbox",
+                "NuGetPackager",
+                "OctopusConfigUpdater",
+                "OctopusProjectUpdater",
+                "OctopusWrapper",
+                "TeamCityProjectCreator",
+                "NServiceBus",
+                "NServiceBus.Azure",
+                "NServiceBus.Bootstrap.WindowsService",
+                "NServiceBus.Callbacks",
+                "NServiceBus.CommonLogging",
+                "NServiceBus.Distributor.Msmq",
+                "NServiceBus.Gateway",
+                "NServiceBus.Host",
+                "NServiceBus.Host.AzureCloudService",
+                "NServiceBus.Log4Net",
+                "NServiceBus.Newtonsoft.Json",
+                "NServiceBus.NLog",
+                "NServiceBus.Testing",
+                "Topshelf",
+                "NServiceBus.Autofac",
+                "NServiceBus.CastleWindsor",
+                "NServiceBus.Ninject",
+                "NServiceBus.Spring",
+                "NServiceBus.StructureMap",
+                "NServiceBus.Unity",
+                "NServiceBus.AzureStoragePersistence",
+                "NServiceBus.NHibernate",
+                "NServiceBus.RavenDB",
+                "NServiceBus.ServiceFabric",
+                "NServiceBus.AzureBlobStorageDataBus",
+                "NServiceBus.Azure.Samples",
+                "NServiceBus.AzureServiceBus",
+                "NServiceBus.AzureStorageQueues",
+                "NServiceBus.RabbitMQ",
+                "NServiceBus.SqlServer",
+                "Packages.DTC",
+                "Packages.Msmq",
+                "Packages.PerfCounters",
+                "NServiceBus.PowerShell",
+                "PlatformInstaller",
+                "ServiceControl",
+                "ServiceControl.Contracts",
+                "ServiceControl.Plugin.Nsb3.CustomChecks",
+                "ServiceControl.Plugin.Nsb3.Heartbeat",
+                "ServiceControl.Plugin.Nsb4.CustomChecks",
+                "ServiceControl.Plugin.Nsb4.DebugSession",
+                "ServiceControl.Plugin.Nsb4.Heartbeat",
+                "ServiceControl.Plugin.Nsb4.SagaAudit",
+                "ServiceControl.Plugin.Nsb5.CustomChecks",
+                "ServiceControl.Plugin.Nsb5.DebugSession",
+                "ServiceControl.Plugin.Nsb5.Heartbeat",
+                "ServiceControl.Plugin.Nsb5.SagaAudit",
+                "ServiceControl.Plugins.v4",
+                "ServiceControl.Plugins.v5",
+                "ServiceInsight",
+                "ServiceMatrix",
+                "ServiceMatrix.Samples",
+                "SignVSIX",
+                "ServicePulse",
+            };
 
             foreach (var repository in repos)
             {
-                if (repository.Name == "Marketing")
-                {
-                    continue;
-                }
-
-                if (repository.Name == "PlatformDevelopment")
-                {
-                    continue;
-                }
-
-                Console.Out.WriteLine("-------- Checking {0} -----", repository.Name);
-                SyncRepo(client, repository.Name, labelsToSync);
+                Console.Out.WriteLine("-------- Checking {0} -----", repository);
+                SyncRepo(client, repository, labelsToSync);
             }
         }
 
@@ -86,31 +174,45 @@
                 }
             }
 
-            var nonStandardLabels = existingLabels.Where(l => !labelsToSync.Any(template => template.Name == l.Name)).ToList();
-
-            //Needs: Hotfix is a non standard label
-            //Needs: Investigation is a non standard label
-            var blacklistedLabels = new[]
+            foreach (var oldLabel in existingLabels
+                .Where(label => labelMap.ContainsKey(label.Name))
+                .Select(label => label.Name))
             {
-                "duplicate",
-                "enhancement",
-                "help wanted",
-                "invalid",
-                "wontfix",
-                "Needs: Hotfix",
-                "Needs: Patch",
-                "Needs: Investigation"
-            };
-            foreach (var nonStandardLabel in nonStandardLabels)
-            {
-                Console.Out.WriteLine("{0} is a non standard label", nonStandardLabel.Name);
+                var newLabel = labelMap[oldLabel];
 
-                if (blacklistedLabels.Any(b => b == nonStandardLabel.Name))
+                var request = new RepositoryIssueRequest { State = ItemState.All };
+                request.Labels.Add(oldLabel);
+                var issues = client.Issue.GetForRepository(Organization, repoToUpdate, request).Result;
+
+                foreach (var issue in issues)
                 {
-                    Console.Out.WriteLine("{0} is a blacklisted and will be removed", nonStandardLabel.Name);
+                    var issueUpdate = new IssueUpdate();
+                    foreach (var label in issue.Labels.Where(label => label.Name != oldLabel))
+                    {
+                        issueUpdate.AddLabel(label.Name);
+                    }
 
-                    client.Issue.Labels.Delete(Organization, repoToUpdate, nonStandardLabel.Name);
+                    if (newLabel != null)
+                    {
+                        issueUpdate.AddLabel(newLabel);
+                        Console.Out.WriteLine(
+                            "Switching from label '{0}' to '{1}' for issue {2} in repo '{3}'.",
+                            oldLabel,
+                            newLabel,
+                            issue.Number,
+                            repoToUpdate);
+                    }
+                    else
+                    {
+                        Console.Out.WriteLine(
+                            "Removing label '{0}' from issue {1} in repo '{2}'.", oldLabel, issue.Number, repoToUpdate);
+                    }
+
+                    client.Issue.Update(Organization, repoToUpdate, issue.Number, issueUpdate).Wait();
                 }
+
+                Console.Out.WriteLine("Removing label '{0}' from respo '{1}'.", oldLabel, repoToUpdate);
+                client.Issue.Labels.Delete(Organization, repoToUpdate, oldLabel).Wait();
             }
         }
     }

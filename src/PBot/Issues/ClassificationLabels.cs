@@ -14,11 +14,10 @@
 
         static Label[] labels =
         {
-            new Label(null, "Bug", "fc2929"),
-            new Label(null, "Feature", "159818"),
-            new Label(null, "Improvement", "159818"),
-            new Label(null, "Internal Refactoring","159818"),
-            new Label(null, "Question", "84b6eb")
+            new Label(null, "Type: Bug", "fc2929"),
+            new Label(null, "Type: Feature", "159818"),
+            new Label(null, "Type: Refactoring","159818"),
+            new Label(null, "Type: Question", "84b6eb")
         };
 
     
