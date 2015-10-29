@@ -18,15 +18,21 @@
                 { "Breaking Change", "Type: Breaking Change" },
                 { "Bug", "Type: Bug" },
                 { "Critical", null },
+                { "duplicate", "Withdrawn: Duplicate" },
+                { "enhancement", "Type: Feature" },
                 { "Feature", "Type: Feature" },
+                { "help wanted", null },
                 { "Improvement", "Type: Feature" },
+                { "in progress", "State: In Progress" },
                 { "Internal Refactoring", "Type: Refactoring" },
+                { "invalid", "Withdrawn: Invalid" },
                 { "Question", "Type: Question" },
                 { "Resolution: Can't Reproduce", "Withdrawn: Invalid" },
                 { "Resolution: Duplicate", "Withdrawn: Duplicate" },
                 { "Resolution: Won't Fix", "Withdrawn: Won't Fix" },
                 { "State: Prioritized", null },
                 { "Urgent", null },
+                { "wontfix", "Withdrawn: Won't Fix" },
             };
 
         [Test, Explicit("Performs the actual sync for now")]
