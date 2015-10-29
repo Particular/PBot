@@ -54,6 +54,7 @@
                 "DeploymentProcess.StandardNuGet",
                 "DeploymentSandbox",
                 "GitHubReleaseNotes",
+                "HashBus",
                 "mmbot",
                 "NServiceBus",
                 "NServiceBus.Autofac",
