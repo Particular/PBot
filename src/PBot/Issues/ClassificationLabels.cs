@@ -16,11 +16,14 @@
         {
             new Label(null, "Type: Bug", "fc2929"),
             new Label(null, "Type: Feature", "159818"),
-            new Label(null, "Type: Refactoring","159818"),
+            new Label(null, RefactoringLabelName,"159818"),
             new Label(null, "Type: Question", "84b6eb")
         };
 
-    
+        public static string RefactoringLabelName
+        {
+            get { return "Type: Refactoring"; }
+        }
 
         public static IEnumerable<Label> All
         {

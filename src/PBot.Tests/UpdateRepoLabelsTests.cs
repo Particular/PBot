@@ -6,6 +6,7 @@
     using NUnit.Framework;
     using Octokit;
     using PBot;
+    using PBot.Issues;
 
     [TestFixture]
     public class UpdateRepoLabelsTests
@@ -24,7 +25,7 @@
                 { "help wanted", null },
                 { "Improvement", "Type: Feature" },
                 { "in progress", "State: In Progress" },
-                { "Internal Refactoring", "Type: Refactoring" },
+                { "Internal Refactoring", ClassificationLabels.RefactoringLabelName },
                 { "invalid", "Withdrawn: Invalid" },
                 { "Question", "Type: Question" },
                 { "Resolution: Can't Reproduce", "Withdrawn: Invalid" },

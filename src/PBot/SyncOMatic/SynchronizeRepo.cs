@@ -5,6 +5,7 @@ namespace PBot.SyncOMatic
     using System.Runtime.ExceptionServices;
     using System.Threading.Tasks;
     using global::SyncOMatic;
+    using PBot.Issues;
 
     public class SynchronizeRepo : BotCommand
     {
@@ -47,7 +48,7 @@ namespace PBot.SyncOMatic
                     await diff;
                     var sync = som.Sync(diff.Result, SyncOutput.CreatePullRequest, new[]
                     {
-                        "Internal refactoring"
+                        ClassificationLabels.RefactoringLabelName,
                     });
                     await sync;
 
