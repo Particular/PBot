@@ -51,15 +51,16 @@
 
                     if (isBug)
                     {
-                        Console.Out.WriteLine(string.Join(";", new List<string> { issue.HtmlUrl.ToString(), issue.CreatedAt.ToString("d"), createdByExternalUser.ToString(), issue.User.Login }));
+                        Console.Out.WriteLine(string.Join(";", new List<string>
+                        {
+                            issue.HtmlUrl.ToString(),
+                            issue.CreatedAt.ToString("d"),
+                            createdByExternalUser.ToString(),
+                            issue.User.Login
+                        }));
                     }
                 }
             }
-
-
-
-
-
         }
     }
 }
