@@ -57,9 +57,6 @@
             brain.Get<CredentialStore>().Add(credentials);
         }
 
-        public IEnumerable<string> Messages
-        {
-            get { return testResponder.Messages; }
-        }
+        public IEnumerable<string> Messages => testResponder.Messages;
     }
 }

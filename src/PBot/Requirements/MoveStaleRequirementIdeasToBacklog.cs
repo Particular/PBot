@@ -30,7 +30,7 @@ namespace PBot.Requirements
                 {
                     await client.Issue.Labels.AddToIssue(repository.Owner.Login, repository.Name, issue.Number, new[] { (string)RequirementStates.Backlogged });
 
-                    var message = string.Format("There hasn't been any progress on this one in the last {0} days so I've backlogged it. Don't worry, just move this one to `ImpactAssessment` if/when you start trying to get this one approved again", maxStaleness.TotalDays);
+                    var message = $"There hasn't been any progress on this one in the last {maxStaleness.TotalDays} days so I've backlogged it. Don't worry, just move this one to `ImpactAssessment` if/when you start trying to get this one approved again";
 
                     await client.Issue.Comment.Create(repository.Owner.Login, repository.Name, issue.Number, message);
                 }

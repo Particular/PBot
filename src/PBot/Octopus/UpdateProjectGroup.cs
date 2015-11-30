@@ -23,7 +23,7 @@ namespace PBot.Octopus
             else
             {
                 var projectGroup = parameters[1];
-                await response.Send(string.Format("Got it! Updating all projects in {0}.", projectGroup));
+                await response.Send($"Got it! Updating all projects in {projectGroup}.");
 
                 var facade = new Facade(apiKey, new CachingTemplateRepository(new TeamCityArtifactTemplateRepository()));
 

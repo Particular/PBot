@@ -26,7 +26,7 @@ namespace PBot.Requirements
 
             if (numApproved < 2)
             {
-                await response.Send(string.Format("There is only {0} approved requirements, please move more to the `Approved` swimlane!", numApproved));
+                await response.Send($"There is only {numApproved} approved requirements, please move more to the `Approved` swimlane!");
             }
         }
     }

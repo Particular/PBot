@@ -80,17 +80,14 @@
 
                 if (chatUsername == null)
                 {
-                    introText = string.Format("Hi @channel! The github user {0} closed this issue and I can't seem to find what slack username that maps to. Would you please remind the user that", userThatClosedTheIssue);
+                    introText = $"Hi @channel! The github user {userThatClosedTheIssue} closed this issue and I can't seem to find what slack username that maps to. Would you please remind the user that";
                 }
                 else
                 {
-                    introText = string.Format("Hi there @{0}! I've seen that", chatUsername);
+                    introText = $"Hi there @{chatUsername}! I've seen that";
                 }
 
-                await response.Send(string.Format("{0} this bug is missing some mandatory sections. Please head over to {1} and update it! Read more on required sections here: {2}",
-                    introText,
-                    bug.HtmlUrl,
-                    @"https://github.com/Particular/Housekeeping/wiki/Required-sections-for-bugs")).IgnoreWaitContext();
+                await response.Send($"{introText} this bug is missing some mandatory sections. Please head over to {bug.HtmlUrl} and update it! Read more on required sections here: {@"https://github.com/Particular/Housekeeping/wiki/Required-sections-for-bugs"}").IgnoreWaitContext();
 
 
                 if (chatUsername == null)

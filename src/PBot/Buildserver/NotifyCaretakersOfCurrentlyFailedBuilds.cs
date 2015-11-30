@@ -43,7 +43,7 @@ namespace PBot.Buildserver
 
                 if (reposWithFailedBuilds.Any())
                 {
-                    await response.Send(string.Format("Hi there @{0}! It seems that the build is broken for {1} and since you're the caretaker I thought you would like to be aware. Just type `list failing builds for my repos` to get the details!", repoGroup.Key, string.Join(", ", reposWithFailedBuilds))).IgnoreWaitContext();
+                    await response.Send($"Hi there @{repoGroup.Key}! It seems that the build is broken for {string.Join(", ", reposWithFailedBuilds)} and since you're the caretaker I thought you would like to be aware. Just type `list failing builds for my repos` to get the details!").IgnoreWaitContext();
                 }
             }
         }

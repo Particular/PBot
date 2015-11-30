@@ -24,7 +24,7 @@
 
             if (!repoNames.Any())
             {
-                await response.Send(string.Format("Hey {0} I couldn't find any repos where you're the caretaker? Please type `pbot list caretakers` for instructions on how to join the fun!", username)).IgnoreWaitContext();
+                await response.Send($"Hey {username} I couldn't find any repos where you're the caretaker? Please type `pbot list caretakers` for instructions on how to join the fun!").IgnoreWaitContext();
                 return;
             }
 
@@ -41,7 +41,7 @@
 
             if (!validationErrors.Any())
             {
-                await response.Send(string.Format("Nice job citizen, your repos are squeaky clean!! (Checked {0})", string.Join(", ", repoNames))).IgnoreWaitContext();
+                await response.Send($"Nice job citizen, your repos are squeaky clean!! (Checked {string.Join(", ", repoNames)})").IgnoreWaitContext();
                 return;
             }
 
@@ -58,12 +58,12 @@
 
             foreach (var error in validationErrors.Take(maxNumIssuesToShow)) //nsb is to big for now
             {
-                sb.AppendLine(string.Format("{0} - {1}", error.Issue.HtmlUrl, error.Reason));
+                sb.AppendLine($"{error.Issue.HtmlUrl} - {error.Reason}");
             }
 
             if (validationErrors.Count() > maxNumIssuesToShow)
             {
-                sb.AppendLine(string.Format("There are {0} more issues as well.", validationErrors.Count() - maxNumIssuesToShow));
+                sb.AppendLine($"There are {validationErrors.Count() - maxNumIssuesToShow} more issues as well.");
             }
 
             sb.AppendLine("Unsure how to go about doing this? Please read more here: https://github.com/Particular/Housekeeping/wiki/Issue-management");

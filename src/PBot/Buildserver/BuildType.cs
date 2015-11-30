@@ -43,7 +43,7 @@
 
         public override int GetHashCode()
         {
-            return (Id != null ? Id.GetHashCode() : 0);
+            return Id?.GetHashCode() ?? 0;
         }
 
         public static bool operator ==(BuildType left, BuildType right)

@@ -37,7 +37,7 @@
 
         public override int GetHashCode()
         {
-            return (Id != null ? Id.GetHashCode() : 0);
+            return Id?.GetHashCode() ?? 0;
         }
 
         public static bool operator ==(Build left, Build right)
@@ -67,7 +67,7 @@
       
         public override string ToString()
         {
-            return string.Format("{0}({1})", Number, Branch);
+            return $"{Number}({Branch})";
         }
     }
 

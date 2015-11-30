@@ -128,7 +128,7 @@ namespace PBot
             this.msg = msg;
         }
 
-        public User User { get { return msg.Message.User; } }
+        public User User => msg.Message.User;
 
 
         public Task Send(params string[] message)

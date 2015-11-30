@@ -26,7 +26,7 @@
 
                         if (hashString != receivedHash)
                         {
-                            return string.Format("Received signature: {0}, Calculated signature: {1}", receivedHash, hashString);
+                            return $"Received signature: {receivedHash}, Calculated signature: {hashString}";
                         }
                     }
 

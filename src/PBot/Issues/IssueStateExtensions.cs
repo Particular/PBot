@@ -44,7 +44,7 @@ namespace PBot
             {
                 if (actualStates.Count > 1)
                 {
-                    throw new Exception(string.Format("Issue {0} has multiple states - {1}",issue.HtmlUrl,string.Join(";",actualStates)));
+                    throw new Exception($"Issue {issue.HtmlUrl} has multiple states - {string.Join(";", actualStates)}");
                 }
 
                 return actualStates.Single();

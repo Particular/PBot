@@ -42,7 +42,7 @@ namespace IssueButler.Mmbot.Caretakers
                     var pbotHasAccessToRepo = await new PBotHasAccessToRepositoryValidator(repoCollaboratorsClient, matchingRepo.Name).Perform();
                     if (!pbotHasAccessToRepo)
                     {
-                        await response.Send(string.Format("Bummer, I have no access to '{0}' repository. Please grant me access before adding this repo.", matchingRepo.Name));
+                        await response.Send($"Bummer, I have no access to '{matchingRepo.Name}' repository. Please grant me access before adding this repo.");
                         continue;
                     }
 
@@ -67,7 +67,7 @@ namespace IssueButler.Mmbot.Caretakers
 
                 if (!pbotHasAccessToRepo)
                 {
-                    await response.Send(string.Format("Bummer, I have no access to '{0}' repository. Please grant me access before adding this repo.", repoName));
+                    await response.Send($"Bummer, I have no access to '{repoName}' repository. Please grant me access before adding this repo.");
                     return;
                 }
 

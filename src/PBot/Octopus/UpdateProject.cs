@@ -23,13 +23,13 @@ namespace PBot.Octopus
             else
             {
                 var octopusProject = parameters[1];
-                await response.Send(string.Format("Got it! Updating project {0}.", octopusProject));
+                await response.Send($"Got it! Updating project {octopusProject}.");
 
                 var facade = new Facade(apiKey, new TeamCityArtifactTemplateRepository());
 
                 var url = facade.UpdateProject(octopusProject);
 
-                await response.Send(string.Format("Done! Check out the updated project here {0}", url));
+                await response.Send($"Done! Check out the updated project here {url}");
             }
         }
     }

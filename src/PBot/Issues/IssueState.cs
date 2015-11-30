@@ -57,7 +57,7 @@ namespace PBot
 
         public override int GetHashCode()
         {
-            return (stateIdentifier != null ? stateIdentifier.GetHashCode() : 0);
+            return stateIdentifier?.GetHashCode() ?? 0;
         }
 
         public static bool operator ==(IssueState left, IssueState right)

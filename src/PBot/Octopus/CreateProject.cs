@@ -25,13 +25,13 @@ namespace PBot.Octopus
                 var octopusProject = parameters[1];
                 var canonicalProject = parameters[2];
                 var group = parameters[3];
-                await response.Send(string.Format("Got it! Creating project {0} for repo {1} in group {2}.", octopusProject, canonicalProject, group));
+                await response.Send($"Got it! Creating project {octopusProject} for repo {canonicalProject} in group {@group}.");
 
                 var facade = new Facade(apiKey, new TeamCityArtifactTemplateRepository());
 
                 var url = facade.CreateProject(canonicalProject, group, octopusProject);
 
-                await response.Send(string.Format("Done! Check out the new project here {0}", url));
+                await response.Send($"Done! Check out the new project here {url}");
             }
         }
     }

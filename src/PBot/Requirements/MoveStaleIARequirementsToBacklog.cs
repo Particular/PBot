@@ -32,7 +32,7 @@
                     await client.Issue.Labels.RemoveFromIssue(repository.Owner.Login, repository.Name, issue.Number, RequirementStates.ImpactAssessment);
                     await client.Issue.Labels.AddToIssue(repository.Owner.Login, repository.Name, issue.Number, new[] { (string)RequirementStates.Backlogged });
 
-                    var message = string.Format("There hasn't been any progress on this one in the last {0} days so I've backlogged it. Please move this one back to `ImpactAssessment` if you still believe this is a high priority", maxStaleness.TotalDays);
+                    var message = $"There hasn't been any progress on this one in the last {maxStaleness.TotalDays} days so I've backlogged it. Please move this one back to `ImpactAssessment` if you still believe this is a high priority";
 
                     await client.Issue.Comment.Create(repository.Owner.Login, repository.Name, issue.Number, message);
                 }

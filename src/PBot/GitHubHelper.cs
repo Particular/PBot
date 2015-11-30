@@ -1,7 +1,6 @@
 ﻿namespace PBot
 {
     using System;
-    using System.Net;
     using Octokit;
 
     public static class GitHubHelper
@@ -25,24 +24,7 @@
             return new Credentials(githubUsername, githubPassword);
         });
 
-        public static Credentials Credentials
-        {
-            get { return _credentialsThunk.Value; }
-        }
+        public static Credentials Credentials => _credentialsThunk.Value;
 
-        public static IWebProxy Proxy
-        {
-            get
-            {
-                return null;
-                /*
-                                return new WebProxy(
-                                    new System.Uri("http://myproxy:42"),
-                                    true,
-                                    new string[] {},
-                                    new NetworkCredential(@"domain\login", "password"));
-                */
-            }
-        }
     }
 }

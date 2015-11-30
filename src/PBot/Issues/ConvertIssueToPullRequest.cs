@@ -17,7 +17,7 @@
         {
             if (parameters.Length < 5)
             {
-                await response.Send(string.Format("I don't understand '{0}'.", string.Join(" ", parameters.Select(x => "["+x+"]"))));
+                await response.Send($"I don't understand '{string.Join(" ", parameters.Select(x => "[" + x + "]"))}'.");
                 return;
             }
             var repo = parameters[1];
@@ -53,7 +53,7 @@
                     Head = from,
                     Base = to
                 }, null, "application/json");
-                await response.Send(string.Format("Issue {0} has been converted into a pull request {1}.", issueNumber, result.HtmlUrl));
+                await response.Send($"Issue {issueNumber} has been converted into a pull request {result.HtmlUrl}.");
             }
             catch (NotFoundException)
             {
@@ -62,7 +62,7 @@
             catch (ApiValidationException ex)
             {
                 const string errorMessage = "Sorry, your request was rejected by GitHub as invalid.";
-                response.Send(String.Join(Environment.NewLine, errorMessage, ex.GetExtendedErrorMessage())).ConfigureAwait(false).GetAwaiter().GetResult();
+                response.Send(string.Join(Environment.NewLine, errorMessage, ex.GetExtendedErrorMessage())).ConfigureAwait(false).GetAwaiter().GetResult();
             }
         }
 

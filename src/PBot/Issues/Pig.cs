@@ -34,7 +34,7 @@
 
             username = username.TrimStart('@');
 
-            await response.Send(string.Format("### {0} as Pig", username)).IgnoreWaitContext();
+            await response.Send($"### {username} as Pig").IgnoreWaitContext();
 
             var stopwatch = Stopwatch.StartNew();
             var client = GitHubClientBuilder.Build();
@@ -49,15 +49,15 @@
 
                 if (self)
                 {
-                    await response.Send(string.Format("If `{0}` is not your github username then use the following command to tell me what it is:", username));
+                    await response.Send($"If `{username}` is not your github username then use the following command to tell me what it is:");
                 }
                 else
                 {
-                    await response.Send(string.Format("`{0}` may not be a valid github username. Tell the owner of this account to use the following command to tell me their github username:", username));
+                    await response.Send($"`{username}` may not be a valid github username. Tell the owner of this account to use the following command to tell me their github username:");
                 }
 
                 await response.Send("`pbot register credential github-username=<github username>`");
-                await response.Send(string.Format("Alternatively, `{0}` may not be on any task forces. See https://github.com/Particular/Strategy/blob/master/definitions/taskforces.md", username));
+                await response.Send($"Alternatively, `{username}` may not be on any task forces. See https://github.com/Particular/Strategy/blob/master/definitions/taskforces.md");
             }
 
             await response.Send(results.SelectMany(GetMessages).ToArray());
@@ -70,11 +70,11 @@
 
         private static IEnumerable<string> GetMessages(InvolvedIssue issue)
         {
-            yield return string.Format("*{0}*", issue.Issue.Title);
+            yield return $"*{issue.Issue.Title}*";
 
             var items = new List<string> { issue.Issue.HtmlUrl.ToString(), };
             yield return string.Join(
-                " ", items.Concat(issue.Issue.Labels.Select(x => string.Format("`{0}`", x.Name.Trim()))));
+                " ", items.Concat(issue.Issue.Labels.Select(x => $"`{x.Name.Trim()}`")));
         }
     }
 }

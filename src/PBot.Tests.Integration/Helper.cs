@@ -10,7 +10,6 @@ public static class Helper
     {
         var githubUsername = Environment.GetEnvironmentVariable("PBOT_GITHUBUSERNAME");
         UserName = githubUsername;
-        Organization = Environment.GetEnvironmentVariable("PBOT_GITHUBORGANIZATION");
 
         var githubToken = Environment.GetEnvironmentVariable("PBOT_OAUTHTOKEN");
 
@@ -34,18 +33,11 @@ public static class Helper
     }
 
     public static string UserName { get; private set; }
-    public static string Organization { get; private set; }
 
-    public static Credentials Credentials { get { return _credentialsThunk.Value; } }
+    public static Credentials Credentials => _credentialsThunk.Value;
 
     //todo: do we create a ParticularTest org that's paid?
-    public static bool IsPaidAccount
-    {
-        get
-        {
-            return !String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("PBOT_PRIVATEREPOSITORIES"));
-        }
-    }
+    public static bool IsPaidAccount => !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("PBOT_PRIVATEREPOSITORIES"));
 
     public static void DeleteRepo(Repository repository)
     {

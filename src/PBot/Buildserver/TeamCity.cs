@@ -105,7 +105,7 @@
             request.AddUrlSegment("build-type-id", buildTypeId);
             var response = ExecuteGet<GetCurrentBuildResponse>(request);
 
-            return response.build != null ? response.build.First() : null;
+            return response.build?.First();
         }
 
         TResponse ExecuteGet<TResponse>(RestRequest request) where TResponse : new()
@@ -116,7 +116,7 @@
 
             if (response.StatusCode != HttpStatusCode.OK)
             {
-                throw new Exception(string.Format("Requestfailed with code: {0} - {1}",response.StatusCode,response.StatusDescription));
+                throw new Exception($"Requestfailed with code: {response.StatusCode} - {response.StatusDescription}");
             }
 
             return response.Data;

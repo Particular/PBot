@@ -19,7 +19,7 @@ namespace PBot.Caretakers
 
             foreach (var caretaker in groupByCaretaker.Where(g => g.Key != null))
             {
-                await response.Send(string.Format("*{0}*: {1}", caretaker.Key, string.Join(", ", caretaker.Select(r => r.Name))));
+                await response.Send($"*{caretaker.Key}*: {string.Join(", ", caretaker.Select(r => r.Name))}");
             }
             var upForGrabs = groupByCaretaker.SingleOrDefault(g => g.Key == null);
 

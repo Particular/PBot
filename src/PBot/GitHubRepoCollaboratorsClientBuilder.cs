@@ -9,7 +9,7 @@
         {
             var credentialStore = new InMemoryCredentialStore(accessToken == null ? GitHubHelper.Credentials : new Credentials(accessToken));
 
-            var httpClient = new HttpClientAdapter(GitHubHelper.Proxy);
+            var httpClient = new HttpClientAdapter(null);
 
             var connection = new Connection(
                 new ProductHeaderValue("PBot"),

@@ -47,7 +47,7 @@ namespace PBot.Buildserver
 
                     if (project == null)
                     {
-                        await response.Send(string.Format("No build with name `{0}` could be found on the buildserver", projectName));
+                        await response.Send($"No build with name `{projectName}` could be found on the buildserver");
                         return;
                     }
                     projects = new[]
@@ -82,7 +82,7 @@ namespace PBot.Buildserver
 
                     foreach (var failedBuild in buildType)
                     {
-                        sb.AppendLine(string.Format("     - {0}({1}) {2}", failedBuild.Number, failedBuild.Branch, failedBuild.Url));
+                        sb.AppendLine($"     - {failedBuild.Number}({failedBuild.Branch}) {failedBuild.Url}");
 
                     }
                 }
@@ -97,7 +97,7 @@ namespace PBot.Buildserver
 
                 var totalDownTime  =  totalDownTimeT.Sum(ts=>ts.TotalDays);
 
-                await response.Send(string.Format("Summary: {0} failed builds, Total down time: {1} days", projectWithFailures.SelectMany(p=>p).Count(), totalDownTime));
+                await response.Send($"Summary: {projectWithFailures.SelectMany(p => p).Count()} failed builds, Total down time: {totalDownTime} days");
             }
 
             if (projectWithFailures.Count == 0 && displaySuccessMessage)

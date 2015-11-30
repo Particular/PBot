@@ -28,7 +28,7 @@ namespace PBot.Requirements
             if (issuesToBeReviewed.Count > 0)
             {
                 var sb = new StringBuilder();
-                sb.AppendLine(string.Format("There are {0} issue(s) waiting to be approved in requirements. Please review the following issues:", issuesToBeReviewed.Count));
+                sb.AppendLine($"There are {issuesToBeReviewed.Count} issue(s) waiting to be approved in requirements. Please review the following issues:");
                 foreach (var issue in issuesToBeReviewed)
                 {
                     sb.AppendLine(issue.HtmlUrl.ToString());

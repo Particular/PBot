@@ -24,18 +24,17 @@ namespace PBot.Octopus
             {
                 var repo = parameters[1];
                 var parentId = parameters[2];
-                await response.Send(string.Format("Got it! Creating a TeamCity project for repo {0} in {1} parent project.", repo, parentId));
+                await response.Send($"Got it! Creating a TeamCity project for repo {repo} in {parentId} parent project.");
 
                 var facade = new Facade(apiKey, new TeamCityArtifactTemplateRepository());
 
-                var url = facade.StartScriptTask(string.Format(
-                    @"C:\ProgramData\JetBrains\TeamCity\plugins\.tools\TeamCityProjectCreator\tools\CreateProject.ps1 -ProjectName {0} -ParentId {1}", repo, parentId),
+                var url = facade.StartScriptTask($@"C:\ProgramData\JetBrains\TeamCity\plugins\.tools\TeamCityProjectCreator\tools\CreateProject.ps1 -ProjectName {repo} -ParentId {parentId}",
                     new[]
                     {
                         "machines-65" //TeamCity server
                     });
 
-                await response.Send(string.Format("Process started! Check out the result here {0} or go straight to the project settings http://builds.particular.net/admin/editProject.html?projectId={1}_{2}", url, parentId, repo));
+                await response.Send($"Process started! Check out the result here {url} or go straight to the project settings http://builds.particular.net/admin/editProject.html?projectId={parentId}_{repo}");
             }
         }
     }

@@ -84,20 +84,12 @@
 
         internal static string GetAssignee(this Issue issue)
         {
-            if (issue.Assignee != null)
-            {
-                return issue.Assignee.Login;
-            }
-            return null;
+            return issue.Assignee?.Login;
         }
 
         internal static int? GetMilestone(this Issue issue)
         {
-            if (issue.Milestone != null)
-            {
-                return issue.Milestone.Number;
-            }
-            return null;
+            return issue.Milestone?.Number;
         }
     }
 }

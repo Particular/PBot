@@ -9,7 +9,7 @@
     {
         public static bool Contains(string name)
         {
-            return labels.Any(l => String.Equals(l.Name, name, StringComparison.CurrentCultureIgnoreCase));
+            return labels.Any(l => string.Equals(l.Name, name, StringComparison.CurrentCultureIgnoreCase));
         }
 
         static Label[] labels =
@@ -20,14 +20,8 @@
             new Label(null, "Type: Question", "84b6eb")
         };
 
-        public static string RefactoringLabelName
-        {
-            get { return "Type: Refactoring"; }
-        }
+        public static string RefactoringLabelName => "Type: Refactoring";
 
-        public static IEnumerable<Label> All
-        {
-            get { return labels; }
-        }
+        public static IEnumerable<Label> All => labels;
     }
 }

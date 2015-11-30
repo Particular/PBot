@@ -16,14 +16,14 @@
             string issueNumberString;
             if (!RepoParser.ParseRepoAndIssueNumber(parameters[1], out sourceRepo, out issueNumberString))
             {
-                await response.Send(string.Format("I could not parse the source repository and issue number from '{0}'. Are you using the correct syntax?", parameters[1]));
+                await response.Send($"I could not parse the source repository and issue number from '{parameters[1]}'. Are you using the correct syntax?");
                 return;
             }
 
             string targetRepo;
             if (!RepoParser.ParseRepo(parameters[2], out targetRepo))
             {
-                await response.Send(string.Format("I could not parse the target repository from '{0}'. Are you using the correct syntax?", parameters[2]));
+                await response.Send($"I could not parse the target repository from '{parameters[2]}'. Are you using the correct syntax?");
                 return;
             }
 
@@ -37,11 +37,11 @@
             var src = new RepoInfo { Owner = "Particular", Name = sourceRepo };
             var dst = new RepoInfo { Owner = "Particular", Name = targetRepo };
 
-            await response.Send(string.Format("Moving issue https://github.com/Particular/{0}/issues/{1}", sourceRepo, issueNumber)).IgnoreWaitContext();
+            await response.Send($"Moving issue https://github.com/Particular/{sourceRepo}/issues/{issueNumber}").IgnoreWaitContext();
 
             var newIssue = await IssueUtility.Transfer(src, issueNumber, dst, true).IgnoreWaitContext();
 
-            await response.Send(string.Format("Issue moved to https://github.com/Particular/{0}/issues/{1}", targetRepo, newIssue.Number)).IgnoreWaitContext();
+            await response.Send($"Issue moved to https://github.com/Particular/{targetRepo}/issues/{newIssue.Number}").IgnoreWaitContext();
         }
     }
 }
