@@ -4,6 +4,7 @@
     using System.Diagnostics;
     using System.Linq;
     using System.Threading.Tasks;
+    using Humanizer;
     using PBot.Users;
 
     public class Pig : BotCommand
@@ -61,11 +62,7 @@
             }
 
             await response.Send(results.SelectMany(GetMessages).ToArray());
-            await response.Send(string.Format(
-                    "_{0:N0} issues/PRs found in {1:N2} seconds. To view all issues/PRs which mention `{2}` go to https://github.com/issues?q=is%3Aopen+mentions%3A{2}+user%3AParticular ._",
-                    results.Count,
-                    stopwatch.Elapsed.TotalSeconds,
-                    username));
+            await response.Send($"_{results.Count:N0} issues/PRs found in {stopwatch.Elapsed.Humanize()}. All issues/PRs which mention `{username}`: https://github.com/issues?q=is%3Aopen+mentions%3A{2}+user%3AParticular ._");
         }
 
         private static IEnumerable<string> GetMessages(InvolvedIssue issue)
