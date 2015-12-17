@@ -11,8 +11,6 @@
     [TestFixture]
     public class UpdateRepoLabelsTests
     {
-        const string Organization = "Particular";
-
         private static readonly Dictionary<string, string> labelMap =
             new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase)
             {
@@ -39,11 +37,13 @@
             };
 
         [Test, Explicit("Performs the actual sync for now")]
-        public void SyncAllRepos()
+        [TestCase("Particular")]
+        public void SyncLabels(string org)
         {
+            Console.Out.WriteLine($"Syncing labels for {org}...");
+
             var client = GitHubClientBuilder.Build();
-            var sourceRepo = "RepoStandards";
-            var labelsToSync = client.Issue.Labels.GetForRepository(Organization, sourceRepo).Result;
+            var templateLabels = client.Issue.Labels.GetForRepository(org, "RepoStandards").Result;
 
             var repos = new[]
             {
@@ -129,45 +129,45 @@
                 "Topshelf",
             };
 
-            foreach (var repository in repos)
+            foreach (var repo in repos)
             {
-                Console.Out.WriteLine("-------- Checking {0} -----", repository);
-                SyncRepo(client, repository, labelsToSync);
+                SyncRepo(client, org, repo, templateLabels);
             }
         }
 
         [Test, Explicit("Performs the actual sync for now")]
-        public void SyncOneRepo()
+        [TestCase("Particular", "TempRepo4PBot")]
+        public void SyncLabels(string org, string repo)
         {
             var client = GitHubClientBuilder.Build();
-            var sourceRepo = "RepoStandards";
-            var labelsToSync = client.Issue.Labels.GetForRepository(Organization, sourceRepo).Result;
-            var repos = client.Repository.GetAllForOrg(Organization).Result;
-            var repository = repos.Single(r => r.Name == "TempRepo4PBot");
-
-            Console.Out.WriteLine("-------- Checking {0} -----", repository.Name);
-            SyncRepo(client, repository.Name, labelsToSync);
+            var templateLabels = client.Issue.Labels.GetForRepository(org, "RepoStandards").Result;
+            SyncRepo(client, org, repo, templateLabels);
         }
 
-        static void SyncRepo(GitHubClient client, string repoToUpdate, IReadOnlyList<Label> labelsToSync)
+        private static void SyncRepo(IGitHubClient client, string org, string repo, IEnumerable<Label> templateLabels)
         {
-            var existingLabels = client.Issue.Labels.GetForRepository(Organization, repoToUpdate).Result;
+            Console.Out.WriteLine($"Syncing labels for {org}/{repo}...");
 
-            foreach (var templateLabel in labelsToSync)
+            var existingLabels = client.Issue.Labels.GetForRepository(org, repo).Result;
+
+            foreach (var templateLabel in templateLabels)
             {
-                var existingLabel = existingLabels.SingleOrDefault(l => string.Equals(l.Name, templateLabel.Name, StringComparison.InvariantCultureIgnoreCase));
+                var existingLabel = existingLabels
+                    .SingleOrDefault(l => string.Equals(l.Name, templateLabel.Name, StringComparison.InvariantCultureIgnoreCase));
 
                 if (existingLabel == null)
                 {
                     Console.Out.WriteLine("{0} doesn't exist and will be created", templateLabel.Name);
-                    client.Issue.Labels.Create(Organization, repoToUpdate, new NewLabel(templateLabel.Name, templateLabel.Color)).Wait();
+                    client.Issue.Labels.Create(org, repo, new NewLabel(templateLabel.Name, templateLabel.Color)).Wait();
                 }
                 else
                 {
-                    if (existingLabel.Color != templateLabel.Color || !existingLabel.Name.Equals(templateLabel.Name, StringComparison.InvariantCulture))
+                    if (existingLabel.Color != templateLabel.Color ||
+                        !existingLabel.Name.Equals(templateLabel.Name, StringComparison.InvariantCulture))
                     {
                         Console.Out.WriteLine("{0} has non matching color or case, will be updated", existingLabel.Name);
-                        client.Issue.Labels.Update(Organization, repoToUpdate, existingLabel.Name, new LabelUpdate(templateLabel.Name, templateLabel.Color))
+                        client.Issue.Labels.Update(
+                                org, repo, existingLabel.Name, new LabelUpdate(templateLabel.Name, templateLabel.Color))
                             .Wait();
                     }
                 }
@@ -181,7 +181,7 @@
 
                 var request = new RepositoryIssueRequest { State = ItemState.All };
                 request.Labels.Add(oldLabel);
-                var issues = client.Issue.GetForRepository(Organization, repoToUpdate, request).Result;
+                var issues = client.Issue.GetForRepository(org, repo, request).Result;
 
                 foreach (var issue in issues)
                 {
@@ -199,19 +199,19 @@
                             oldLabel,
                             newLabel,
                             issue.Number,
-                            repoToUpdate);
+                            repo);
                     }
                     else
                     {
                         Console.Out.WriteLine(
-                            "Removing label '{0}' from issue {1} in repo '{2}'.", oldLabel, issue.Number, repoToUpdate);
+                            "Removing label '{0}' from issue {1} in repo '{2}'.", oldLabel, issue.Number, repo);
                     }
 
-                    client.Issue.Update(Organization, repoToUpdate, issue.Number, issueUpdate).Wait();
+                    client.Issue.Update(org, repo, issue.Number, issueUpdate).Wait();
                 }
 
-                Console.Out.WriteLine("Removing label '{0}' from respo '{1}'.", oldLabel, repoToUpdate);
-                client.Issue.Labels.Delete(Organization, repoToUpdate, oldLabel).Wait();
+                Console.Out.WriteLine("Removing label '{0}' from repo '{1}'.", oldLabel, repo);
+                client.Issue.Labels.Delete(org, repo, oldLabel).Wait();
             }
         }
     }
