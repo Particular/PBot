@@ -15,7 +15,7 @@
         private static readonly Dictionary<string, string> labelMap =
             new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase)
             {
-                { "Breaking Change", "Type: Breaking Change" },
+                { "Breaking Change", "Tag: Breaking Change" },
                 { "Bug", "Type: Bug" },
                 { "Critical", null },
                 { "duplicate", "Withdrawn: Duplicate" },
@@ -34,6 +34,7 @@
                 { "State: Prioritized", null },
                 { "State: Review", null },
                 { "Urgent", null },
+                { "Type: Breaking Change", "Tag: Breaking Change" },
                 { "wontfix", "Withdrawn: Won't Fix" },
             };
 
