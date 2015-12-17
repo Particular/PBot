@@ -38,8 +38,8 @@
             };
 
         [Test, Explicit("Performs the actual sync for now")]
-        [TestCase("Particular")]
-        public async void SyncLabels(string org)
+        [TestCase("Particular", new[] { "Operations.Licensing", "PlatformDevelopment", "ProductionTests" })]
+        public async void SyncLabels(string org, string[] privateRepos)
         {
             Console.Out.WriteLine($"Syncing labels for {org}...");
 
@@ -48,6 +48,7 @@
             var syncs = (await client.Repository.GetAllForOrg(org))
                 .Where(repo => !repo.Private)
                 .Select(repo => repo.Name)
+                .Concat(privateRepos)
                 .Select(async repo =>
             {
                 await SyncRepo(client, org, repo, templateLabels);
@@ -105,7 +106,13 @@
 
                 foreach (var issue in issues)
                 {
-                    var issueUpdate = new IssueUpdate();
+                    // NOTE (adamralph): there is a bug in Octokit or the GitHub API
+                    // that removes the assignee unless set (perhaps just for private repos)
+                    var issueUpdate = new IssueUpdate
+                    {
+                        Assignee = issue.Assignee?.Login,
+                    };
+
                     foreach (var label in issue.Labels.Where(label => label.Name != oldLabel))
                     {
                         issueUpdate.AddLabel(label.Name);
