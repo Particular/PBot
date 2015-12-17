@@ -31,7 +31,9 @@
                 { "Resolution: Can't Reproduce", "Withdrawn: Invalid" },
                 { "Resolution: Duplicate", "Withdrawn: Duplicate" },
                 { "Resolution: Won't Fix", "Withdrawn: Won't Fix" },
+                { "State: Approved", null },
                 { "State: Prioritized", null },
+                { "State: Review", null },
                 { "Urgent", null },
                 { "wontfix", "Withdrawn: Won't Fix" },
             };
