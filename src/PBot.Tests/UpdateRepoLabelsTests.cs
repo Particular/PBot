@@ -33,6 +33,7 @@
                 { "State: Approved", null },
                 { "State: Prioritized", null },
                 { "State: Review", null },
+                { "up-for-grabs", "Tag: Up For Grabs" },
                 { "Urgent", null },
                 { "Type: Breaking Change", "Tag: Breaking Change" },
                 { "wontfix", "Withdrawn: Won't Fix" },
