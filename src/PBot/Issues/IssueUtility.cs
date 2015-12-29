@@ -66,7 +66,11 @@
 
             if (sourceLabels.Any())
             {
-                await client.Issue.Labels.AddToIssue(targetRepository.Owner, targetRepository.Name, targetIssue.Number, sourceLabels.Select(x => x.Name).ToArray());
+                await client.Issue.Labels.AddToIssue(
+                    targetRepository.Owner,
+                    targetRepository.Name,
+                    targetIssue.Number,
+                    sourceLabels.Select(x => x.Name).ToArray());
             }
 
             return await client.Issue.Get(targetRepository.Owner, targetRepository.Name, targetIssue.Number);
