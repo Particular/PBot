@@ -5,7 +5,7 @@
     using System.Threading.Tasks;
     using Octokit;
 
-    class LabelUtility
+    public class LabelUtility
     {
         public static async Task<bool> RepositoryHasLabels(RepoInfo repo, params Label[] labels)
         {

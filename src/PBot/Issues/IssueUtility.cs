@@ -5,7 +5,7 @@
     using System.Threading.Tasks;
     using Octokit;
 
-    static class IssueUtility
+    public static class IssueUtility
     {
         public static async Task<Issue> Transfer(RepoInfo sourceRepository, int sourceIssueNumber, RepoInfo targetRepository, bool closeOriginal)
         {
@@ -73,7 +73,7 @@
         }
     }
 
-    class RepoInfo
+    public class RepoInfo
     {
         public string Owner;
         public string Name;
