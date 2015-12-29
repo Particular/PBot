@@ -3,10 +3,13 @@ using Octokit;
 
 public class GitHubIntegrationTest
 {
-    protected IGitHubClient GitHubClient;
-    protected Repository Repository;
-    protected string RepositoryOwner;
-    protected string RepositoryName;
+    protected IGitHubClient GitHubClient { get; private set; }
+
+    protected Repository Repository { get; private set; }
+
+    protected string RepositoryOwner { get; private set; }
+
+    protected string RepositoryName { get; private set; }
 
     [SetUp]
     public void FixtureSetup()
