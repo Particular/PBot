@@ -8,28 +8,51 @@ namespace PBot.Tests.Integration
 
     public class When_transfering_an_issue_between_repos : GitHubIntegrationTest
     {
+        protected Repository TargetRepository { get; private set; }
+
+        private Repository SourceRepository
+        {
+            get { return Repository; }
+        }
+
+        [SetUp]
+        public void Setup()
+        {
+            var newRepository = new NewRepository { Name = $"{Repository.Name}-destination" };
+            TargetRepository = GitHubClient.Repository.Create(newRepository).Result;
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            Helper.DeleteRepo(TargetRepository);
+        }
+
         [Test]
         [Explicit]
         public async Task Should_assign_label_to_match_original_issue()
         {
-            var srcRepoInfo = new RepoInfo { Name = RepositoryName, Owner = RepositoryOwner };
-            var dstRepoInfo = new RepoInfo { Name = RepositoryName + "-copy", Owner = RepositoryOwner };
-            var dstRepo = await GitHubClient.Repository.Create(new NewRepository { Name = dstRepoInfo.Name });
+            // arrange
+            var newLabel = new NewLabel("Test-Label", "123456");
+            await GitHubClient.Issue.Labels.Create(SourceRepository.Owner.Login, SourceRepository.Name, newLabel);
+            await GitHubClient.Issue.Labels.Create(TargetRepository.Owner.Login, TargetRepository.Name, newLabel);
 
-            var labelTemplate = new NewLabel("Test-Label", "123456");
-            var label = await GitHubClient.Issue.Labels.Create(srcRepoInfo.Owner, srcRepoInfo.Name, labelTemplate);
-            await GitHubClient.Issue.Labels.Create(dstRepoInfo.Owner, dstRepoInfo.Name, labelTemplate);
-            var issue = new NewIssue("test issue with label") { Body = "Issue should have a label" };
-            issue.Labels.Add(label.Name);
-            var originalIssue = await GitHubClient.Issue.Create(srcRepoInfo.Owner, srcRepoInfo.Name, issue);
+            var newIssue = new NewIssue("test issue with label") { Body = "Issue should have a label" };
+            newIssue.Labels.Add(newLabel.Name);
+            var sourceIssue = await GitHubClient.Issue.Create(
+                SourceRepository.Owner.Login, SourceRepository.Name, newIssue);
 
-            var copiedIssue = IssueUtility.Transfer(srcRepoInfo, originalIssue.Number, dstRepoInfo, true).Result;
+            // act
+            var targetIssue = await IssueUtility.Transfer(
+                new RepoInfo { Owner = SourceRepository.Owner.Login, Name = SourceRepository.Name },
+                sourceIssue.Number,
+                new RepoInfo { Owner = TargetRepository.Owner.Login, Name = TargetRepository.Name },
+                true);
 
-            Helper.DeleteRepo(dstRepo);
-
-            Assert.AreEqual(originalIssue.Labels.Count, copiedIssue.Labels.Count);
-            Assert.AreEqual(originalIssue.Labels.First().Name, copiedIssue.Labels.First().Name);
-            Assert.AreEqual(originalIssue.Labels.First().Color, copiedIssue.Labels.First().Color);
+            // assert
+            Assert.AreEqual(1, targetIssue.Labels.Count);
+            Assert.AreEqual(sourceIssue.Labels.Single().Name, targetIssue.Labels.Single().Name);
+            Assert.AreEqual(sourceIssue.Labels.Single().Color, targetIssue.Labels.Single().Color);
         }
     }
 }
