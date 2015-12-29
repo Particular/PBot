@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using NUnit.Framework;
     using Octokit;
     using PBot;
@@ -11,12 +12,10 @@
     [TestFixture]
     public class UpdateRepoLabelsTests
     {
-        const string Organization = "Particular";
-
         private static readonly Dictionary<string, string> labelMap =
             new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase)
             {
-                { "Breaking Change", "Type: Breaking Change" },
+                { "Breaking Change", "Tag: Breaking Change" },
                 { "Bug", "Type: Bug" },
                 { "Critical", null },
                 { "duplicate", "Withdrawn: Duplicate" },
@@ -31,153 +30,68 @@
                 { "Resolution: Can't Reproduce", "Withdrawn: Invalid" },
                 { "Resolution: Duplicate", "Withdrawn: Duplicate" },
                 { "Resolution: Won't Fix", "Withdrawn: Won't Fix" },
+                { "State: Approved", null },
                 { "State: Prioritized", null },
+                { "State: Review", null },
+                { "up-for-grabs", "Tag: Up For Grabs" },
                 { "Urgent", null },
+                { "Type: Breaking Change", "Tag: Breaking Change" },
                 { "wontfix", "Withdrawn: Won't Fix" },
             };
 
         [Test, Explicit("Performs the actual sync for now")]
-        public void SyncAllRepos()
+        [TestCase("Particular", new[] { "Operations.Licensing", "PlatformDevelopment", "ProductionTests" })]
+        public async void SyncLabels(string org, string[] privateRepos)
         {
+            Console.Out.WriteLine($"Syncing labels for {org}...");
+
             var client = GitHubClientBuilder.Build();
-            var sourceRepo = "RepoStandards";
-
-
-            var labelsToSync = client.Issue.Labels.GetForRepository(Organization, sourceRepo).Result;
-
-            //go through all repos
-            var repos = new[]
+            var templateLabels = await client.Issue.Labels.GetForRepository(org, "RepoStandards");
+            var syncs = (await client.Repository.GetAllForOrg(org))
+                .Where(repo => !repo.Private)
+                .Select(repo => repo.Name)
+                .Concat(privateRepos)
+                .Select(async repo =>
             {
-                "AutomaticOctopusConfigSandbox",
-                "Automation.Engineering",
-                "Automation.ITOps",
-                "Automation.Marketing",
-                "BuildProcess.StandardNuGet",
-                "ConsoleTweet",
-                "DeploymentProcess.BuildTools",
-                "DeploymentProcess.DeploymentTools",
-                "DeploymentProcess.InternalMyGet",
-                "DeploymentProcess.OperationsContracts",
-                "DeploymentProcess.StandardNuGet",
-                "DeploymentSandbox",
-                "GitHubReleaseNotes",
-                "HashBus",
-                "mmbot",
-                "NServiceBus",
-                "NServiceBus.Autofac",
-                "NServiceBus.Azure",
-                "NServiceBus.Azure.Samples",
-                "NServiceBus.AzureBlobStorageDataBus",
-                "NServiceBus.AzureServiceBus",
-                "NServiceBus.AzureStoragePersistence",
-                "NServiceBus.AzureStorageQueues",
-                "NServiceBus.Bootstrap.WindowsService",
-                "NServiceBus.Callbacks",
-                "NServiceBus.CastleWindsor",
-                "NServiceBus.CommonLogging",
-                "NServiceBus.Distributor.Msmq",
-                "NServiceBus.Gateway",
-                "NServiceBus.Host",
-                "NServiceBus.Host.AzureCloudService",
-                "NServiceBus.Log4Net",
-                "NServiceBus.Newtonsoft.Json",
-                "NServiceBus.NHibernate",
-                "NServiceBus.Ninject",
-                "NServiceBus.NLog",
-                "NServiceBus.PowerShell",
-                "NServiceBus.RabbitMQ",
-                "NServiceBus.RavenDB",
-                "NServiceBus.ServiceFabric",
-                "NServiceBus.Spring",
-                "NServiceBus.SqlServer",
-                "NServiceBus.StructureMap",
-                "NServiceBus.Testing",
-                "NServiceBus.Unity",
-                "NuGetPackager",
-                "OctopusConfigUpdater",
-                "OctopusProjectUpdater",
-                "OctopusWrapper",
-                "Packages.DTC",
-                "Packages.Msmq",
-                "Packages.PerfCounters",
-                "PBot",
-                "PBot.TestRepo",
-                "PlatformInstaller",
-                "RepoStandards",
-                "ServiceControl",
-                "ServiceControl.Contracts",
-                "ServiceControl.Plugin.Nsb3.CustomChecks",
-                "ServiceControl.Plugin.Nsb3.Heartbeat",
-                "ServiceControl.Plugin.Nsb4.CustomChecks",
-                "ServiceControl.Plugin.Nsb4.DebugSession",
-                "ServiceControl.Plugin.Nsb4.Heartbeat",
-                "ServiceControl.Plugin.Nsb4.SagaAudit",
-                "ServiceControl.Plugin.Nsb5.CustomChecks",
-                "ServiceControl.Plugin.Nsb5.DebugSession",
-                "ServiceControl.Plugin.Nsb5.Heartbeat",
-                "ServiceControl.Plugin.Nsb5.SagaAudit",
-                "ServiceControl.Plugins.v4",
-                "ServiceControl.Plugins.v5",
-                "ServiceInsight",
-                "ServiceMatrix",
-                "ServiceMatrix.Samples",
-                "ServicePulse",
-                "SignVSIX",
-                "SyncOMatic",
-                "SyncOMatic.TestRepository",
-                "TeamCityProjectCreator",
-                "Timestamp",
-                "Topshelf",
-            };
+                await SyncRepo(client, org, repo, templateLabels);
+            });
 
-            foreach (var repository in repos)
-            {
-                Console.Out.WriteLine("-------- Checking {0} -----", repository);
-                SyncRepo(client, repository, labelsToSync);
-            }
+            await Task.WhenAll(syncs);
         }
-
 
         [Test, Explicit("Performs the actual sync for now")]
-        public void SyncOneRepo()
+        [TestCase("Particular", "TempRepo4PBot")]
+        public async void SyncLabels(string org, string repo)
         {
             var client = GitHubClientBuilder.Build();
-            var sourceRepo = "RepoStandards";
-
-
-            var labelsToSync = client.Issue.Labels.GetForRepository(Organization, sourceRepo).Result;
-
-            //go through all repos
-            var repos = client.Repository.GetAllForOrg(Organization).Result;
-
-
-            var repository = repos.Single(r => r.Name == "TempRepo4PBot");
-
-            Console.Out.WriteLine("-------- Checking {0} -----", repository.Name);
-            SyncRepo(client, repository.Name, labelsToSync);
+            var templateLabels = await client.Issue.Labels.GetForRepository(org, "RepoStandards");
+            await SyncRepo(client, org, repo, templateLabels);
         }
 
-        static void SyncRepo(GitHubClient client, string repoToUpdate, IReadOnlyList<Label> labelsToSync)
+        private static async Task SyncRepo(IGitHubClient client, string org, string repo, IEnumerable<Label> templateLabels)
         {
-            var existingLabels = client.Issue.Labels.GetForRepository(Organization, repoToUpdate).Result;
+            Console.Out.WriteLine($"Syncing labels for {org}/{repo}...");
 
+            var existingLabels = await client.Issue.Labels.GetForRepository(org, repo);
 
-            foreach (var templateLabel in labelsToSync)
+            foreach (var templateLabel in templateLabels)
             {
-                var existingLabel = existingLabels.SingleOrDefault(l => string.Equals(l.Name, templateLabel.Name, StringComparison.InvariantCultureIgnoreCase));
+                var existingLabel = existingLabels
+                    .SingleOrDefault(l => string.Equals(l.Name, templateLabel.Name, StringComparison.InvariantCultureIgnoreCase));
 
                 if (existingLabel == null)
                 {
-                    Console.Out.WriteLine("{0} doesn't exist and will be created", templateLabel.Name);
-                    client.Issue.Labels.Create(Organization, repoToUpdate, new NewLabel(templateLabel.Name, templateLabel.Color)).Wait();
+                    Console.Out.WriteLine($"Creating label '{templateLabel.Name}' in {org}/{repo}...");
+                    await client.Issue.Labels.Create(org, repo, new NewLabel(templateLabel.Name, templateLabel.Color));
                 }
                 else
                 {
-                    if (existingLabel.Color != templateLabel.Color || !existingLabel.Name.Equals(templateLabel.Name, StringComparison.InvariantCulture))
+                    if (existingLabel.Color != templateLabel.Color ||
+                        !existingLabel.Name.Equals(templateLabel.Name, StringComparison.InvariantCulture))
                     {
-                        Console.Out.WriteLine("{0} has non matching color or case, will be updated", existingLabel.Name);
-                        client.Issue.Labels.Update(Organization, repoToUpdate, existingLabel.Name, new LabelUpdate(templateLabel.Name, templateLabel.Color))
-                            .Wait();
+                        Console.Out.WriteLine($"Fixing color and case for label '{existingLabel.Name}' in {org}/{repo}...");
+                        await client.Issue.Labels.Update(
+                            org, repo, existingLabel.Name, new LabelUpdate(templateLabel.Name, templateLabel.Color));
                     }
                 }
             }
@@ -190,11 +104,17 @@
 
                 var request = new RepositoryIssueRequest { State = ItemState.All };
                 request.Labels.Add(oldLabel);
-                var issues = client.Issue.GetForRepository(Organization, repoToUpdate, request).Result;
+                var issues = await client.Issue.GetForRepository(org, repo, request);
 
                 foreach (var issue in issues)
                 {
-                    var issueUpdate = new IssueUpdate();
+                    // NOTE (adamralph): there is a bug in Octokit or the GitHub API
+                    // that removes the assignee unless set (perhaps just for private repos)
+                    var issueUpdate = new IssueUpdate
+                    {
+                        Assignee = issue.Assignee?.Login,
+                    };
+
                     foreach (var label in issue.Labels.Where(label => label.Name != oldLabel))
                     {
                         issueUpdate.AddLabel(label.Name);
@@ -204,23 +124,18 @@
                     {
                         issueUpdate.AddLabel(newLabel);
                         Console.Out.WriteLine(
-                            "Switching from label '{0}' to '{1}' for issue {2} in repo '{3}'.",
-                            oldLabel,
-                            newLabel,
-                            issue.Number,
-                            repoToUpdate);
+                            $"Switching from label '{oldLabel}' to '{newLabel}' for {org}/{repo}#{issue.Number}...");
                     }
                     else
                     {
-                        Console.Out.WriteLine(
-                            "Removing label '{0}' from issue {1} in repo '{2}'.", oldLabel, issue.Number, repoToUpdate);
+                        Console.Out.WriteLine($"Removing label '{oldLabel}' from {org}/{repo}#{issue.Number}...");
                     }
 
-                    client.Issue.Update(Organization, repoToUpdate, issue.Number, issueUpdate).Wait();
+                    await client.Issue.Update(org, repo, issue.Number, issueUpdate);
                 }
 
-                Console.Out.WriteLine("Removing label '{0}' from respo '{1}'.", oldLabel, repoToUpdate);
-                client.Issue.Labels.Delete(Organization, repoToUpdate, oldLabel).Wait();
+                Console.Out.WriteLine($"Deleting label '{oldLabel}' from {org}/{repo}...");
+                await client.Issue.Labels.Delete(org, repo, oldLabel);
             }
         }
     }
