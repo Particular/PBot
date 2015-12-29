@@ -35,7 +35,6 @@ namespace PBot.Tests.Integration
             // arrange
             var newLabel = new NewLabel("Test-Label", "123456");
             await GitHubClient.Issue.Labels.Create(SourceRepository.Owner.Login, SourceRepository.Name, newLabel);
-            await GitHubClient.Issue.Labels.Create(TargetRepository.Owner.Login, TargetRepository.Name, newLabel);
 
             var newIssue = new NewIssue("test issue with label") { Body = "Issue should have a label" };
             newIssue.Labels.Add(newLabel.Name);
