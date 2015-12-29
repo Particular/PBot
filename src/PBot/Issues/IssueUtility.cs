@@ -66,6 +66,18 @@
 
             if (sourceLabels.Any())
             {
+                var targetLabels = await client.Issue.Labels.GetForRepository(targetRepository.Owner, targetRepository.Name);
+                foreach (var sourceLabel in sourceLabels)
+                {
+                    if (!targetLabels.Any(targetLabel => targetLabel.Name == sourceLabel.Name))
+                    {
+                        await client.Issue.Labels.Create(
+                            targetRepository.Owner,
+                            targetRepository.Name,
+                            new NewLabel(sourceLabel.Name, sourceLabel.Color));
+                    }
+                }
+
                 await client.Issue.Labels.AddToIssue(
                     targetRepository.Owner,
                     targetRepository.Name,
