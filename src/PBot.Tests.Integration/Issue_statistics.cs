@@ -16,12 +16,6 @@
             await GenerateReport();
         }
 
-        [Test, Explicit]
-        public async void ByExternalUsers()
-        {
-            //await Execute("", "2015-01-01 to 2015-07-01");
-        }
-
         public async Task GenerateReport()
         {
             var client = GitHubClientBuilder.Build();
