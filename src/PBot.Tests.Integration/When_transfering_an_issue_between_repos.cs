@@ -34,9 +34,11 @@ namespace PBot.Tests.Integration
 
             // act
             var targetIssue = await IssueUtility.Transfer(
-                new RepoInfo { Owner = SourceRepository.Owner.Login, Name = SourceRepository.Name },
+                SourceRepository.Owner.Login,
+                SourceRepository.Name,
                 sourceIssue.Number,
-                new RepoInfo { Owner = TargetRepository.Owner.Login, Name = TargetRepository.Name },
+                TargetRepository.Owner.Login,
+                TargetRepository.Name,
                 true);
 
             // assert

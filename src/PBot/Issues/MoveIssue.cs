@@ -34,14 +34,13 @@
                 return;
             }
 
-            var src = new RepoInfo { Owner = "Particular", Name = sourceRepo };
-            var dst = new RepoInfo { Owner = "Particular", Name = targetRepo };
+            var owner = "Particular";
 
-            await response.Send($"Moving issue https://github.com/Particular/{sourceRepo}/issues/{issueNumber}").IgnoreWaitContext();
+            await response.Send($"Moving issue https://github.com/{owner}/{sourceRepo}/issues/{issueNumber}").IgnoreWaitContext();
 
-            var newIssue = await IssueUtility.Transfer(src, issueNumber, dst, true).IgnoreWaitContext();
+            var newIssue = await IssueUtility.Transfer(owner, sourceRepo, issueNumber, owner, targetRepo, true).IgnoreWaitContext();
 
-            await response.Send($"Issue moved to https://github.com/Particular/{targetRepo}/issues/{newIssue.Number}").IgnoreWaitContext();
+            await response.Send($"Issue moved to https://github.com/{owner}/{targetRepo}/issues/{newIssue.Number}").IgnoreWaitContext();
         }
     }
 }
