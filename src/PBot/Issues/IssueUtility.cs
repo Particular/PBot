@@ -22,12 +22,12 @@
             var sourceComments = await issue.Comment.GetForIssue(sourceRepoOwner, sourceRepoName, sourceIssueNumber);
             var sourceLabels = await client.Issue.Labels.GetForIssue(sourceRepoOwner, sourceRepoName, sourceIssueNumber);
 
-            var newBody = string.Format(
-                @"**Issue by [{1}]({0})** _{2}_ _Originally opened as {3}_
+            var newBody =
+$@"**Issue by [{sourceIssue.User.Login}]({sourceIssue.User.HtmlUrl})** _{sourceIssue.CreatedAt}_ _Originally opened as {sourceIssue.HtmlUrl}_
 
 ----
 
-{4}", sourceIssue.User.HtmlUrl, sourceIssue.User.Login, sourceIssue.CreatedAt, sourceIssue.HtmlUrl, sourceIssue.Body);
+{sourceIssue.Body}";
 
             var createIssue = new NewIssue(sourceIssue.Title)
             {
@@ -39,12 +39,12 @@
             var comment = sourceComments.FirstOrDefault();
             if (comment != null)
             {
-                var body = string.Format(
-                    @" **Comment by [{1}]({0})** _{2}_
+                var body =
+$@" **Comment by [{comment.User.Login}]({comment.User.HtmlUrl})** _{comment.HtmlUrl}_
 
 ----
 
-{3}", comment.User.HtmlUrl, comment.User.Login, comment.HtmlUrl, comment.Body);
+{comment.Body}";
                 await issue.Comment.Create(targetRepoOwner, targetRepoName, targetIssue.Number, body);
             }
 
