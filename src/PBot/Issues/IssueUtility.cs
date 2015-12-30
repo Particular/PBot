@@ -1,6 +1,5 @@
 ﻿namespace PBot.Issues
 {
-    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
     using Octokit;
@@ -13,69 +12,66 @@
             int sourceIssueNumber,
             string targetRepoOwner,
             string targetRepoName,
-            bool closeOriginal)
+            bool closeSourceIssue)
         {
             var client = GitHubClientBuilder.Build();
+            var issuesClient = client.Issue;
 
-            var issue = client.Issue;
-            var sourceIssue = await issue.Get(sourceRepoOwner, sourceRepoName, sourceIssueNumber);
-            var sourceComments = await issue.Comment.GetForIssue(sourceRepoOwner, sourceRepoName, sourceIssueNumber);
+            var sourceIssue = await issuesClient.Get(sourceRepoOwner, sourceRepoName, sourceIssueNumber);
+            var sourceComments = await issuesClient.Comment.GetForIssue(sourceRepoOwner, sourceRepoName, sourceIssueNumber);
             var sourceLabels = await client.Issue.Labels.GetForIssue(sourceRepoOwner, sourceRepoName, sourceIssueNumber);
 
-            var newBody =
+            var targetBody =
 $@"**Issue by [{sourceIssue.User.Login}]({sourceIssue.User.HtmlUrl})** _{sourceIssue.CreatedAt}_ _Originally opened as {sourceIssue.HtmlUrl}_
 
 ----
 
 {sourceIssue.Body}";
 
-            var createIssue = new NewIssue(sourceIssue.Title)
-            {
-                Assignee = sourceIssue.Assignee?.Login,
-                Body = newBody
-            };
-            var targetIssue = await issue.Create(targetRepoOwner, targetRepoName, createIssue);
+            var targetIssue = await issuesClient.Create(
+                targetRepoOwner,
+                targetRepoName,
+                new NewIssue(sourceIssue.Title) { Assignee = sourceIssue.Assignee?.Login, Body = targetBody, });
 
-            var comment = sourceComments.FirstOrDefault();
-            if (comment != null)
+            var sourceComment = sourceComments.FirstOrDefault();
+            if (sourceComment != null)
             {
-                var body =
-$@" **Comment by [{comment.User.Login}]({comment.User.HtmlUrl})** _{comment.HtmlUrl}_
+                var targetCommentBody =
+$@" **Comment by [{sourceComment.User.Login}]({sourceComment.User.HtmlUrl})** _{sourceComment.HtmlUrl}_
 
 ----
 
-{comment.Body}";
-                await issue.Comment.Create(targetRepoOwner, targetRepoName, targetIssue.Number, body);
+{sourceComment.Body}";
+
+                await issuesClient.Comment.Create(targetRepoOwner, targetRepoName, targetIssue.Number, targetCommentBody);
             }
 
-            await issue.Comment.Create(sourceRepoOwner, sourceRepoName, sourceIssueNumber, (closeOriginal ? "moved to " : "copied to ") + targetIssue.HtmlUrl);
+            await issuesClient.Comment.Create(
+                sourceRepoOwner,
+                sourceRepoName,
+                sourceIssueNumber,
+                (closeSourceIssue ? "moved to " : "copied to ") + targetIssue.HtmlUrl);
 
             if (sourceIssue.ClosedAt == null)
             {
-                if (closeOriginal)
+                if (closeSourceIssue)
                 {
-                    var issueUpdate = new IssueUpdate
-                        {
-                            State = ItemState.Closed
-                        };
-                    await issue.Update(sourceRepoOwner, sourceRepoName, sourceIssueNumber, issueUpdate);
+                    await issuesClient.Update(
+                        sourceRepoOwner, sourceRepoName, sourceIssueNumber, new IssueUpdate { State = ItemState.Closed });
                 }
             }
             else
             {
-                var issueUpdate = new IssueUpdate
-                {
-                    State = ItemState.Closed
-                };
-                await issue.Update(targetRepoOwner, targetRepoName, targetIssue.Number, issueUpdate);
+                await issuesClient.Update(
+                    targetRepoOwner, targetRepoName, targetIssue.Number, new IssueUpdate { State = ItemState.Closed, });
             }
 
             if (sourceLabels.Any())
             {
-                var targetLabels = await client.Issue.Labels.GetForRepository(targetRepoOwner, targetRepoName);
+                var targetRepoLabels = await client.Issue.Labels.GetForRepository(targetRepoOwner, targetRepoName);
                 foreach (var sourceLabel in sourceLabels)
                 {
-                    if (!targetLabels.Any(targetLabel => targetLabel.Name == sourceLabel.Name))
+                    if (!targetRepoLabels.Any(targetRepoLabel => targetRepoLabel.Name == sourceLabel.Name))
                     {
                         await client.Issue.Labels.Create(
                             targetRepoOwner,
