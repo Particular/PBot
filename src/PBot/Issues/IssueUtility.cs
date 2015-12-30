@@ -25,7 +25,7 @@
 
             var createIssue = new NewIssue(sourceIssue.Title)
             {
-                Assignee = sourceIssue.GetAssignee(),
+                Assignee = sourceIssue.Assignee?.Login,
                 Body = newBody
             };
             var targetIssue = await issue.Create(targetRepository.Owner, targetRepository.Name, createIssue);
@@ -93,26 +93,5 @@
     {
         public string Owner;
         public string Name;
-    }
-
-    public static class Extensions
-    {
-        public static string ReadToEnd(this Stream stream)
-        {
-            using (var streamReader = new StreamReader(stream))
-            {
-                return streamReader.ReadToEnd();
-            }
-        }
-
-        internal static string GetAssignee(this Issue issue)
-        {
-            return issue.Assignee?.Login;
-        }
-
-        internal static int? GetMilestone(this Issue issue)
-        {
-            return issue.Milestone?.Number;
-        }
     }
 }
