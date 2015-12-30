@@ -7,26 +7,15 @@ public class GitHubIntegrationTest
 
     protected Repository Repository { get; private set; }
 
-    protected string RepositoryOwner { get; private set; }
+    protected string RepositoryOwner => Repository.Owner.Login;
 
-    protected string RepositoryName { get; private set; }
+    protected string RepositoryName => Repository.Name;
 
     [SetUp]
-    public void FixtureSetup()
-    {
-        GitHubClient = Helper.GetAuthenticatedClient();
-
-        var repoName = Helper.MakeNameWithTimestamp("requirements-test");
-
-        Repository = GitHubClient.Repository.Create(new NewRepository { Name = repoName }).Result;
-        RepositoryOwner = Repository.Owner.Login;
-        RepositoryName = Repository.Name;
-    }
+    public void FixtureSetup() =>
+        Repository = (GitHubClient = Helper.GetAuthenticatedClient())
+            .Repository.Create(new NewRepository { Name = Helper.MakeNameWithTimestamp("requirements-test") }).Result;
 
     [TearDown]
-    public void FixtureTearDown()
-    {
-        Helper.DeleteRepo(Repository);
-    }
-
+    public void FixtureTearDown() => Helper.DeleteRepo(Repository);
 }

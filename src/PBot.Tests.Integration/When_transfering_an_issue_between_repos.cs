@@ -10,36 +10,27 @@ namespace PBot.Tests.Integration
     {
         protected Repository TargetRepository { get; private set; }
 
-        private Repository SourceRepository
-        {
-            get { return Repository; }
-        }
+        private Repository SourceRepository => Repository;
 
         [SetUp]
-        public void Setup()
-        {
-            var newRepository = new NewRepository { Name = $"{Repository.Name}-destination" };
-            TargetRepository = GitHubClient.Repository.Create(newRepository).Result;
-        }
+        public void Setup() => TargetRepository =
+            GitHubClient.Repository.Create(new NewRepository { Name = $"{Repository.Name}-destination" }).Result;
 
         [TearDown]
-        public void TearDown()
-        {
-            Helper.DeleteRepo(TargetRepository);
-        }
+        public void TearDown() => Helper.DeleteRepo(TargetRepository);
 
         [Test]
         [Explicit]
         public async Task Should_assign_label_to_match_original_issue()
         {
             // arrange
-            var newLabel = new NewLabel("Test-Label", "123456");
-            await GitHubClient.Issue.Labels.Create(SourceRepository.Owner.Login, SourceRepository.Name, newLabel);
+            var sourceLabel = await GitHubClient.Issue.Labels.Create(
+                SourceRepository.Owner.Login, SourceRepository.Name, new NewLabel("Test-Label", "123456"));
 
-            var newIssue = new NewIssue("test issue with label") { Body = "Issue should have a label" };
-            newIssue.Labels.Add(newLabel.Name);
+            var newSourceIssue = new NewIssue("test issue with label") { Body = "Issue should have a label" };
+            newSourceIssue.Labels.Add(sourceLabel.Name);
             var sourceIssue = await GitHubClient.Issue.Create(
-                SourceRepository.Owner.Login, SourceRepository.Name, newIssue);
+                SourceRepository.Owner.Login, SourceRepository.Name, newSourceIssue);
 
             // act
             var targetIssue = await IssueUtility.Transfer(
