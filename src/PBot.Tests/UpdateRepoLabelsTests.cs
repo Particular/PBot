@@ -52,9 +52,9 @@
                 .Select(repo => repo.Name)
                 .Concat(privateRepos)
                 .Select(async repo =>
-            {
-                await SyncRepo(client, org, repo, templateLabels, dryRun);
-            });
+                {
+                    await SyncRepo(client, org, repo, templateLabels, dryRun);
+                });
 
             await Task.WhenAll(syncs);
         }
@@ -68,7 +68,8 @@
             await SyncRepo(client, org, repo, templateLabels, dryRun);
         }
 
-        private static async Task SyncRepo(IGitHubClient client, string org, string repo, IEnumerable<Label> templateLabels, bool dryRun)
+        private static async Task SyncRepo(
+            IGitHubClient client, string org, string repo, IEnumerable<Label> templateLabels, bool dryRun)
         {
             Console.Out.WriteLine($"Syncing labels for {org}/{repo}...");
 
