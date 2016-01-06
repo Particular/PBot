@@ -38,7 +38,25 @@
             };
 
         [Test, Explicit("Performs the actual sync for now")]
-        [TestCase("Particular", new[] { "Operations.Licensing", "PlatformDevelopment", "ProductionTests" }, false)]
+        [TestCase(
+            "Particular",
+            new[]
+            {
+                "AdvancedInstallerLicenser",
+                "Backend",
+                "GitHubGateway",
+                "Loudspeaker",
+                "NServiceBus.CodeAnalyzers",
+                "NServiceBus.Azure.Samples",
+                "Operations.DocsWeb",
+                "Operations.Licensing",
+                "Operations.Website.Backend",
+                "PlatformDevelopment",
+                "ProductionTests",
+                "ServiceMatrix.Samples",
+                "Website.Frontend",
+            },
+            false)]
         public async void SyncLabels(string org, string[] privateRepos, bool dryRun)
         {
             Console.Out.WriteLine($"Syncing labels for {org}...");
