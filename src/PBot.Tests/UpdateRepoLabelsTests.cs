@@ -48,6 +48,7 @@
                 .Where(repo => !repo.Private)
                 .Select(repo => repo.Name)
                 .Concat(privateRepos)
+                .Distinct(StringComparer.OrdinalIgnoreCase)
                 .Select(async repo =>
                 {
                     await SyncRepo(client, org, repo, templateLabels, dryRun);
