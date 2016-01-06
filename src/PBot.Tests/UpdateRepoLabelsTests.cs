@@ -40,8 +40,8 @@
             };
 
         [Test, Explicit("Performs the actual sync for now")]
-        [TestCase("Particular", new[] { "Operations.Licensing", "PlatformDevelopment", "ProductionTests" })]
-        public async void SyncLabels(string org, string[] privateRepos)
+        [TestCase("Particular", new[] { "Operations.Licensing", "PlatformDevelopment", "ProductionTests" }, false)]
+        public async void SyncLabels(string org, string[] privateRepos, bool dryRun)
         {
             Console.Out.WriteLine($"Syncing labels for {org}...");
 
@@ -53,22 +53,22 @@
                 .Concat(privateRepos)
                 .Select(async repo =>
             {
-                await SyncRepo(client, org, repo, templateLabels);
+                await SyncRepo(client, org, repo, templateLabels, dryRun);
             });
 
             await Task.WhenAll(syncs);
         }
 
         [Test, Explicit("Performs the actual sync for now")]
-        [TestCase("Particular", "TempRepo4PBot")]
-        public async void SyncLabels(string org, string repo)
+        [TestCase("Particular", "TempRepo4PBot", false)]
+        public async void SyncLabels(string org, string repo, bool dryRun)
         {
             var client = GitHubClientBuilder.Build();
             var templateLabels = await client.Issue.Labels.GetForRepository(org, "RepoStandards");
-            await SyncRepo(client, org, repo, templateLabels);
+            await SyncRepo(client, org, repo, templateLabels, dryRun);
         }
 
-        private static async Task SyncRepo(IGitHubClient client, string org, string repo, IEnumerable<Label> templateLabels)
+        private static async Task SyncRepo(IGitHubClient client, string org, string repo, IEnumerable<Label> templateLabels, bool dryRun)
         {
             Console.Out.WriteLine($"Syncing labels for {org}/{repo}...");
 
@@ -82,7 +82,10 @@
                 if (existingLabel == null)
                 {
                     Console.Out.WriteLine($"Creating label '{templateLabel.Name}' in {org}/{repo}...");
-                    await client.Issue.Labels.Create(org, repo, new NewLabel(templateLabel.Name, templateLabel.Color));
+                    if (!dryRun)
+                    {
+                        await client.Issue.Labels.Create(org, repo, new NewLabel(templateLabel.Name, templateLabel.Color));
+                    }
                 }
                 else
                 {
@@ -90,8 +93,11 @@
                         !existingLabel.Name.Equals(templateLabel.Name, StringComparison.InvariantCulture))
                     {
                         Console.Out.WriteLine($"Fixing color and case for label '{existingLabel.Name}' in {org}/{repo}...");
-                        await client.Issue.Labels.Update(
-                            org, repo, existingLabel.Name, new LabelUpdate(templateLabel.Name, templateLabel.Color));
+                        if (!dryRun)
+                        {
+                            await client.Issue.Labels.Update(
+                                org, repo, existingLabel.Name, new LabelUpdate(templateLabel.Name, templateLabel.Color));
+                        }
                     }
                 }
             }
@@ -131,11 +137,17 @@
                         Console.Out.WriteLine($"Removing label '{oldLabel}' from {org}/{repo}#{issue.Number}...");
                     }
 
-                    await client.Issue.Update(org, repo, issue.Number, issueUpdate);
+                    if (!dryRun)
+                    {
+                        await client.Issue.Update(org, repo, issue.Number, issueUpdate);
+                    }
                 }
 
                 Console.Out.WriteLine($"Deleting label '{oldLabel}' from {org}/{repo}...");
-                await client.Issue.Labels.Delete(org, repo, oldLabel);
+                if (!dryRun)
+                {
+                    await client.Issue.Labels.Delete(org, repo, oldLabel);
+                }
             }
         }
     }
