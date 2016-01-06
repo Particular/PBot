@@ -1,95 +1,93 @@
 ﻿namespace PBot.Issues
 {
-    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
     using Octokit;
 
-    static class IssueUtility
+    public static class IssueUtility
     {
-        public static async Task<Issue> Transfer(RepoInfo sourceRepository, int sourceIssueNumber, RepoInfo targetRepository, bool closeOriginal)
+        public static async Task<Issue> Transfer(
+            string sourceRepoOwner,
+            string sourceRepoName,
+            int sourceIssueNumber,
+            string targetRepoOwner,
+            string targetRepoName,
+            bool closeSourceIssue)
         {
             var client = GitHubClientBuilder.Build();
+            var issuesClient = client.Issue;
 
-            var issue = client.Issue;
-            var sourceIssue = await issue.Get(sourceRepository.Owner, sourceRepository.Name, sourceIssueNumber);
-            var sourceComments = await issue.Comment.GetForIssue(sourceRepository.Owner, sourceRepository.Name, sourceIssueNumber);
+            var sourceIssue = await issuesClient.Get(sourceRepoOwner, sourceRepoName, sourceIssueNumber);
+            var sourceComments = await issuesClient.Comment.GetForIssue(sourceRepoOwner, sourceRepoName, sourceIssueNumber);
+            var sourceLabels = await client.Issue.Labels.GetForIssue(sourceRepoOwner, sourceRepoName, sourceIssueNumber);
 
-            var newBody = string.Format(
-                @"**Issue by [{1}]({0})** _{2}_ _Originally opened as {3}_
-
-----
-
-{4}", sourceIssue.User.HtmlUrl, sourceIssue.User.Login, sourceIssue.CreatedAt, sourceIssue.HtmlUrl, sourceIssue.Body);
-
-            var createIssue = new NewIssue(sourceIssue.Title)
-            {
-                Assignee = sourceIssue.GetAssignee(),
-                Body = newBody
-            };
-            var targetIssue = await issue.Create(targetRepository.Owner, targetRepository.Name, createIssue);
-
-            var comment = sourceComments.FirstOrDefault();
-            if (comment != null)
-            {
-                var body = string.Format(
-                    @" **Comment by [{1}]({0})** _{2}_
+            var targetBody =
+$@"**Issue by [{sourceIssue.User.Login}]({sourceIssue.User.HtmlUrl})** _{sourceIssue.CreatedAt}_ _Originally opened as {sourceIssue.HtmlUrl}_
 
 ----
 
-{3}", comment.User.HtmlUrl, comment.User.Login, comment.HtmlUrl, comment.Body);
-                await issue.Comment.Create(targetRepository.Owner, targetRepository.Name, targetIssue.Number, body);
+{sourceIssue.Body}";
+
+            var targetIssue = await issuesClient.Create(
+                targetRepoOwner,
+                targetRepoName,
+                new NewIssue(sourceIssue.Title) { Assignee = sourceIssue.Assignee?.Login, Body = targetBody, });
+
+            var sourceComment = sourceComments.FirstOrDefault();
+            if (sourceComment != null)
+            {
+                var targetCommentBody =
+$@" **Comment by [{sourceComment.User.Login}]({sourceComment.User.HtmlUrl})** _{sourceComment.HtmlUrl}_
+
+----
+
+{sourceComment.Body}";
+
+                await issuesClient.Comment.Create(targetRepoOwner, targetRepoName, targetIssue.Number, targetCommentBody);
             }
 
-            await issue.Comment.Create(sourceRepository.Owner, sourceRepository.Name, sourceIssueNumber, (closeOriginal ? "moved to " : "copied to ") + targetIssue.HtmlUrl);
+            await issuesClient.Comment.Create(
+                sourceRepoOwner,
+                sourceRepoName,
+                sourceIssueNumber,
+                (closeSourceIssue ? "moved to " : "copied to ") + targetIssue.HtmlUrl);
 
             if (sourceIssue.ClosedAt == null)
             {
-                if (closeOriginal)
+                if (closeSourceIssue)
                 {
-                    var issueUpdate = new IssueUpdate
-                        {
-                            State = ItemState.Closed
-                        };
-                    await issue.Update(sourceRepository.Owner, sourceRepository.Name, sourceIssueNumber, issueUpdate);
+                    await issuesClient.Update(
+                        sourceRepoOwner, sourceRepoName, sourceIssueNumber, new IssueUpdate { State = ItemState.Closed });
                 }
             }
             else
             {
-                var issueUpdate = new IssueUpdate
-                {
-                    State = ItemState.Closed
-                };
-                await issue.Update(targetRepository.Owner, targetRepository.Name, targetIssue.Number, issueUpdate);
+                await issuesClient.Update(
+                    targetRepoOwner, targetRepoName, targetIssue.Number, new IssueUpdate { State = ItemState.Closed, });
             }
-            return await issue.Get(targetRepository.Owner, targetRepository.Name, targetIssue.Number);
-        }
-    }
 
-    class RepoInfo
-    {
-        public string Owner;
-        public string Name;
-    }
-
-    public static class Extensions
-    {
-        public static string ReadToEnd(this Stream stream)
-        {
-            using (var streamReader = new StreamReader(stream))
+            if (sourceLabels.Any())
             {
-                return streamReader.ReadToEnd();
+                var targetRepoLabels = await client.Issue.Labels.GetForRepository(targetRepoOwner, targetRepoName);
+                foreach (var sourceLabel in sourceLabels)
+                {
+                    if (!targetRepoLabels.Any(targetRepoLabel => targetRepoLabel.Name == sourceLabel.Name))
+                    {
+                        await client.Issue.Labels.Create(
+                            targetRepoOwner,
+                            targetRepoName,
+                            new NewLabel(sourceLabel.Name, sourceLabel.Color));
+                    }
+                }
+
+                await client.Issue.Labels.AddToIssue(
+                    targetRepoOwner,
+                    targetRepoName,
+                    targetIssue.Number,
+                    sourceLabels.Select(x => x.Name).ToArray());
             }
-        }
 
-        internal static string GetAssignee(this Issue issue)
-        {
-            return issue.Assignee?.Login;
-        }
-
-        internal static int? GetMilestone(this Issue issue)
-        {
-            return issue.Milestone?.Number;
+            return await client.Issue.Get(targetRepoOwner, targetRepoName, targetIssue.Number);
         }
     }
 }
