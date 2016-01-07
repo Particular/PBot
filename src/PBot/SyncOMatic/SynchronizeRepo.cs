@@ -87,7 +87,7 @@ namespace PBot.SyncOMatic
                     //capturedException.Throw();
                 }
 
-                await response.Send($"Want to know more about repo syncing? Go here: {@"https://github.com/Particular/Housekeeping/wiki/Repository%20synchronisation"}");
+                await response.Send($"Want to know more about repo syncing? Go here: {@"https://github.com/Particular/PlatformDevelopment/wiki/Repository%20synchronisation"}");
             }
         }
     }
