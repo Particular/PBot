@@ -26,13 +26,11 @@
                 { "in progress", "State: In Progress" },
                 { "Internal Refactoring", ClassificationLabels.RefactoringLabelName },
                 { "invalid", "Withdrawn: Invalid" },
-                { "Question", "Type: Question" },
+                { "Question", "Type: Discussion" },
+                { "Type: Question", "Type: Discussion" },
                 { "Resolution: Can't Reproduce", "Withdrawn: Invalid" },
                 { "Resolution: Duplicate", "Withdrawn: Duplicate" },
                 { "Resolution: Won't Fix", "Withdrawn: Won't Fix" },
-                { "State: Approved", null },
-                { "State: Prioritized", null },
-                { "State: Review", null },
                 { "up-for-grabs", "Tag: Up For Grabs" },
                 { "Urgent", null },
                 { "Type: Breaking Change", "Tag: Breaking Change" },
@@ -40,8 +38,26 @@
             };
 
         [Test, Explicit("Performs the actual sync for now")]
-        [TestCase("Particular", new[] { "Operations.Licensing", "PlatformDevelopment", "ProductionTests" })]
-        public async void SyncLabels(string org, string[] privateRepos)
+        [TestCase(
+            "Particular",
+            new[]
+            {
+                "AdvancedInstallerLicenser",
+                "Backend",
+                "GitHubGateway",
+                "Loudspeaker",
+                "NServiceBus.CodeAnalyzers",
+                "NServiceBus.Azure.Samples",
+                "Operations.DocsWeb",
+                "Operations.Licensing",
+                "Operations.Website.Backend",
+                "PlatformDevelopment",
+                "ProductionTests",
+                "ServiceMatrix.Samples",
+                "Website.Frontend",
+            },
+            false)]
+        public async void SyncLabels(string org, string[] privateRepos, bool dryRun)
         {
             Console.Out.WriteLine($"Syncing labels for {org}...");
 
@@ -51,24 +67,47 @@
                 .Where(repo => !repo.Private)
                 .Select(repo => repo.Name)
                 .Concat(privateRepos)
+                .Distinct(StringComparer.OrdinalIgnoreCase)
                 .Select(async repo =>
-            {
-                await SyncRepo(client, org, repo, templateLabels);
-            });
+                {
+                    await SyncRepo(client, org, repo, templateLabels, dryRun);
+                });
 
             await Task.WhenAll(syncs);
         }
 
         [Test, Explicit("Performs the actual sync for now")]
-        [TestCase("Particular", "TempRepo4PBot")]
-        public async void SyncLabels(string org, string repo)
+        [TestCase("Particular", "TempRepo4PBot", false)]
+        public async void SyncLabels(string org, string repo, bool dryRun)
         {
             var client = GitHubClientBuilder.Build();
             var templateLabels = await client.Issue.Labels.GetForRepository(org, "RepoStandards");
-            await SyncRepo(client, org, repo, templateLabels);
+            await SyncRepo(client, org, repo, templateLabels, dryRun);
         }
 
-        private static async Task SyncRepo(IGitHubClient client, string org, string repo, IEnumerable<Label> templateLabels)
+        [Test, Explicit("Performs the actual sync for now")]
+        [TestCase("Particular", new[] { "Type: Discussion" }, false)]
+        public async void SyncLabelsForAllRepos(string org, string[] templateLabelNames, bool dryRun)
+        {
+            Console.Out.WriteLine($"Syncing labels for {org}...");
+
+            var client = GitHubClientBuilder.Build();
+            var templateLabels = (await client.Issue.Labels.GetForRepository(org, "RepoStandards"))
+                .Where(label => templateLabelNames.Contains(label.Name));
+
+            var syncs = (await client.Repository.GetAllForOrg(org))
+                .Select(repo => repo.Name)
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .Select(async repo =>
+                {
+                    await SyncRepo(client, org, repo, templateLabels, dryRun);
+                });
+
+            await Task.WhenAll(syncs);
+        }
+
+        private static async Task SyncRepo(
+            IGitHubClient client, string org, string repo, IEnumerable<Label> templateLabels, bool dryRun)
         {
             Console.Out.WriteLine($"Syncing labels for {org}/{repo}...");
 
@@ -82,7 +121,10 @@
                 if (existingLabel == null)
                 {
                     Console.Out.WriteLine($"Creating label '{templateLabel.Name}' in {org}/{repo}...");
-                    await client.Issue.Labels.Create(org, repo, new NewLabel(templateLabel.Name, templateLabel.Color));
+                    if (!dryRun)
+                    {
+                        await client.Issue.Labels.Create(org, repo, new NewLabel(templateLabel.Name, templateLabel.Color));
+                    }
                 }
                 else
                 {
@@ -90,11 +132,18 @@
                         !existingLabel.Name.Equals(templateLabel.Name, StringComparison.InvariantCulture))
                     {
                         Console.Out.WriteLine($"Fixing color and case for label '{existingLabel.Name}' in {org}/{repo}...");
-                        await client.Issue.Labels.Update(
-                            org, repo, existingLabel.Name, new LabelUpdate(templateLabel.Name, templateLabel.Color));
+                        if (!dryRun)
+                        {
+                            await client.Issue.Labels.Update(
+                                org, repo, existingLabel.Name, new LabelUpdate(templateLabel.Name, templateLabel.Color));
+                        }
                     }
                 }
             }
+
+            existingLabels = (await client.Issue.Labels.GetForRepository(org, repo))
+                .Concat(dryRun ? templateLabels : Enumerable.Empty<Label>())
+                .ToArray();
 
             foreach (var oldLabel in existingLabels
                 .Where(label => labelMap.ContainsKey(label.Name))
@@ -122,20 +171,41 @@
 
                     if (newLabel != null)
                     {
-                        issueUpdate.AddLabel(newLabel);
-                        Console.Out.WriteLine(
-                            $"Switching from label '{oldLabel}' to '{newLabel}' for {org}/{repo}#{issue.Number}...");
+                        if (existingLabels.Any(label => label.Name == newLabel))
+                        {
+                            issueUpdate.AddLabel(newLabel);
+
+                            Console.Out.WriteLine(
+                                $"Switching from label '{oldLabel}' to '{newLabel}' for {org}/{repo}#{issue.Number}...");
+
+                            if (!dryRun)
+                            {
+                                await client.Issue.Update(org, repo, issue.Number, issueUpdate);
+                            }
+
+                            Console.Out.WriteLine($"Deleting label '{oldLabel}' from {org}/{repo}...");
+                            if (!dryRun)
+                            {
+                                await client.Issue.Labels.Delete(org, repo, oldLabel);
+                            }
+                        }
                     }
                     else
                     {
                         Console.Out.WriteLine($"Removing label '{oldLabel}' from {org}/{repo}#{issue.Number}...");
+
+                        if (!dryRun)
+                        {
+                            await client.Issue.Update(org, repo, issue.Number, issueUpdate);
+                        }
+
+                        Console.Out.WriteLine($"Deleting label '{oldLabel}' from {org}/{repo}...");
+                        if (!dryRun)
+                        {
+                            await client.Issue.Labels.Delete(org, repo, oldLabel);
+                        }
                     }
-
-                    await client.Issue.Update(org, repo, issue.Number, issueUpdate);
                 }
-
-                Console.Out.WriteLine($"Deleting label '{oldLabel}' from {org}/{repo}...");
-                await client.Issue.Labels.Delete(org, repo, oldLabel);
             }
         }
     }
