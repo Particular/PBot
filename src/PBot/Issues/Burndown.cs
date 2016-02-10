@@ -17,10 +17,12 @@ namespace PBot.Issues
         {
             var client = GitHubClientBuilder.Build();
 
-            var issue = new SearchIssuesRequest("");
-            issue.User = "Particular";
-            issue.Labels = new[] { parameters[1] };
-            issue.SortField = IssueSearchSort.Updated;
+            var issue = new SearchIssuesRequest("")
+            {
+                User = "Particular",
+                Labels = new[] { parameters[1] },
+                SortField = IssueSearchSort.Updated
+            };
             var searchresults = await client.Search.SearchIssues(issue);
 
             var createdDates = searchresults.Items.Select(i => i.CreatedAt).ToList();

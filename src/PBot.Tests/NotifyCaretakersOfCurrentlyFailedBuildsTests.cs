@@ -7,7 +7,7 @@
 
     class NotifyCaretakersOfCurrentlyFailedBuildsTests : BotCommandFixture<NotifyCaretakersOfCurrentlyFailedBuilds>
     {
-        [Test]
+        [Test, Ignore("Guest access to build server disabled for security reasons")]
         public async void RepoWithExistingBuild()
         {
             var repos = new AvailableRepositories
@@ -22,8 +22,6 @@
                     Name = "ServiceInsight",
                     Caretaker = "johndoe"
                 }
-
-                
             };
 
             brain.Set(repos);
@@ -31,7 +29,7 @@
             await Execute("notify caretakers of failed builds");
         }
 
-        [Test,Ignore("Until we have a better way excluding repos that doesn't need a build")]
+        [Test, Ignore("Until we have a better way excluding repos that doesn't need a build")]
         public async void RepoNoBuild()
         {
             var repos = new AvailableRepositories
@@ -41,7 +39,6 @@
                     Name = "NoBuild",
                     Caretaker = "johndoe"
                 },
-            
             };
 
             brain.Set(repos);

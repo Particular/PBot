@@ -18,14 +18,14 @@
 
             if (username != null && password != null)
             {
-                client = new RestClient(url + "/httpAuth/app/rest/")
+                client = new RestClient(url + "httpAuth/app/rest/")
                 {
                     Authenticator = new HttpBasicAuthenticator(username, password)
                 };
             }
             else
             {
-                client = new RestClient(url + "/guestAuth/app/rest/");
+                client = new RestClient(url + "guestAuth/app/rest/");
             }
         }
 
@@ -36,11 +36,11 @@
             return ExecuteGet<ListProjectsResponse>(request).Projects;
         }
 
-
         public ProjectDetails GetProjectById(string id)
         {
             return GetProjectByLocator("id:" + id);
         }
+
         public ProjectDetails GetProject(string name)
         {
             return GetProjectByLocator("name:" + name);
@@ -86,13 +86,11 @@
 
         public BuildDetails GetBuild(string id)
         {
-
             var request = new RestRequest("builds/{locator}");
 
             request.AddUrlSegment("locator", id);
 
             return ExecuteGet<BuildDetails>(request);
-
         }
 
         Build GetCurrentBuild(string projectId, string buildTypeId, string branch)
@@ -137,10 +135,9 @@
             request.AddUrlSegment("build-type-id", buildTypeId);
             var response = client.Get<BuildStatusResponse>(request);
 
-
             return response.Data.IsFailed();
-
         }
+
         class ProjectDetailsResponse
         {
             public string Id { get; set; }
@@ -162,7 +159,6 @@
             public List<BuildType> BuildType { get; set; }
         }
 
-
         class BuildStatusResponse
         {
             public int Count { get; set; }
@@ -175,11 +171,8 @@
 
         class ListProjectsResponse
         {
-
             [DeserializeAs(Name = "project")]
             public List<Project> Projects { get; set; }
         }
-
-
     }
 }
