@@ -20,7 +20,7 @@ namespace PBot.Buildserver
             var projectName = parameters[1];
 
             IEnumerable<Project> projects;
-            var client = new TeamCity("http://builds.particular.net");
+            var client = new TeamCity(Constants.BuildServerRoot);
             var allProjects = client.ListProjects();
 
             var displaySuccessMessage = true;
@@ -31,6 +31,7 @@ namespace PBot.Buildserver
                     projects = allProjects;
                     displaySuccessMessage = false;
                     break;
+
                 case "my repos":
                     var username = response.User.Name;
 
@@ -57,7 +58,6 @@ namespace PBot.Buildserver
                     break;
             }
 
-
             var projectWithFailures = projects.SelectMany(p => client.ListCurrentBuilds(p.Id, new[]
             {
                 "master",
@@ -71,19 +71,16 @@ namespace PBot.Buildserver
             {
                 var sb = new StringBuilder();
 
-
                 sb.AppendLine("*" + project.Key.Name + "*");
                 var buildTypes = project.GroupBy(b => b.BuildType);
 
                 foreach (var buildType in buildTypes)
                 {
-
                     sb.AppendLine("* `" + buildType.Key + "`");
 
                     foreach (var failedBuild in buildType)
                     {
                         sb.AppendLine($"     - {failedBuild.Number}({failedBuild.Branch}) {failedBuild.Url}");
-
                     }
                 }
 
@@ -92,10 +89,9 @@ namespace PBot.Buildserver
 
             if (projectWithFailures.Count > 0)
             {
-                var totalDownTimeT = projectWithFailures.SelectMany(p=>p.Select(bt => DateTime.Now - client.GetBuild(bt.Id).FinishedAt)).ToList();
+                var totalDownTimeT = projectWithFailures.SelectMany(p => p.Select(bt => DateTime.Now - client.GetBuild(bt.Id).FinishedAt)).ToList();
 
-
-                var totalDownTime  =  totalDownTimeT.Sum(ts=>ts.TotalDays);
+                var totalDownTime = totalDownTimeT.Sum(ts => ts.TotalDays);
 
                 await response.Send($"Summary: {projectWithFailures.SelectMany(p => p).Count()} failed builds, Total down time: {totalDownTime} days");
             }

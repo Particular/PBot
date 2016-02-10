@@ -167,6 +167,7 @@
     <Compile Include="Buildserver\ProjectDetails.cs" />
     <Compile Include="Buildserver\TeamCity.cs" />
     <Compile Include="Caretakers\ListCaretakers.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="GitHubRepoCollaboratorsClientBuilder.cs" />
     <Compile Include="Issues\Burndown.cs" />
     <Compile Include="Issues\CopyIssue.cs" />

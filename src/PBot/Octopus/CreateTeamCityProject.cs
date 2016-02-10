@@ -34,7 +34,7 @@ namespace PBot.Octopus
                         "machines-65" //TeamCity server
                     });
 
-                await response.Send($"Process started! Check out the result here {url} or go straight to the project settings http://builds.particular.net/admin/editProject.html?projectId={parentId}_{repo}");
+                await response.Send($"Process started! Check out the result here {url} or go straight to the project settings {Constants.BuildServerRoot}admin/editProject.html?projectId={parentId}_{repo}");
             }
         }
     }

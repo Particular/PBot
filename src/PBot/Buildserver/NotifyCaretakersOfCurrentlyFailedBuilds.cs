@@ -11,7 +11,7 @@ namespace PBot.Buildserver
                 "notify caretakers of failed builds$",
                 "`notify caretakers of failed builds` - Send a private message to each caretaker if there are currently failed builds")
         {
-            client = new TeamCity("http://builds.particular.net");
+            client = new TeamCity(Constants.BuildServerRoot);
         }
 
         public override async Task Execute(string[] parameters, IResponse response)
@@ -22,7 +22,7 @@ namespace PBot.Buildserver
                 .ToList();
 
             var allBuilds = client.ListProjects()
-                .Select(p=>p.Name)
+                .Select(p => p.Name)
                 .ToList();
 
             foreach (var repoGroup in reposGroupedByCaretaker)
@@ -37,7 +37,6 @@ namespace PBot.Buildserver
 
                 var reposWithABuild = repoGroup.Where(r => allBuilds.Contains(r.Name)).ToList();
 
-
                 var reposWithFailedBuilds = reposWithABuild.Where(r => HasFailedBuilds(r.Name))
                     .ToList();
 
@@ -50,7 +49,6 @@ namespace PBot.Buildserver
 
         bool HasFailedBuilds(string name)
         {
-
             var tcProj = client.GetProject(name);
 
             return client.ListCurrentBuilds(tcProj.Id, new[]
@@ -58,8 +56,6 @@ namespace PBot.Buildserver
                 "master",
                 "develop"
             }).Any(b => b.Status == BuildStatus.Failed);
-
-
         }
 
         TeamCity client;

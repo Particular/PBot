@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using NUnit.Framework;
+using PBot;
 using PBot.Buildserver;
 
 class TeamCityTests
@@ -25,7 +26,7 @@ class TeamCityTests
         var project = GetClient().GetProject("NServiceBus");
 
         Assert.AreEqual("NServiceBus", project.Name);
-        Assert.AreEqual("http://builds.particular.net/project.html?projectId=NServiceBus", project.Url);
+        Assert.AreEqual($"{Constants.BuildServerRoot}project.html?projectId=NServiceBus", project.Url);
         Assert.Greater(project.BuildTypes.Count, 0);
         Assert.NotNull(project.BuildTypes.First().Id);
     }
@@ -38,7 +39,6 @@ class TeamCityTests
 
         Console.Out.WriteLine(client.IsBuildCurrentlyFailed("NServiceBus", "NServiceBusCore_Build", branch));
         Console.Out.WriteLine(client.IsBuildCurrentlyFailed("ServiceControl", "bt58", branch));
-
     }
 
     [Test]
@@ -50,19 +50,17 @@ class TeamCityTests
             .Where(b => b.Status == BuildStatus.Failed)
             .ToList();
 
-
         foreach (var failedBuild in failedBuilds)
         {
             Console.Out.WriteLine(failedBuild.BuildType + ": " + failedBuild);
         }
     }
 
-
     [Test]
     public void Should_get_build_details()
     {
         var client = GetClient();
-       
+
         var build = client.ListCurrentBuilds("ServiceControl", new[]
         {
             "master"
@@ -70,13 +68,13 @@ class TeamCityTests
 
         var details = client.GetBuild(build.Id);
 
-        Assert.AreEqual(build.Id,details.Id);
+        Assert.AreEqual(build.Id, details.Id);
 
         Assert.GreaterOrEqual(DateTime.UtcNow, details.FinishedAt);
     }
 
     TeamCity GetClient()
     {
-        return new TeamCity("http://builds.particular.net");
+        return new TeamCity(Constants.BuildServerRoot);
     }
 }
