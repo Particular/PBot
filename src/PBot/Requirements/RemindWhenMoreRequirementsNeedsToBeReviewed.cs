@@ -21,8 +21,7 @@ namespace PBot.Requirements
 
         public async Task Perform()
         {
-
-            var allIssues = await client.Issue.GetForRepository(repository.Owner.Login, repository.Name);
+            var allIssues = await client.Issue.GetAllForRepository(repository.Owner.Login, repository.Name);
             var issuesToBeReviewed = allIssues.Where(i => i.Labels.Any(l => l.Name == RequirementStates.Review)).ToList();
 
             if (issuesToBeReviewed.Count > 0)

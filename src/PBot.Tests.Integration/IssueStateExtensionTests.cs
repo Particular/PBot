@@ -13,9 +13,9 @@ public class IssueStateExtensionTests
 
         var issue = CreateIssueWithLabels(labels);
 
-        Assert.True(issue.IsInState(MyStates.SomeState),"Should be in some state");
-        Assert.False(issue.IsInState(MyStates.SomeOtherState),"Should not be in some other state");
-        Assert.False(issue.IsInInitialState<MyStates>(),"Should not be in inital state");
+        Assert.True(issue.IsInState(MyStates.SomeState), "Should be in some state");
+        Assert.False(issue.IsInState(MyStates.SomeOtherState), "Should not be in some other state");
+        Assert.False(issue.IsInInitialState<MyStates>(), "Should not be in inital state");
     }
 
     [Test]
@@ -23,18 +23,16 @@ public class IssueStateExtensionTests
     {
         var labels = new List<Label>();
 
-       var issue = CreateIssueWithLabels(labels);
-
+        var issue = CreateIssueWithLabels(labels);
 
         Assert.False(issue.IsInState(MyStates.SomeState), "Should not be in some state");
         Assert.False(issue.IsInState(MyStates.SomeOtherState), "Should not be in some other state");
         Assert.True(issue.IsInInitialState<MyStates>(), "Should be in inital state");
     }
 
-
     private Issue CreateIssueWithLabels(List<Label> labels)
     {
-        return new Issue(null, null, 0, ItemState.All, null, null, null, labels, null, null, 0, null, null, DateTimeOffset.MinValue, null);
+        return new Issue(null, null, null, null, 0, ItemState.All, "title", "body", null, labels, null, null, 0, null, null, DateTimeOffset.MinValue, null, 0, false);
     }
 
     class MyStates

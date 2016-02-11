@@ -20,7 +20,6 @@
         {
             var client = GitHubClientBuilder.Build();
 
-
             foreach (var repo in Brain.Get<AvailableRepositories>())
             {
                 await Check(client, response, repo.Name);
@@ -37,8 +36,7 @@
 
             issueFilter.Labels.Add("Type: Bug");
 
-            var bugs = await client.Issue.GetForRepository("Particular", name, issueFilter);
-
+            var bugs = await client.Issue.GetAllForRepository("Particular", name, issueFilter);
 
             foreach (var bug in bugs)
             {
@@ -52,7 +50,6 @@
                     continue;
                 }
 
-
                 var hasAffected = bug.Body.Contains("## Who's affected");
                 var hasSymptoms = bug.Body.Contains("## Symptoms");
 
@@ -62,16 +59,13 @@
                 }
 
                 //todo: need to patch octokit to support ClosedBy
-                var events = await client.Issue.Events.GetForIssue("Particular", name, bug.Number);
-
-
+                var events = await client.Issue.Events.GetAllForIssue("Particular", name, bug.Number);
 
                 var closedEvent = events.First(e => e.Event == EventInfoState.Closed);
 
                 var userThatClosedTheIssue = closedEvent.Actor.Login;
 
                 string introText;
-
 
                 var chatUsername = Brain.Get<CredentialStore>()
                     .Where(s => s.Credentials.Any(credential => credential.Name == "github-username" && credential.Value == userThatClosedTheIssue))
@@ -89,13 +83,10 @@
 
                 await response.Send($"{introText} this bug is missing some mandatory sections. Please head over to {bug.HtmlUrl} and update it! Read more on required sections here: {@"https://github.com/Particular/Housekeeping/wiki/Required-sections-for-bugs"}").IgnoreWaitContext();
 
-
                 if (chatUsername == null)
                 {
                     await response.Send(string.Format("Do you know has the GitHub username {0} ? Do me a favor and ask them to register their username using: `pbot register credential github-username={0}` so that I can get in touch with them. Thanks!", userThatClosedTheIssue));
                 }
-
-
             }
         }
     }

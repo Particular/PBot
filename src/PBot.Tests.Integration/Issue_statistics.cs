@@ -36,12 +36,11 @@
 
             foreach (var repo in repos.Where(r => !r.Private))
             {
-                var issues = await client.Issue.GetForRepository(organization, repo.Name, request);
+                var issues = await client.Issue.GetAllForRepository(organization, repo.Name, request);
                 foreach (var issue in issues.Where(i => i.CreatedAt >= period))
                 {
                     var createdByExternalUser = members.All(m => m.Login != issue.User.Login);
                     var isBug = issue.Labels.Any(l => l.Name.ToLower() == "bug");
-
 
                     if (isBug)
                     {

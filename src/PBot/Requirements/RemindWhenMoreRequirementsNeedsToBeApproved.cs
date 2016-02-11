@@ -19,8 +19,7 @@ namespace PBot.Requirements
 
         public async Task Perform()
         {
-            var issues = await client.Issue.GetForRepository(repository.Owner.Login, repository.Name);
-
+            var issues = await client.Issue.GetAllForRepository(repository.Owner.Login, repository.Name);
 
             var numApproved = issues.Count(i => i.Labels.Any(l => l.Name == RequirementStates.Approved));
 

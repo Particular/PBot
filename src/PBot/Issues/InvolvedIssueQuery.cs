@@ -34,7 +34,7 @@ namespace PBot.Issues
             var creatorFilter = new RepositoryIssueRequest { State = ItemState.Open, Creator = username };
 
             var tasks = new[] { mentionedFilter, assigneeFilter, creatorFilter }
-                .Select(async filter => await client.Issue.GetForRepository("Particular", repo.Name, filter));
+                .Select(async filter => await client.Issue.GetAllForRepository("Particular", repo.Name, filter));
 
             var issues = (await Task.WhenAll(tasks))
                 .SelectMany(issue => issue)

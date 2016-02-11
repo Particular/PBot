@@ -18,8 +18,8 @@
             var issuesClient = client.Issue;
 
             var sourceIssue = await issuesClient.Get(sourceRepoOwner, sourceRepoName, sourceIssueNumber);
-            var sourceComments = await issuesClient.Comment.GetForIssue(sourceRepoOwner, sourceRepoName, sourceIssueNumber);
-            var sourceLabels = await client.Issue.Labels.GetForIssue(sourceRepoOwner, sourceRepoName, sourceIssueNumber);
+            var sourceComments = await issuesClient.Comment.GetAllForIssue(sourceRepoOwner, sourceRepoName, sourceIssueNumber);
+            var sourceLabels = await client.Issue.Labels.GetAllForIssue(sourceRepoOwner, sourceRepoName, sourceIssueNumber);
 
             var targetBody =
 $@"**Issue by [{sourceIssue.User.Login}]({sourceIssue.User.HtmlUrl})** _{sourceIssue.CreatedAt}_ _Originally opened as {sourceIssue.HtmlUrl}_
@@ -68,7 +68,7 @@ $@" **Comment by [{sourceComment.User.Login}]({sourceComment.User.HtmlUrl})** _{
 
             if (sourceLabels.Any())
             {
-                var targetRepoLabels = await client.Issue.Labels.GetForRepository(targetRepoOwner, targetRepoName);
+                var targetRepoLabels = await client.Issue.Labels.GetAllForRepository(targetRepoOwner, targetRepoName);
                 foreach (var sourceLabel in sourceLabels)
                 {
                     if (!targetRepoLabels.Any(targetRepoLabel => targetRepoLabel.Name == sourceLabel.Name))

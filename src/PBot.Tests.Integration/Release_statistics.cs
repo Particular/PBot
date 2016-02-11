@@ -20,7 +20,7 @@ namespace PBot.Tests.Integration
 
             foreach (var repo in repositories.Where(r => !r.Private && !r.Description.Contains("[State: Deprecated]")))
             {
-                var releases = await client.Release.GetAll(organization, repo.Name);
+                var releases = await client.Repository.Release.GetAll(organization, repo.Name);
 
                 foreach (var release in releases.Where(r => !r.Prerelease && !r.Draft))
                 {

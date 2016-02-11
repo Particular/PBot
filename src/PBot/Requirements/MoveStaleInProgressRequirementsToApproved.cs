@@ -20,10 +20,9 @@
 
         public async Task Perform()
         {
-
             var cutoffDate = DateTime.UtcNow - maxStaleness;
 
-            var issues = await client.Issue.GetForRepository(repository.Owner.Login, repository.Name);
+            var issues = await client.Issue.GetAllForRepository(repository.Owner.Login, repository.Name);
 
             foreach (var issue in issues.Where(i => i.IsInState(RequirementStates.InProgress)))
             {
@@ -44,8 +43,8 @@ During the last week I haven't noticed any updates either as comment or as items
 
 @{0} what's the status?
 
-* Do you think this requirement is stuck and need help? 
-* Has priorities changed? 
+* Do you think this requirement is stuck and need help?
+* Has priorities changed?
 * Is this one still relevant?
 
 Move it back to `In progress` when work on this one resumes again!
@@ -56,7 +55,6 @@ Ping @particular/PlatformDevelopment or the #platform-development slack channel 
                     await client.Issue.Comment.Create(repository.Owner.Login, repository.Name, issue.Number, string.Format(message, taskLead));
                 }
             }
-
         }
     }
 }

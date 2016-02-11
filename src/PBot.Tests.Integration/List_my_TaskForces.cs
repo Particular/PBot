@@ -14,7 +14,7 @@
         [Test, Explicit]
         public async void All()
         {
-            Console.Out.WriteLine( "### My Task forces" );
+            Console.Out.WriteLine("### My Task forces");
             var sw = Stopwatch.StartNew();
 
             var client = GitHubClientBuilder.Build();
@@ -39,13 +39,13 @@
             }
 
             sw.Stop();
-            Console.Out.WriteLine( "Total time (in seconds): {0}", sw.Elapsed.TotalSeconds );
+            Console.Out.WriteLine("Total time (in seconds): {0}", sw.Elapsed.TotalSeconds);
         }
     }
 
     public enum IssueInvolvement
     {
-        Chicken, 
+        Chicken,
         Pig
     }
 
@@ -78,9 +78,9 @@
             await Task.WhenAll(tasks);
 
             return from task in tasks
-                from issue in task.Result
-                orderby issue.Involvement descending, issue.Repo.Name ascending 
-                select issue;
+                   from issue in task.Result
+                   orderby issue.Involvement descending, issue.Repo.Name ascending
+                   select issue;
         }
 
         private async Task<IEnumerable<InvolvedIssue>> GetInvolvedIssuesForRepo(Repository repo, string username)
@@ -93,7 +93,7 @@
                 Mentioned = username
             };
 
-            var issues = await client.Issue.GetForRepository("Particular", repo.Name, filter);
+            var issues = await client.Issue.GetAllForRepository("Particular", repo.Name, filter);
 
             foreach (var issue in issues)
             {
@@ -103,7 +103,7 @@
 
                 results.Add(new InvolvedIssue
                 {
-                    Repo = repo, 
+                    Repo = repo,
                     Issue = issue,
                     Involvement = isOwner || isOnTeam ? IssueInvolvement.Pig : IssueInvolvement.Chicken,
                     Team = team

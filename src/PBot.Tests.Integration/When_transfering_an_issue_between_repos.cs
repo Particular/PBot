@@ -14,7 +14,7 @@ namespace PBot.Tests.Integration
 
         [SetUp]
         public void Setup() => TargetRepository =
-            GitHubClient.Repository.Create(new NewRepository { Name = $"{Repository.Name}-destination" }).Result;
+            GitHubClient.Repository.Create(new NewRepository($"{Repository.Name}-destination")).Result;
 
         [TearDown]
         public void TearDown() => Helper.DeleteRepo(TargetRepository);

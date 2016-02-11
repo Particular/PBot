@@ -17,13 +17,19 @@ namespace PBot.Issues
         {
             var client = GitHubClientBuilder.Build();
 
-            var issue = new SearchIssuesRequest("")
+            var issue = new SearchIssuesRequest
             {
                 User = "Particular",
                 Labels = new[] { parameters[1] },
                 SortField = IssueSearchSort.Updated
             };
             var searchresults = await client.Search.SearchIssues(issue);
+
+            if (searchresults.TotalCount == 0)
+            {
+                await response.Send($"I could not find any issues with the tag `{parameters[1]}`.");
+                return;
+            }
 
             var createdDates = searchresults.Items.Select(i => i.CreatedAt).ToList();
 

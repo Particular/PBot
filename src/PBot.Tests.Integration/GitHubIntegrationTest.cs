@@ -14,7 +14,7 @@ public class GitHubIntegrationTest
     [SetUp]
     public void FixtureSetup() =>
         Repository = (GitHubClient = Helper.GetAuthenticatedClient())
-            .Repository.Create(new NewRepository { Name = Helper.MakeNameWithTimestamp("requirements-test") }).Result;
+            .Repository.Create(new NewRepository(Helper.MakeNameWithTimestamp("requirements-test"))).Result;
 
     [TearDown]
     public void FixtureTearDown() => Helper.DeleteRepo(Repository);

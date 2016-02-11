@@ -20,10 +20,9 @@
 
         public async Task Perform()
         {
-
             var cutoffDate = DateTime.UtcNow - maxStaleness;
 
-            var issues = await client.Issue.GetForRepository(repository.Owner.Login, repository.Name);
+            var issues = await client.Issue.GetAllForRepository(repository.Owner.Login, repository.Name);
 
             foreach (var issue in issues.Where(i => i.IsInState(RequirementStates.ImpactAssessment)))
             {
@@ -37,7 +36,6 @@
                     await client.Issue.Comment.Create(repository.Owner.Login, repository.Name, issue.Number, message);
                 }
             }
-
         }
     }
 }

@@ -62,7 +62,7 @@
             Console.Out.WriteLine($"Syncing labels for {org}...");
 
             var client = GitHubClientBuilder.Build();
-            var templateLabels = await client.Issue.Labels.GetForRepository(org, "RepoStandards");
+            var templateLabels = await client.Issue.Labels.GetAllForRepository(org, "RepoStandards");
             var syncs = (await client.Repository.GetAllForOrg(org))
                 .Where(repo => !repo.Private)
                 .Select(repo => repo.Name)
@@ -81,7 +81,7 @@
         public async void SyncLabels(string org, string repo, bool dryRun)
         {
             var client = GitHubClientBuilder.Build();
-            var templateLabels = await client.Issue.Labels.GetForRepository(org, "RepoStandards");
+            var templateLabels = await client.Issue.Labels.GetAllForRepository(org, "RepoStandards");
             await SyncRepo(client, org, repo, templateLabels, dryRun);
         }
 
@@ -92,7 +92,7 @@
             Console.Out.WriteLine($"Syncing labels for {org}...");
 
             var client = GitHubClientBuilder.Build();
-            var templateLabels = (await client.Issue.Labels.GetForRepository(org, "RepoStandards"))
+            var templateLabels = (await client.Issue.Labels.GetAllForRepository(org, "RepoStandards"))
                 .Where(label => templateLabelNames.Contains(label.Name));
 
             var syncs = (await client.Repository.GetAllForOrg(org))
@@ -111,7 +111,7 @@
         {
             Console.Out.WriteLine($"Syncing labels for {org}/{repo}...");
 
-            var existingLabels = await client.Issue.Labels.GetForRepository(org, repo);
+            var existingLabels = await client.Issue.Labels.GetAllForRepository(org, repo);
 
             foreach (var templateLabel in templateLabels)
             {
@@ -141,7 +141,7 @@
                 }
             }
 
-            existingLabels = (await client.Issue.Labels.GetForRepository(org, repo))
+            existingLabels = (await client.Issue.Labels.GetAllForRepository(org, repo))
                 .Concat(dryRun ? templateLabels : Enumerable.Empty<Label>())
                 .ToArray();
 
@@ -153,7 +153,7 @@
 
                 var request = new RepositoryIssueRequest { State = ItemState.All };
                 request.Labels.Add(oldLabel);
-                var issues = await client.Issue.GetForRepository(org, repo, request);
+                var issues = await client.Issue.GetAllForRepository(org, repo, request);
 
                 foreach (var issue in issues)
                 {

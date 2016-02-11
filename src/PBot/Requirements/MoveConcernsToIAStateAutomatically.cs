@@ -17,9 +17,9 @@
 
         public async Task Perform()
         {
-            var issues = await client.Issue.GetForRepository(repository.Owner.Login, repository.Name);
+            var issues = await client.Issue.GetAllForRepository(repository.Owner.Login, repository.Name);
 
-            foreach (var issue in issues.Where(i=>i.Labels.Any(l=>l.Name == RequirementTypes.Concern)))
+            foreach (var issue in issues.Where(i => i.Labels.Any(l => l.Name == RequirementTypes.Concern)))
             {
                 if (issue.IsInInitialState<RequirementStates>())
                 {

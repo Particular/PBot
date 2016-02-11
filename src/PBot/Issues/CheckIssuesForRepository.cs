@@ -17,7 +17,7 @@
 
         public ValidationErrors Execute()
         {
-            var issues = client.Issue.GetForRepository(repository.Owner.Login, repository.Name, new RepositoryIssueRequest { State = ItemState.Open }).Result;
+            var issues = client.Issue.GetAllForRepository(repository.Owner.Login, repository.Name, new RepositoryIssueRequest { State = ItemState.Open }).Result;
             var validationErrors = new ValidationErrors();
 
             foreach (var issue in issues.Where(i => i.State == ItemState.Open))
@@ -35,7 +35,6 @@
                 }
 
                 ValidateNeedsLabels(issue, validationErrors, repository);
-
             }
 
             return validationErrors;
@@ -55,13 +54,12 @@
                         Issue = issue,
                         Repository = repository
                     });
-        
                 }
-            
+
                 return;
             }
 
-            if (issue.Labels.Any(l =>l.Name== "Needs: Triage") && lastActivityOnIssue < DateTime.UtcNow.AddDays(-3))
+            if (issue.Labels.Any(l => l.Name == "Needs: Triage") && lastActivityOnIssue < DateTime.UtcNow.AddDays(-3))
             {
                 validationErrors.Add(new ValidationError
                 {
@@ -70,7 +68,6 @@
                     Repository = repository
                 });
             }
-
 
             if (issue.Labels.Any(l => l.Name == "Needs: Reproduction") && lastActivityOnIssue < DateTime.UtcNow.AddDays(-7))
             {
@@ -117,6 +114,5 @@
                 });
             }
         }
-
     }
 }

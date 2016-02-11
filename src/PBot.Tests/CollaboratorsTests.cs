@@ -34,7 +34,7 @@
             {
                 try
                 {
-                    await client.Repository.RepoCollaborators.Delete(repository.Owner.Login, repository.Name, collaborator);
+                    await client.Repository.Collaborator.Delete(repository.Owner.Login, repository.Name, collaborator);
                 }
                 catch (Exception ex)
                 {

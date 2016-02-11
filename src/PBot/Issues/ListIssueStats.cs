@@ -11,7 +11,8 @@ namespace PBot.Issues
         public ListIssueStats()
             : base(
                 "list issue stats$",
-                "`pbot list issue stats` - Shows various issue stats") { }
+                "`pbot list issue stats` - Shows various issue stats")
+        { }
 
         public override async Task Execute(string[] parameters, IResponse response)
         {
@@ -25,7 +26,7 @@ namespace PBot.Issues
             foreach (var stat in stats.Where(s => s.NumIssues > 0)
                 .OrderByDescending(s => s.NumIssues))
             {
-                await response.Send(string.Format("*{2}* - T:{0}({3}), Bugs:{1}", stat.NumIssues, stat.NumBugs, stat.RepoName,stat.Trend)).IgnoreWaitContext();
+                await response.Send(string.Format("*{2}* - T:{0}({3}), Bugs:{1}", stat.NumIssues, stat.NumBugs, stat.RepoName, stat.Trend)).IgnoreWaitContext();
             }
 
             await response.Send("Hey, why don't you go ahead and fix some! Use `pbot check repo {name of repo above}` to find a few").IgnoreWaitContext();
@@ -36,10 +37,10 @@ namespace PBot.Issues
             var cutOffDate = DateTimeOffset.UtcNow.AddDays(-7);
             var client = GitHubClientBuilder.Build();
 
-            var issues = client.Issue.GetForRepository("Particular", name, new RepositoryIssueRequest { State = ItemState.Open })
+            var issues = client.Issue.GetAllForRepository("Particular", name, new RepositoryIssueRequest { State = ItemState.Open })
                 .Result;
 
-            var trend = client.Issue.GetForRepository("Particular", name, new RepositoryIssueRequest { State = ItemState.All, Since = cutOffDate })
+            var trend = client.Issue.GetAllForRepository("Particular", name, new RepositoryIssueRequest { State = ItemState.All, Since = cutOffDate })
               .Result
               .Where(i => i.CreatedAt >= cutOffDate || i.ClosedAt >= cutOffDate);
 
@@ -49,7 +50,6 @@ namespace PBot.Issues
                 NumBugs = issues.Count(i => i.Labels.Any(l => l.Name == "Type: Bug")),
                 NumIssues = issues.Count,
                 Trend = trend.Count(i => i.State == ItemState.Open) - trend.Count(i => i.State == ItemState.Closed)
-
             };
         }
     }
