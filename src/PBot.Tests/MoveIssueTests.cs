@@ -8,7 +8,7 @@
     {
         [Test]
         [Explicit]
-        public async void CanMoveIssue()
+        public async System.Threading.Tasks.Task CanMoveIssue()
         {
             await  Execute("move issue", "PBot.TestRepo#20", "PBot.TestRepo");
         }

@@ -7,7 +7,7 @@ public class MoveConcernsToIAStateAutomaticallyTests : GitHubIntegrationTest
 {
 
     [Test]
-    public async void Should_move_new_concerns_to_IA()
+    public async System.Threading.Tasks.Task Should_move_new_concerns_to_IA()
     {
         var chore = new MoveConcernsToIAStateAutomatically(GitHubClient, Repository);
 

@@ -8,7 +8,7 @@
     public class ListIssueStatsTest : BotCommandFixture<ListIssueStats>
     {
         [Test]
-        public async void ShowStats()
+        public async System.Threading.Tasks.Task ShowStats()
         {
             var repos = new AvailableRepositories
             {

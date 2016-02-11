@@ -57,7 +57,7 @@
                 "Website.Frontend",
             },
             false)]
-        public async void SyncLabels(string org, string[] privateRepos, bool dryRun)
+        public async Task SyncLabels(string org, string[] privateRepos, bool dryRun)
         {
             Console.Out.WriteLine($"Syncing labels for {org}...");
 
@@ -78,7 +78,7 @@
 
         [Test, Explicit("Performs the actual sync for now")]
         [TestCase("Particular", "TempRepo4PBot", false)]
-        public async void SyncLabels(string org, string repo, bool dryRun)
+        public async Task SyncLabels(string org, string repo, bool dryRun)
         {
             var client = GitHubClientBuilder.Build();
             var templateLabels = await client.Issue.Labels.GetAllForRepository(org, "RepoStandards");
@@ -87,7 +87,7 @@
 
         [Test, Explicit("Performs the actual sync for now")]
         [TestCase("Particular", new[] { "Type: Discussion" }, false)]
-        public async void SyncLabelsForAllRepos(string org, string[] templateLabelNames, bool dryRun)
+        public async Task SyncLabelsForAllRepos(string org, string[] templateLabelNames, bool dryRun)
         {
             Console.Out.WriteLine($"Syncing labels for {org}...");
 

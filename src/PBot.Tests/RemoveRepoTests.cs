@@ -9,7 +9,7 @@
     public class RemoveRepositoryTests : BotCommandFixture<RemoveRepository>
     {
         [Test]
-        public async void RemoveValidRepo()
+        public async System.Threading.Tasks.Task RemoveValidRepo()
         {
          
             var repoName = "nservicebus";
@@ -31,7 +31,7 @@
       
 
         [Test]
-        public async void RemoveValidButNonExistingRepo()
+        public async System.Threading.Tasks.Task RemoveValidButNonExistingRepo()
         {
 
             var repoName = "nservicebus";

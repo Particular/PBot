@@ -11,7 +11,7 @@
     public class RemindUsersOfBugsWithMissingSectionsTests : BotCommandFixture<RemindUsersOfBugsWithMissingSections>
     {
         [Test]
-        public async void CheckWithNonMappedUser()
+        public async System.Threading.Tasks.Task CheckWithNonMappedUser()
         {
             var repos = new AvailableRepositories
             {
@@ -31,7 +31,7 @@
         }
 
         [Test]
-        public async void CheckRaven()
+        public async System.Threading.Tasks.Task CheckRaven()
         {
             var repos = new AvailableRepositories
             {
@@ -47,7 +47,7 @@
 
 
         [Test]
-        public async void CheckWithMappedUser()
+        public async System.Threading.Tasks.Task CheckWithMappedUser()
         {
             var repos = new AvailableRepositories
             {

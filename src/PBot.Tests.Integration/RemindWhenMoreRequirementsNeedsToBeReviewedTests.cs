@@ -6,7 +6,7 @@ public class RemindWhenMoreRequirementsNeedsToBeReviewedTests : GitHubIntegratio
 {
 
     [Test]
-    public async void Should_remind_when_there_is_more_than_1_requirements_to_be_reviewed()
+    public async System.Threading.Tasks.Task Should_remind_when_there_is_more_than_1_requirements_to_be_reviewed()
     {
         var response = new TestResponder();
         await GitHubClient.Issue.Create(RepositoryOwner, RepositoryName, Requirements.NewFeature("Approved1", state: RequirementStates.Approved));
@@ -17,7 +17,7 @@ public class RemindWhenMoreRequirementsNeedsToBeReviewedTests : GitHubIntegratio
     }
 
     [Test]
-    public async void Should_not_remind_when_there_are_no_requirements_to_be_reviewed()
+    public async System.Threading.Tasks.Task Should_not_remind_when_there_are_no_requirements_to_be_reviewed()
     {
         var response = new TestResponder();
         var chore = new RemindWhenMoreRequirementsNeedsToBeReviewed(GitHubClient, Repository, response);

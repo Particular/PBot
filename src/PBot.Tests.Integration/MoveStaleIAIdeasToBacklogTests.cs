@@ -7,7 +7,7 @@ public class MoveStaleIAIdeasToBacklogTests : GitHubIntegrationTest
 {
 
     [Test]
-    public async void Should_move_stale_cards_to_backlog()
+    public async System.Threading.Tasks.Task Should_move_stale_cards_to_backlog()
     {
         var staleNewCard = await GitHubClient.Issue.Create(RepositoryOwner, RepositoryName, Requirements.NewFeature("Stale new idea"));
         var reviewCard = await GitHubClient.Issue.Create(RepositoryOwner, RepositoryName, Requirements.NewFeature("Review", state: RequirementStates.Review));
@@ -26,7 +26,7 @@ public class MoveStaleIAIdeasToBacklogTests : GitHubIntegrationTest
     }
 
     [Test]
-    public async void Should_leave_non_stale_cards_untouched()
+    public async System.Threading.Tasks.Task Should_leave_non_stale_cards_untouched()
     {
         var nonStaleIACard = await GitHubClient.Issue.Create(RepositoryOwner, RepositoryName, Requirements.NewFeature("IA", state: RequirementStates.ImpactAssessment));
 

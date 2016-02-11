@@ -8,7 +8,7 @@ namespace PBot.Tests.Integration
     public class Release_statistics
     {
         [Test, Explicit]
-        public async void AllReleases()
+        public async System.Threading.Tasks.Task AllReleases()
         {
             Console.Out.WriteLine("### All Releases");
 

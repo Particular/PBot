@@ -7,7 +7,7 @@ using PBot.Requirements;
 public class MoveStaleInProgressRequirementsToApprovedTests : GitHubIntegrationTest
 {
     [Test]
-    public async void Should_move_stale_InProgress_requirements_back_to_approved()
+    public async System.Threading.Tasks.Task Should_move_stale_InProgress_requirements_back_to_approved()
     {
         var newStaleIssue = Requirements.NewFeature("InProgress Stale", state: RequirementStates.InProgress);
 
@@ -37,7 +37,7 @@ public class MoveStaleInProgressRequirementsToApprovedTests : GitHubIntegrationT
     }
 
     [Test]
-    public async void Should_leave_non_stale_items_untouched()
+    public async System.Threading.Tasks.Task Should_leave_non_stale_items_untouched()
     {
         var nonStaleInProgressCard = await GitHubClient.Issue.Create(RepositoryOwner, RepositoryName, Requirements.NewFeature("InProgress", state: RequirementStates.InProgress));
 

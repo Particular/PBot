@@ -9,7 +9,7 @@ namespace PBot.Tests
     public class ListCredentialTests : BotCommandFixture<ListCredentials>
     {
         [Test]
-        public async void ListUserWithExistingCreds()
+        public async System.Threading.Tasks.Task ListUserWithExistingCreds()
         {
 
             var store = new CredentialStore

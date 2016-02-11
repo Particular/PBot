@@ -9,7 +9,7 @@
     public class Feature_development_statistics
     {
         [Test, Explicit]
-        public async void GenerateReport()
+        public async System.Threading.Tasks.Task GenerateReport()
         {
             var client = GitHubClientBuilder.Build();
             var period = TimeSpan.FromDays(30);

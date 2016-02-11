@@ -9,7 +9,7 @@
     public class RegisterCaretakerTests:BotCommandFixture<RegisterCaretaker>
     {
         [Test]
-        public async void ExplicitUserToExistingRepo()
+        public async System.Threading.Tasks.Task ExplicitUserToExistingRepo()
         {
             var username = "testuser";
             var repoName = "nservicebus";
@@ -28,7 +28,7 @@
             Assert.AreEqual(repos.Single(r=>r.Name == repoName).Caretaker,username);
         }
         [Test]
-        public async void CurrentUserToExistingRepo()
+        public async System.Threading.Tasks.Task CurrentUserToExistingRepo()
         {
             var username = "current";
             var repoName = "nservicebus";
@@ -49,7 +49,7 @@
         }
 
         [Test]
-        public async void AddCaretakerToUnknownRepo()
+        public async System.Threading.Tasks.Task AddCaretakerToUnknownRepo()
         {
             brain.Set(new AvailableRepositories());
 

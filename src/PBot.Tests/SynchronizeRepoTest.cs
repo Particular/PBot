@@ -8,7 +8,7 @@
     public class SynchronizeRepoTest : BotCommandFixture<SynchronizeRepo>
     {
         [Test,Explicit]
-        public async void SyncTestRepo()
+        public async System.Threading.Tasks.Task SyncTestRepo()
         {
             await Execute("sync", "PBot.testrepo", "target branch", "master");
         }

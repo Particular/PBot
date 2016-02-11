@@ -8,7 +8,7 @@
     public class RegisterCredentialTests : BotCommandFixture<RegisterCredential>
     {
         [Test]
-        public async void AddForNewUser()
+        public async System.Threading.Tasks.Task AddForNewUser()
         {
             AsUser("testuser");
             await Execute("", "credential=value");
@@ -19,7 +19,7 @@
         }
 
         [Test]
-        public async void UpdateCredential()
+        public async System.Threading.Tasks.Task UpdateCredential()
         {
             AsUser("testuser");
             await Execute("", "credential=value");

@@ -9,7 +9,7 @@
     public class CheckIssuesInMyReposTests : BotCommandFixture<CheckIssuesInMyRepos>
     {
         [Test]
-        public async void CheckIssuesForExistingUser()
+        public async System.Threading.Tasks.Task CheckIssuesForExistingUser()
         {
             var repos = new AvailableRepositories
             {
@@ -32,7 +32,7 @@
         }
 
         [Test]
-        public async void CheckIssuesForUserWithNoRepos()
+        public async System.Threading.Tasks.Task CheckIssuesForUserWithNoRepos()
         {
             var repos = new AvailableRepositories
             {

@@ -10,7 +10,7 @@
     public class Issue_statistics //: BotCommandFixture<ListIssuesFromExternalContributors>
     {
         [Test, Explicit]
-        public async void AllBugs()
+        public async Task AllBugs()
         {
             Console.Out.WriteLine("### All bugs");
             await GenerateReport();

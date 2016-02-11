@@ -11,7 +11,7 @@
     {
         [Test]
         [Explicit]
-        public async void CanConvertAnExistingIssue()
+        public async System.Threading.Tasks.Task CanConvertAnExistingIssue()
         {
             var token = Environment.GetEnvironmentVariable("PBOT_GH_ACCESSTOKEN");
             
@@ -27,7 +27,7 @@
         }
 
         [Test]
-        public async void ShouldAskForGHTokenIfNotPresent()
+        public async System.Threading.Tasks.Task ShouldAskForGHTokenIfNotPresent()
         {
             await Execute("convert", "PBot.TestRepo", "#", "19", "to pull from", "failed-pull-1", "to", "master");
 

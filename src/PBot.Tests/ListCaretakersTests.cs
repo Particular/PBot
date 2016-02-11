@@ -9,7 +9,7 @@
     public class ListCaretakersTests : BotCommandFixture<ListCaretakers>
     {
         [Test]
-        public async void ShouldGroupTheRepos()
+        public async System.Threading.Tasks.Task ShouldGroupTheRepos()
         {
             var username = "testuser";
             var repos = new AvailableRepositories

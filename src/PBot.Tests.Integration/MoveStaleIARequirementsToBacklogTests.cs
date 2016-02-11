@@ -7,7 +7,7 @@ public class MoveStaleIARequirementsToBacklogTests : GitHubIntegrationTest
 {
 
     [Test]
-    public async void Should_move_stale_IA_requirements_to_backlog()
+    public async System.Threading.Tasks.Task Should_move_stale_IA_requirements_to_backlog()
     {
         var staleIACard = await GitHubClient.Issue.Create(RepositoryOwner, RepositoryName, Requirements.NewFeature("IA Stale", state: RequirementStates.ImpactAssessment));
         var reviewCard = await GitHubClient.Issue.Create(RepositoryOwner, RepositoryName, Requirements.NewFeature("Review", state: RequirementStates.Review));
@@ -27,7 +27,7 @@ public class MoveStaleIARequirementsToBacklogTests : GitHubIntegrationTest
     }
 
     [Test]
-    public async void Should_leave_non_stale_items_untouched()
+    public async System.Threading.Tasks.Task Should_leave_non_stale_items_untouched()
     {
         var nonStaleIACard = await GitHubClient.Issue.Create(RepositoryOwner, RepositoryName, Requirements.NewFeature("IA", state: RequirementStates.ImpactAssessment));
      

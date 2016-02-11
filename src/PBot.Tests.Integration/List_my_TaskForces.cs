@@ -12,7 +12,7 @@
     public class List_my_TaskForces //: BotCommandFixture<ListIssuesFromExternalContributors>
     {
         [Test, Explicit]
-        public async void All()
+        public async Task All()
         {
             Console.Out.WriteLine("### My Task forces");
             var sw = Stopwatch.StartNew();

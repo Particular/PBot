@@ -2,6 +2,7 @@
 {
     using System;
     using System.Linq;
+    using System.Threading.Tasks;
     using IssueButler.Mmbot.Caretakers;
     using IssueButler.Mmbot.Repositories;
     using NUnit.Framework;
@@ -10,20 +11,19 @@
     public class AddRepoTests : BotCommandFixture<AddRepository>
     {
         [Test]
-        public async void AddNewValidRepo()
+        public async Task AddNewValidRepo()
         {
-         
             var repoName = "nservicebus";
-            
+
             brain.Set(new AvailableRepositories());
 
             await Execute("add", repoName);
 
             Assert.NotNull(brain.Get<AvailableRepositories>().Single(r => r.Name == repoName));
         }
-      
+
         [Test]
-        public async void AddByWildcard()
+        public async Task AddByWildcard()
         {
             var repoName = "nservicebus.rabb*";
 
@@ -36,9 +36,8 @@
         }
 
         [Test]
-        public async void AddInvalidRepo()
+        public async Task AddInvalidRepo()
         {
-
             var repoName = "NonExistingRepo";
             var repos = new AvailableRepositories();
 
@@ -46,15 +45,13 @@
 
             await Execute("add", repoName);
 
-
             Assert.False(repos.Any());
             Assert.NotNull(Messages.SingleOrDefault(m => m.Contains("doesn't exist")));
         }
 
         [Test]
-        public async void AddDuplicateValidRepo()
+        public async Task AddDuplicateValidRepo()
         {
-
             var repoName = "nservicebus";
             var repos = new AvailableRepositories
             {
@@ -69,7 +66,7 @@
             await Execute("add", repoName);
 
             Assert.NotNull(repos.Single(r => r.Name == repoName));
-            Assert.NotNull(Messages.Single(m=>m.Contains("already exists")));
+            Assert.NotNull(Messages.Single(m => m.Contains("already exists")));
         }
     }
 }

@@ -6,7 +6,7 @@ public class RemindWhenMoreRequirementsNeedsToBeApprovedTests : GitHubIntegratio
 {
 
     [Test]
-    public async void Should_remind_when_less_than_2_requirements_are_approved()
+    public async System.Threading.Tasks.Task Should_remind_when_less_than_2_requirements_are_approved()
     {
         var response = new TestResponder();
 
@@ -22,7 +22,7 @@ public class RemindWhenMoreRequirementsNeedsToBeApprovedTests : GitHubIntegratio
     }
 
     [Test]
-    public async void Should_not_remind_when_2_or_more_requirements_are_approved()
+    public async System.Threading.Tasks.Task Should_not_remind_when_2_or_more_requirements_are_approved()
     {
         var response = new TestResponder();
 

@@ -9,7 +9,7 @@
     public class RemindCaretakersOfIssuesToBeHandledTests : BotCommandFixture<RemindCaretakersOfIssuesToBeHandled>
     {
         [Test]
-        public async void MakeSureOnlyReposWithACaretakerIsChecked()
+        public async System.Threading.Tasks.Task MakeSureOnlyReposWithACaretakerIsChecked()
         {
             var username = "testuser";
             var repoName = "PBot.TestRepo";
