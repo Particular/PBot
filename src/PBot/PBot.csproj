@@ -174,6 +174,7 @@
     <Compile Include="Issues\IssueStateExtensions.cs" />
     <Compile Include="Issues\IssueUtility.cs" />
     <Compile Include="Issues\MoveIssue.cs" />
+    <Compile Include="Issues\ListStaleIssues.cs" />
     <Compile Include="OctoExtensions.cs" />
     <Compile Include="Octopus\CreateTeamCityProject.cs" />
     <Compile Include="Octopus\UpdateProjectGroup.cs" />
