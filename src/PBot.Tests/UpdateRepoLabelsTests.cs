@@ -27,6 +27,7 @@
                 { "Internal Refactoring", ClassificationLabels.RefactoringLabelName },
                 { "invalid", "Withdrawn: Invalid" },
                 { "Question", "Type: Discussion" },
+                { "Tag: Core v6", "Project: V6 Launch" },
                 { "Type: Question", "Type: Discussion" },
                 { "Resolution: Can't Reproduce", "Withdrawn: Invalid" },
                 { "Resolution: Duplicate", "Withdrawn: Duplicate" },
@@ -86,7 +87,7 @@
         }
 
         [Test, Explicit("Performs the actual sync for now")]
-        [TestCase("Particular", new[] { "Type: Discussion" }, false)]
+        [TestCase("Particular", new[] { "Project: V6 Launch" }, false)]
         public async Task SyncLabelsForAllRepos(string org, string[] templateLabelNames, bool dryRun)
         {
             Console.Out.WriteLine($"Syncing labels for {org}...");
@@ -100,7 +101,14 @@
                 .Distinct(StringComparer.OrdinalIgnoreCase)
                 .Select(async repo =>
                 {
-                    await SyncRepo(client, org, repo, templateLabels, dryRun);
+                    try
+                    {
+                        await SyncRepo(client, org, repo, templateLabels, dryRun);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.Out.WriteLine($"Failed to sync {org}/{repo} - {ex.Message}");
+                    }
                 });
 
             await Task.WhenAll(syncs);
