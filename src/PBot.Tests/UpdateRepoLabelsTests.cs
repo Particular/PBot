@@ -71,7 +71,14 @@
                 .Distinct(StringComparer.OrdinalIgnoreCase)
                 .Select(async repo =>
                 {
-                    await SyncRepo(client, org, repo, templateLabels, dryRun);
+                    try
+                    {
+                        await SyncRepo(client, org, repo, templateLabels, dryRun);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.Out.WriteLine($"Failed to sync {org}/{repo} - {ex.Message}");
+                    }
                 });
 
             await Task.WhenAll(syncs);
