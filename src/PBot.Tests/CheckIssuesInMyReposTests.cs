@@ -3,7 +3,7 @@
     using System.Linq;
     using IssueButler.Mmbot.Repositories;
     using NUnit.Framework;
-    using PBot.Issues;
+    using Issues;
 
     [TestFixture]
     public class CheckIssuesInMyReposTests : BotCommandFixture<CheckIssuesInMyRepos>

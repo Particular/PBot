@@ -7,9 +7,9 @@ namespace PBot.Requirements
 
     public class MoveStaleRequirementIdeasToBacklog
     {
-        readonly IGitHubClient client;
-        readonly Repository repository;
-        readonly TimeSpan maxStaleness;
+        IGitHubClient client;
+        Repository repository;
+        TimeSpan maxStaleness;
 
         public MoveStaleRequirementIdeasToBacklog(IGitHubClient client, Repository repository, TimeSpan maxStaleness)
         {

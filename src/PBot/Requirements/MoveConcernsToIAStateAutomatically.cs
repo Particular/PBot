@@ -6,8 +6,8 @@
 
     public class MoveConcernsToIAStateAutomatically
     {
-        readonly IGitHubClient client;
-        readonly Repository repository;
+        IGitHubClient client;
+        Repository repository;
 
         public MoveConcernsToIAStateAutomatically(IGitHubClient client, Repository repository)
         {

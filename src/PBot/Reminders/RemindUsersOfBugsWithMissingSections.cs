@@ -5,7 +5,7 @@
     using System.Threading.Tasks;
     using IssueButler.Mmbot.Repositories;
     using Octokit;
-    using PBot.Users;
+    using Users;
 
     public class RemindUsersOfBugsWithMissingSections : BotCommand
     {
@@ -81,7 +81,7 @@
                     introText = $"Hi there @{chatUsername}! I've seen that";
                 }
 
-                await response.Send($"{introText} this bug is missing some mandatory sections. Please head over to {bug.HtmlUrl} and update it! Read more on required sections here: {@"https://github.com/Particular/Housekeeping/wiki/Required-sections-for-bugs"}").IgnoreWaitContext();
+                await response.Send($"{introText} this bug is missing some mandatory sections. Please head over to {bug.HtmlUrl} and update it! Read more on required sections here: {"https://github.com/Particular/Housekeeping/wiki/Required-sections-for-bugs"}").IgnoreWaitContext();
 
                 if (chatUsername == null)
                 {

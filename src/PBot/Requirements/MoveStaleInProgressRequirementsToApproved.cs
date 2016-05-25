@@ -7,9 +7,9 @@
 
     public class MoveStaleInProgressRequirementsToApproved
     {
-        readonly IGitHubClient client;
-        readonly Repository repository;
-        readonly TimeSpan maxStaleness;
+        IGitHubClient client;
+        Repository repository;
+        TimeSpan maxStaleness;
 
         public MoveStaleInProgressRequirementsToApproved(IGitHubClient client, Repository repository, TimeSpan maxStaleness)
         {

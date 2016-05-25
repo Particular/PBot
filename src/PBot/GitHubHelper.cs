@@ -7,7 +7,7 @@
     {
         // From https://github.com/octokit/octokit.net/blob/master/Octokit.Tests.Integration/Helper.cs
 
-        static readonly Lazy<Credentials> _credentialsThunk = new Lazy<Credentials>(() =>
+        static Lazy<Credentials> _credentialsThunk = new Lazy<Credentials>(() =>
         {
             var githubUsername = Environment.GetEnvironmentVariable("OCTOKIT_GITHUBUSERNAME");
 

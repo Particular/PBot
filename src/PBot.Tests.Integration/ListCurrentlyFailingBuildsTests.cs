@@ -10,13 +10,13 @@ class ListCurrentlyFailingBuildsTests : BotCommandFixture<ListCurrentlyFailingBu
     [Test]
     public void ListSpecificProject()
     {
-        Execute(new[] { "", "NServiceBus.NHibernate" });
+        Execute("", "NServiceBus.NHibernate");
     }
 
     [Test]
     public void ListNonExistingProject()
     {
-        Execute(new[] { "", "xyz" });
+        Execute("", "xyz");
 
         Assert.True(Messages.First().Contains("`xyz`"));
     }
@@ -24,7 +24,7 @@ class ListCurrentlyFailingBuildsTests : BotCommandFixture<ListCurrentlyFailingBu
     [Test, Explicit("Long running")]
     public void ListAllBuilds()
     {
-        Execute(new[] { "", "all projects" });
+        Execute("", "all projects");
     }
 
 
@@ -49,6 +49,6 @@ class ListCurrentlyFailingBuildsTests : BotCommandFixture<ListCurrentlyFailingBu
 
         brain.Set(repos);
         AsUser(username);
-        Execute(new[] { "", "my repos" });
+        Execute("", "my repos");
     }
 }

@@ -3,7 +3,7 @@
     using System.Linq;
     using IssueButler.Mmbot.Repositories;
     using NUnit.Framework;
-    using PBot.Caretakers;
+    using Caretakers;
 
     [TestFixture]
     public class ListCaretakersTests : BotCommandFixture<ListCaretakers>

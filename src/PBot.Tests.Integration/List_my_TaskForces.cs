@@ -60,7 +60,7 @@
     public class InvolvedIssueQuery
     {
         static Regex TaskForceRx = new Regex(@"Task[\s-]?Force:\s*(.*)$", RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        static Regex Mentions = new Regex(@"@[a-z0-9.-]+", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        static Regex Mentions = new Regex("@[a-z0-9.-]+", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         GitHubClient client;
 
@@ -83,7 +83,7 @@
                    select issue;
         }
 
-        private async Task<IEnumerable<InvolvedIssue>> GetInvolvedIssuesForRepo(Repository repo, string username)
+        async Task<IEnumerable<InvolvedIssue>> GetInvolvedIssuesForRepo(Repository repo, string username)
         {
             var results = new List<InvolvedIssue>();
 
@@ -113,7 +113,7 @@
             return results;
         }
 
-        private IEnumerable<string> ExtractTeam(string issueBody)
+        IEnumerable<string> ExtractTeam(string issueBody)
         {
             if (issueBody == null)
                 return Enumerable.Empty<string>();

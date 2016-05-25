@@ -7,7 +7,7 @@ namespace PBot
     using MMBot;
     using MMBot.Brains;
     using MMBot.Scripts;
-    using PBot.Users;
+    using Users;
 
     public abstract class BotCommand : IMMBotScript
     {
@@ -109,8 +109,8 @@ namespace PBot
             return new[] { helpText };
         }
 
-        readonly string command;
-        readonly string helpText;
+        string command;
+        string helpText;
 
         public interface IResponse
         {
@@ -136,7 +136,7 @@ namespace PBot
             return msg.Send(message);
         }
 
-        readonly IResponse<TextMessage> msg;
+        IResponse<TextMessage> msg;
 
     }
 }

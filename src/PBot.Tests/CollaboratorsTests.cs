@@ -27,7 +27,7 @@
                 $"Deleted {collaborators.Length:N0} collaborators from {removals.Count:N0} repositories.");
         }
 
-        private static async Task DeleteCollaborators(
+        static async Task DeleteCollaborators(
             IGitHubClient client, Repository repository, IEnumerable<string> collaborators)
         {
             var removals = collaborators.Select(async collaborator =>

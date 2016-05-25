@@ -8,9 +8,9 @@ namespace PBot.Requirements
 
     public class RemindWhenMoreRequirementsNeedsToBeReviewed
     {
-        readonly IGitHubClient client;
-        readonly Repository repository;
-        readonly BotCommand.IResponse response;
+        IGitHubClient client;
+        Repository repository;
+        BotCommand.IResponse response;
 
         public RemindWhenMoreRequirementsNeedsToBeReviewed(IGitHubClient client, Repository repository, BotCommand.IResponse response)
         {

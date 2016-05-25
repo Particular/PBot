@@ -2,7 +2,7 @@
 {
     using System.Linq;
     using NUnit.Framework;
-    using PBot.Users;
+    using Users;
 
     [TestFixture]
     public class RegisterCredentialTests : BotCommandFixture<RegisterCredential>

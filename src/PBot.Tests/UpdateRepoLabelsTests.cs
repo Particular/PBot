@@ -7,12 +7,12 @@
     using NUnit.Framework;
     using Octokit;
     using PBot;
-    using PBot.Issues;
+    using Issues;
 
     [TestFixture]
     public class UpdateRepoLabelsTests
     {
-        private static readonly Dictionary<string, string> labelMap =
+        static Dictionary<string, string> labelMap =
             new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase)
             {
                 { "Breaking Change", "Tag: Breaking Change" },
@@ -121,7 +121,7 @@
             await Task.WhenAll(syncs);
         }
 
-        private static async Task SyncRepo(
+        static async Task SyncRepo(
             IGitHubClient client, string org, string repo, IEnumerable<Label> templateLabels, bool dryRun)
         {
             Console.Out.WriteLine($"Syncing labels for {org}/{repo}...");

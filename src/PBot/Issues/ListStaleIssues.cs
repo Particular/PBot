@@ -67,7 +67,7 @@
             await response.Send("Done.");
         }
 
-        private string InProgressLabel = "State: In Progress";
-        private TimeSpan StalenessPeriod = TimeSpan.FromDays(7);
+        string InProgressLabel = "State: In Progress";
+        TimeSpan StalenessPeriod = TimeSpan.FromDays(7);
     }
 }

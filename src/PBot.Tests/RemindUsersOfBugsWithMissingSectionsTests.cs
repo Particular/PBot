@@ -4,8 +4,8 @@
     using System.Linq;
     using IssueButler.Mmbot.Repositories;
     using NUnit.Framework;
-    using PBot.Reminders;
-    using PBot.Users;
+    using Reminders;
+    using Users;
 
     [TestFixture]
     public class RemindUsersOfBugsWithMissingSectionsTests : BotCommandFixture<RemindUsersOfBugsWithMissingSections>
@@ -25,9 +25,9 @@
             await Execute("remind users of mandatory bug sections");
 
 
-            Assert.True(Messages.First().Contains(@"https://github.com/Particular/PBot.TestRepo/issues/15"));
-            Assert.True(Messages.First().Contains(@"andreasohlund"));
-            Assert.True(Messages.First().Contains(@"@channel"));
+            Assert.True(Messages.First().Contains("https://github.com/Particular/PBot.TestRepo/issues/15"));
+            Assert.True(Messages.First().Contains("andreasohlund"));
+            Assert.True(Messages.First().Contains("@channel"));
         }
 
         [Test]
@@ -74,9 +74,9 @@
 
             await Execute("remind users of mandatory bug sections");
 
-            var message = Messages.Single(m => m.Contains(@"https://github.com/Particular/PBot.TestRepo/issues/15"));
+            var message = Messages.Single(m => m.Contains("https://github.com/Particular/PBot.TestRepo/issues/15"));
 
-            Assert.True(message.Contains(@"@andreas!"));
+            Assert.True(message.Contains("@andreas!"));
 
         }
 

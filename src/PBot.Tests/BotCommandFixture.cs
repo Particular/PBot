@@ -8,7 +8,7 @@
     using MMBot.Brains;
     using NUnit.Framework;
     using PBot;
-    using PBot.Users;
+    using Users;
 
     public class BotCommandFixture<TCommand> where TCommand : BotCommand
     {
