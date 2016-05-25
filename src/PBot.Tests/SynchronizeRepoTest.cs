@@ -17,7 +17,7 @@
         [Test]
         public void BadRepoName()
         {
-            Assert.Throws<NotFoundException>(async () => await Execute("sync", "PBot.dddddd", "target branch", "master"));
+            Assert.ThrowsAsync<NotFoundException>(async () => await Execute("sync", "PBot.dddddd", "target branch", "master"));
         }
     }
 }
