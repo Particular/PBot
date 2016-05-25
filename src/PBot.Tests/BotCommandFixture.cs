@@ -29,7 +29,7 @@
         TCommand command;
         TestResponder testResponder;
         string user;
-        
+
         protected async Task Execute(params string[] parameters)
         {
             command.Register(brain);
@@ -37,10 +37,10 @@
 
             await command.Execute(parameters, testResponder)
                 .ConfigureAwait(false);
-            
+
             if (Messages.Any())
             {
-                Console.Out.WriteLine(string.Join(Environment.NewLine, Messages));             
+                Console.WriteLine(string.Join(Environment.NewLine, Messages));
             }
         }
 

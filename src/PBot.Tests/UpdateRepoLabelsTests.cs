@@ -60,7 +60,7 @@
             false)]
         public async Task SyncLabels(string org, string[] privateRepos, bool dryRun)
         {
-            Console.Out.WriteLine($"Syncing labels for {org}...");
+            Console.WriteLine($"Syncing labels for {org}...");
 
             var client = GitHubClientBuilder.Build();
             var templateLabels = await client.Issue.Labels.GetAllForRepository(org, "RepoStandards");
@@ -77,7 +77,7 @@
                     }
                     catch (Exception ex)
                     {
-                        Console.Out.WriteLine($"Failed to sync {org}/{repo} - {ex.Message}");
+                        Console.WriteLine($"Failed to sync {org}/{repo} - {ex.Message}");
                     }
                 });
 
@@ -97,7 +97,7 @@
         [TestCase("Particular", new[] { "Project: V6 Launch" }, false)]
         public async Task SyncLabelsForAllRepos(string org, string[] templateLabelNames, bool dryRun)
         {
-            Console.Out.WriteLine($"Syncing labels for {org}...");
+            Console.WriteLine($"Syncing labels for {org}...");
 
             var client = GitHubClientBuilder.Build();
             var templateLabels = (await client.Issue.Labels.GetAllForRepository(org, "RepoStandards"))
@@ -114,7 +114,7 @@
                     }
                     catch (Exception ex)
                     {
-                        Console.Out.WriteLine($"Failed to sync {org}/{repo} - {ex.Message}");
+                        Console.WriteLine($"Failed to sync {org}/{repo} - {ex.Message}");
                     }
                 });
 
@@ -124,7 +124,7 @@
         static async Task SyncRepo(
             IGitHubClient client, string org, string repo, IEnumerable<Label> templateLabels, bool dryRun)
         {
-            Console.Out.WriteLine($"Syncing labels for {org}/{repo}...");
+            Console.WriteLine($"Syncing labels for {org}/{repo}...");
 
             var existingLabels = await client.Issue.Labels.GetAllForRepository(org, repo);
 
@@ -135,7 +135,7 @@
 
                 if (existingLabel == null)
                 {
-                    Console.Out.WriteLine($"Creating label '{templateLabel.Name}' in {org}/{repo}...");
+                    Console.WriteLine($"Creating label '{templateLabel.Name}' in {org}/{repo}...");
                     if (!dryRun)
                     {
                         await client.Issue.Labels.Create(org, repo, new NewLabel(templateLabel.Name, templateLabel.Color));
@@ -146,7 +146,7 @@
                     if (existingLabel.Color != templateLabel.Color ||
                         !existingLabel.Name.Equals(templateLabel.Name, StringComparison.InvariantCulture))
                     {
-                        Console.Out.WriteLine($"Fixing color and case for label '{existingLabel.Name}' in {org}/{repo}...");
+                        Console.WriteLine($"Fixing color and case for label '{existingLabel.Name}' in {org}/{repo}...");
                         if (!dryRun)
                         {
                             await client.Issue.Labels.Update(
@@ -190,7 +190,7 @@
                         {
                             issueUpdate.AddLabel(newLabel);
 
-                            Console.Out.WriteLine(
+                            Console.WriteLine(
                                 $"Switching from label '{oldLabel}' to '{newLabel}' for {org}/{repo}#{issue.Number}...");
 
                             if (!dryRun)
@@ -198,7 +198,7 @@
                                 await client.Issue.Update(org, repo, issue.Number, issueUpdate);
                             }
 
-                            Console.Out.WriteLine($"Deleting label '{oldLabel}' from {org}/{repo}...");
+                            Console.WriteLine($"Deleting label '{oldLabel}' from {org}/{repo}...");
                             if (!dryRun)
                             {
                                 await client.Issue.Labels.Delete(org, repo, oldLabel);
@@ -207,14 +207,14 @@
                     }
                     else
                     {
-                        Console.Out.WriteLine($"Removing label '{oldLabel}' from {org}/{repo}#{issue.Number}...");
+                        Console.WriteLine($"Removing label '{oldLabel}' from {org}/{repo}#{issue.Number}...");
 
                         if (!dryRun)
                         {
                             await client.Issue.Update(org, repo, issue.Number, issueUpdate);
                         }
 
-                        Console.Out.WriteLine($"Deleting label '{oldLabel}' from {org}/{repo}...");
+                        Console.WriteLine($"Deleting label '{oldLabel}' from {org}/{repo}...");
                         if (!dryRun)
                         {
                             await client.Issue.Labels.Delete(org, repo, oldLabel);

@@ -1,5 +1,6 @@
 ﻿namespace PBot.Tests
 {
+    using System.Threading.Tasks;
     using NUnit.Framework;
     using Issues;
 
@@ -7,15 +8,15 @@
     public class CheckRepoForIssuesThatNeedsAttentionTests : BotCommandFixture<CheckRepoForIssuesThatNeedsAttention>
     {
         [Test]
-        public async System.Threading.Tasks.Task CheckIssuesInNServiceBus()
+        public Task CheckIssuesInNServiceBus()
         {
-            await Execute("check repo", "NServiceBus");
+            return Execute("check repo", "NServiceBus");
         }
 
         [Test]
-        public async System.Threading.Tasks.Task CheckIssuesInServiceControl()
+        public Task CheckIssuesInServiceControl()
         {
-            await Execute("check repo", "ServiceControl");
+            return Execute("check repo", "ServiceControl");
         }
     }
 }

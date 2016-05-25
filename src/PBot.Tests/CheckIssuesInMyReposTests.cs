@@ -1,6 +1,7 @@
 ﻿namespace PBot.Tests
 {
     using System.Linq;
+    using System.Threading.Tasks;
     using IssueButler.Mmbot.Repositories;
     using NUnit.Framework;
     using Issues;
@@ -9,7 +10,7 @@
     public class CheckIssuesInMyReposTests : BotCommandFixture<CheckIssuesInMyRepos>
     {
         [Test]
-        public async System.Threading.Tasks.Task CheckIssuesForExistingUser()
+        public Task CheckIssuesForExistingUser()
         {
             var repos = new AvailableRepositories
             {
@@ -28,11 +29,11 @@
 
             brain.Set(repos);
             AsUser("andreas");
-            await Execute("check my repos");
+            return Execute("check my repos");
         }
 
         [Test]
-        public async System.Threading.Tasks.Task CheckIssuesForUserWithNoRepos()
+        public async Task CheckIssuesForUserWithNoRepos()
         {
             var repos = new AvailableRepositories
             {

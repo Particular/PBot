@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using IssueButler.Mmbot.Repositories;
     using NUnit.Framework;
     using Reminders;
@@ -11,7 +12,7 @@
     public class RemindUsersOfBugsWithMissingSectionsTests : BotCommandFixture<RemindUsersOfBugsWithMissingSections>
     {
         [Test]
-        public async System.Threading.Tasks.Task CheckWithNonMappedUser()
+        public async Task CheckWithNonMappedUser()
         {
             var repos = new AvailableRepositories
             {
@@ -31,7 +32,7 @@
         }
 
         [Test]
-        public async System.Threading.Tasks.Task CheckRaven()
+        public Task CheckRaven()
         {
             var repos = new AvailableRepositories
             {
@@ -42,12 +43,12 @@
             };
 
             brain.Set(repos);
-            await Execute("remind users of mandatory bug sections");
+            return Execute("remind users of mandatory bug sections");
         }
 
 
         [Test]
-        public async System.Threading.Tasks.Task CheckWithMappedUser()
+        public async Task CheckWithMappedUser()
         {
             var repos = new AvailableRepositories
             {

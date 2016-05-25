@@ -1,5 +1,6 @@
 ﻿namespace PBot.Tests
 {
+    using System.Threading.Tasks;
     using NUnit.Framework;
     using Issues;
 
@@ -8,9 +9,9 @@
     {
         [Test]
         [Explicit]
-        public async System.Threading.Tasks.Task CanMoveIssue()
+        public Task CanMoveIssue()
         {
-            await  Execute("move issue", "PBot.TestRepo#20", "PBot.TestRepo");
+            return Execute("move issue", "PBot.TestRepo#20", "PBot.TestRepo");
         }
     }
 }

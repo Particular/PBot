@@ -1,5 +1,6 @@
 ﻿namespace PBot.Tests
 {
+    using System.Threading.Tasks;
     using NUnit.Framework;
     using Octokit;
     using SyncOMatic;
@@ -8,9 +9,9 @@
     public class SynchronizeRepoTest : BotCommandFixture<SynchronizeRepo>
     {
         [Test,Explicit]
-        public async System.Threading.Tasks.Task SyncTestRepo()
+        public Task SyncTestRepo()
         {
-            await Execute("sync", "PBot.testrepo", "target branch", "master");
+            return Execute("sync", "PBot.testrepo", "target branch", "master");
         }
 
         [Test]

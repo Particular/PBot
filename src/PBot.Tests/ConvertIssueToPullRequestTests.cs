@@ -2,6 +2,7 @@
 {
     using System;
     using System.Linq;
+    using System.Threading.Tasks;
     using NUnit.Framework;
     using Issues;
     using Users;
@@ -11,10 +12,10 @@
     {
         [Test]
         [Explicit]
-        public async System.Threading.Tasks.Task CanConvertAnExistingIssue()
+        public Task CanConvertAnExistingIssue()
         {
             var token = Environment.GetEnvironmentVariable("PBOT_GH_ACCESSTOKEN");
-            
+
             Assert.NotNull(token);
 
             var credentials = new UserCredentials{Username = "testuser"};
@@ -23,11 +24,11 @@
 
             WithCredentials(credentials);
 
-            await Execute("convert", "PBot.TestRepo", "19", "failed-pull-1", "master");
+            return Execute("convert", "PBot.TestRepo", "19", "failed-pull-1", "master");
         }
 
         [Test]
-        public async System.Threading.Tasks.Task ShouldAskForGHTokenIfNotPresent()
+        public async Task ShouldAskForGHTokenIfNotPresent()
         {
             await Execute("convert", "PBot.TestRepo", "#", "19", "to pull from", "failed-pull-1", "to", "master");
 

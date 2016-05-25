@@ -10,7 +10,7 @@ namespace PBot.Tests.Integration
         [Test, Explicit]
         public async System.Threading.Tasks.Task AllReleases()
         {
-            Console.Out.WriteLine("### All Releases");
+            Console.WriteLine("### All Releases");
 
             var client = GitHubClientBuilder.Build();
 
@@ -32,7 +32,7 @@ namespace PBot.Tests.Integration
                     }
 
                     var isMajorOrMinor = tagParts[2] == "0";
-                    Console.Out.WriteLine(string.Join("\t", new List<string>
+                    Console.WriteLine(string.Join("\t", new List<string>
                     {
                         repo.Name,
                         release.TagName,

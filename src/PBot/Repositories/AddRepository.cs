@@ -28,7 +28,7 @@ namespace IssueButler.Mmbot.Caretakers
             {
                 await response.Send("Oh, wildcard add, you have guts!").IgnoreWaitContext();
 
-                var reposForOrg = GitHubClientBuilder.Build().Repository.GetAllForOrg("Particular").Result;
+                var reposForOrg = await GitHubClientBuilder.Build().Repository.GetAllForOrg("Particular");
 
                 var repoNameWithoutStar = repoName.Replace("*", "");
 

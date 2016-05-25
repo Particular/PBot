@@ -23,7 +23,7 @@
             }).ToList();
 
             await Task.WhenAll(removals);
-            Console.Out.WriteLine(
+            Console.WriteLine(
                 $"Deleted {collaborators.Length:N0} collaborators from {removals.Count:N0} repositories.");
         }
 
@@ -38,7 +38,7 @@
                 }
                 catch (Exception ex)
                 {
-                    Console.Out.WriteLine(
+                    Console.WriteLine(
                         $"Failed to delete collaborator '{collaborator}' from '{repository.FullName}'. {ex.Message}");
                 }
             });

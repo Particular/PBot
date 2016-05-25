@@ -10,7 +10,7 @@
         {
         }
 
-        public override async Task Execute(string[] parameters, IResponse response)
+        public override Task Execute(string[] parameters, IResponse response)
         {
             var store = Brain.Get<CredentialStore>() ?? new CredentialStore();
 
@@ -20,7 +20,7 @@
 
             Brain.Set(store);
 
-            await response.Send("Credentials added").IgnoreWaitContext();
+            return response.Send("Credentials added");
         }
     }
 }
