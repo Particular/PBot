@@ -2,7 +2,7 @@
 {
     using IssueButler.Mmbot.Repositories;
     using NUnit.Framework;
-    using PBot.Issues;
+    using Issues;
 
     [TestFixture]
     public class ListIssueStatsTest : BotCommandFixture<ListIssueStats>

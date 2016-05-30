@@ -2,7 +2,7 @@
 {
     using NUnit.Framework;
     using Octokit;
-    using PBot.SyncOMatic;
+    using SyncOMatic;
 
     [TestFixture]
     public class SynchronizeRepoTest : BotCommandFixture<SynchronizeRepo>

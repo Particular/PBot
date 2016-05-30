@@ -4,7 +4,7 @@
     using System.Threading.Tasks;
     using MMBot;
     using PBot;
-    using PBot.Users;
+    using Users;
 
     public class TestResponder : BotCommand.IResponse
     {

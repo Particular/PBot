@@ -7,7 +7,7 @@
     using NUnit.Framework;
     using Octokit;
     using PBot;
-    using PBot.Issues;
+    using Issues;
 
     [TestFixture]
     public class UpdateRepoLabelsTests

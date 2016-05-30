@@ -4,7 +4,7 @@
     using System.Linq;
     using NUnit.Framework;
     using Octokit;
-    using PBot.Requirements;
+    using Requirements;
 
     public class Feature_development_statistics
     {

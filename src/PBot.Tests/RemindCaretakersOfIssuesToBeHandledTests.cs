@@ -3,7 +3,7 @@
     using System.Linq;
     using IssueButler.Mmbot.Repositories;
     using NUnit.Framework;
-    using PBot.Reminders;
+    using Reminders;
 
     [TestFixture]
     public class RemindCaretakersOfIssuesToBeHandledTests : BotCommandFixture<RemindCaretakersOfIssuesToBeHandled>
