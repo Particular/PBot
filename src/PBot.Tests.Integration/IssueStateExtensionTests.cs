@@ -30,7 +30,7 @@ public class IssueStateExtensionTests
         Assert.True(issue.IsInInitialState<MyStates>(), "Should be in inital state");
     }
 
-    private Issue CreateIssueWithLabels(List<Label> labels)
+    Issue CreateIssueWithLabels(List<Label> labels)
     {
         return new Issue(null, null, null, null, 0, ItemState.All, "title", "body", null, labels, null, null, 0, null, null, DateTimeOffset.MinValue, null, 0, false);
     }

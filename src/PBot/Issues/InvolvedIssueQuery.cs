@@ -7,12 +7,12 @@ namespace PBot.Issues
     using System.Threading.Tasks;
     using Octokit;
 
-    internal class InvolvedIssueQuery
+    class InvolvedIssueQuery
     {
-        private static readonly Regex TaskForceRegex = new Regex(@"Task[\s-]?Force:\s*(.*)$", RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex MentionRegex = new Regex(@"@[a-z0-9.-]+", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        static Regex TaskForceRegex = new Regex(@"Task[\s-]?Force:\s*(.*)$", RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        static Regex MentionRegex = new Regex("@[a-z0-9.-]+", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-        private readonly GitHubClient client;
+        GitHubClient client;
 
         public InvolvedIssueQuery(GitHubClient client)
         {
@@ -27,7 +27,7 @@ namespace PBot.Issues
             return (await Task.WhenAll(tasks)).SelectMany(issue => issue);
         }
 
-        private async Task<IEnumerable<InvolvedIssue>> GetInvolvedIssuesForRepo(Repository repo, string username)
+        async Task<IEnumerable<InvolvedIssue>> GetInvolvedIssuesForRepo(Repository repo, string username)
         {
             var mentionedFilter = new RepositoryIssueRequest { State = ItemState.Open, Mentioned = username };
             var assigneeFilter = new RepositoryIssueRequest { State = ItemState.Open, Assignee = username };
@@ -61,7 +61,7 @@ namespace PBot.Issues
             return involvedIssues;
         }
 
-        private static IEnumerable<string> ExtractTeam(string issueBody)
+        static IEnumerable<string> ExtractTeam(string issueBody)
         {
             if (issueBody == null)
             {

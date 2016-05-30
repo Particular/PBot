@@ -25,13 +25,13 @@
             foreach (var error in ex.ApiError.Errors)
             {
                 var codeOrFieldSet = false;
-                
+
                 if (!error.Code.IsNullOrEmpty())
                 {
                     sb.Append(error.Code);
                     codeOrFieldSet = true;
                 }
-                
+
                 if (!error.Field.IsNullOrEmpty())
                 {
                     if (codeOrFieldSet)
@@ -53,6 +53,6 @@
                 sb.AppendLine();
             }
             return sb.ToString();
-        } 
+        }
     }
 }

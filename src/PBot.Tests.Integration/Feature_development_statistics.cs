@@ -30,45 +30,45 @@
             var activeRequirementsGroupedByState = requirements.Where(r => r.State == ItemState.Open)
                 .GroupBy(r => r.CurrentState<RequirementStates>()).ToList();
 
-            Console.Out.WriteLine("## By state");
+            Console.WriteLine("## By state");
 
             foreach (var states in activeRequirementsGroupedByState)
             {
-                Console.Out.WriteLine("* " + states.Key + ": " + states.Count());
+                Console.WriteLine("* " + states.Key + ": " + states.Count());
             }
 
-            Console.Out.WriteLine("## Concerns vs Features");
+            Console.WriteLine("## Concerns vs Features");
             var concernCount = activeRequirements.Count(r => r.Labels.Any(l => l.Name == RequirementTypes.Concern));
-            Console.Out.WriteLine("* {0} - {1}", concernCount, activeRequirements.Count - concernCount);
+            Console.WriteLine("* {0} - {1}", concernCount, activeRequirements.Count - concernCount);
 
             var newLastPeriod = requirements.Where(r => !r.ClosedAt.HasValue && r.CreatedAt > DateTimeOffset.UtcNow - period)
                 .ToList();
 
-            Console.Out.WriteLine("## New last week ({0})", newLastPeriod.Count);
+            Console.WriteLine("## New last week ({0})", newLastPeriod.Count);
 
             foreach (var newIssue in newLastPeriod)
             {
-                Console.Out.WriteLine("* [{0}]({1}) ({2})", newIssue.Title, newIssue.HtmlUrl, newIssue.Labels.Any(l => l.Name == RequirementTypes.Concern) ? "Concern" : "Feature");
+                Console.WriteLine("* [{0}]({1}) ({2})", newIssue.Title, newIssue.HtmlUrl, newIssue.Labels.Any(l => l.Name == RequirementTypes.Concern) ? "Concern" : "Feature");
             }
-            Console.Out.WriteLine("Total: " + newLastPeriod.Count());
+            Console.WriteLine("Total: " + newLastPeriod.Count());
 
             var completedLastPeriod = requirements.Where(r => r.ClosedAt.HasValue && r.ClosedAt.Value > DateTimeOffset.UtcNow - period && r.Labels.All(l => l.Name != "Closed as won't do"))
                 .ToList();
 
-            Console.Out.WriteLine("## Completed last week ({0})", completedLastPeriod.Count);
+            Console.WriteLine("## Completed last week ({0})", completedLastPeriod.Count);
 
             foreach (var completed in completedLastPeriod)
             {
-                Console.Out.WriteLine("* [{0}]({1}) ({2})", completed.Title, completed.HtmlUrl, completed.Labels.Any(l => l.Name == RequirementTypes.Concern) ? "Concern" : "Feature");
+                Console.WriteLine("* [{0}]({1}) ({2})", completed.Title, completed.HtmlUrl, completed.Labels.Any(l => l.Name == RequirementTypes.Concern) ? "Concern" : "Feature");
             }
 
             var nonAligned = activeRequirements.Where(r => !r.Body.Contains("# Alignment with vision"))
                 .ToList();
-            Console.Out.WriteLine("## Issues with no alignment with vision ({0}%)", Math.Round(Convert.ToDouble(nonAligned.Count) / Convert.ToDouble(activeRequirements.Count) * 100.0));
+            Console.WriteLine("## Issues with no alignment with vision ({0}%)", Math.Round(Convert.ToDouble(nonAligned.Count) / Convert.ToDouble(activeRequirements.Count) * 100.0));
 
             foreach (var nonAlignedIssue in nonAligned)
             {
-                Console.Out.WriteLine("* [{0}]({1})", nonAlignedIssue.Title, nonAlignedIssue.HtmlUrl);
+                Console.WriteLine("* [{0}]({1})", nonAlignedIssue.Title, nonAlignedIssue.HtmlUrl);
             }
         }
     }

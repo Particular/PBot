@@ -15,7 +15,7 @@
         {
             var repoName = parameters[1];
             var client = GitHubClientBuilder.Build();
-            var repo = client.Repository.Get("Particular", repoName).Result;
+            var repo = await client.Repository.Get("Particular", repoName);
 
             var validationErrors = new CheckIssuesForRepository(repo, client)
                 .Execute();

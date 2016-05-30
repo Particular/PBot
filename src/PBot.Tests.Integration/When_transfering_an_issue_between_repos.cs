@@ -10,7 +10,7 @@ namespace PBot.Tests.Integration
     {
         protected Repository TargetRepository { get; private set; }
 
-        private Repository SourceRepository => Repository;
+        Repository SourceRepository => Repository;
 
         [SetUp]
         public void Setup() => TargetRepository =

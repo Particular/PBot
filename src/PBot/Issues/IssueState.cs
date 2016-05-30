@@ -4,7 +4,7 @@ namespace PBot
 
     public class IssueState : IEquatable<IssueState>
     {
-        readonly string stateIdentifier;
+        string stateIdentifier;
 
         IssueState(string state)
         {

@@ -11,7 +11,6 @@
         [Test]
         public async System.Threading.Tasks.Task RemoveValidRepo()
         {
-         
             var repoName = "nservicebus";
 
             var repos = new AvailableRepositories
@@ -28,7 +27,7 @@
 
             Assert.Null(brain.Get<AvailableRepositories>().SingleOrDefault(r => r.Name == repoName));
         }
-      
+
 
         [Test]
         public async System.Threading.Tasks.Task RemoveValidButNonExistingRepo()
@@ -44,7 +43,7 @@
             Assert.NotNull(Messages.Single(m => m.Contains("doesn't exist")));
         }
 
-            
+
 
     }
 }

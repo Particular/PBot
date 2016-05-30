@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Threading.Tasks;
 using IssueButler.Mmbot.Repositories;
 using NUnit.Framework;
 using PBot;
@@ -8,28 +9,28 @@ using PBot.Tests;
 class ListCurrentlyFailingBuildsTests : BotCommandFixture<ListCurrentlyFailingBuilds>
 {
     [Test]
-    public void ListSpecificProject()
+    public Task ListSpecificProject()
     {
-        Execute(new[] { "", "NServiceBus.NHibernate" });
+        return Execute("", "NServiceBus.NHibernate");
     }
 
     [Test]
-    public void ListNonExistingProject()
+    public async Task ListNonExistingProject()
     {
-        Execute(new[] { "", "xyz" });
+        await Execute("", "xyz");
 
         Assert.True(Messages.First().Contains("`xyz`"));
     }
 
     [Test, Explicit("Long running")]
-    public void ListAllBuilds()
+    public Task ListAllBuilds()
     {
-        Execute(new[] { "", "all projects" });
+        return Execute("", "all projects");
     }
 
 
     [Test]
-    public void ListMyBuilds()
+    public Task ListMyBuilds()
     {
         var username = "testuser";
         var repos = new AvailableRepositories
@@ -49,6 +50,6 @@ class ListCurrentlyFailingBuildsTests : BotCommandFixture<ListCurrentlyFailingBu
 
         brain.Set(repos);
         AsUser(username);
-        Execute(new[] { "", "my repos" });
+        return Execute("", "my repos");
     }
 }

@@ -23,11 +23,11 @@
             }).ToList();
 
             await Task.WhenAll(removals);
-            Console.Out.WriteLine(
+            Console.WriteLine(
                 $"Deleted {collaborators.Length:N0} collaborators from {removals.Count:N0} repositories.");
         }
 
-        private static async Task DeleteCollaborators(
+        static async Task DeleteCollaborators(
             IGitHubClient client, Repository repository, IEnumerable<string> collaborators)
         {
             var removals = collaborators.Select(async collaborator =>
@@ -38,7 +38,7 @@
                 }
                 catch (Exception ex)
                 {
-                    Console.Out.WriteLine(
+                    Console.WriteLine(
                         $"Failed to delete collaborator '{collaborator}' from '{repository.FullName}'. {ex.Message}");
                 }
             });

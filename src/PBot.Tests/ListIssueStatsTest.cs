@@ -1,5 +1,6 @@
 ﻿namespace PBot.Tests
 {
+    using System.Threading.Tasks;
     using IssueButler.Mmbot.Repositories;
     using NUnit.Framework;
     using Issues;
@@ -8,7 +9,7 @@
     public class ListIssueStatsTest : BotCommandFixture<ListIssueStats>
     {
         [Test]
-        public async System.Threading.Tasks.Task ShowStats()
+        public Task ShowStats()
         {
             var repos = new AvailableRepositories
             {
@@ -26,7 +27,7 @@
             };
 
             brain.Set(repos);
-            await Execute("list issue stats");
+            return Execute("list issue stats");
         }
     }
 }

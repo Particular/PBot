@@ -31,7 +31,7 @@
 
             await Execute("add", repoName);
 
-            Console.Out.WriteLine(string.Join(";", brain.Get<AvailableRepositories>()));
+            Console.WriteLine(string.Join(";", brain.Get<AvailableRepositories>()));
             Assert.True(brain.Get<AvailableRepositories>().Any());
         }
 

@@ -7,9 +7,9 @@
 
     public class MoveStaleIARequirementsToBacklog
     {
-        readonly IGitHubClient client;
-        readonly Repository repository;
-        readonly TimeSpan maxStaleness;
+        IGitHubClient client;
+        Repository repository;
+        TimeSpan maxStaleness;
 
         public MoveStaleIARequirementsToBacklog(IGitHubClient client, Repository repository, TimeSpan maxStaleness)
         {

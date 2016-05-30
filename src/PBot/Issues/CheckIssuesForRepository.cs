@@ -6,8 +6,8 @@
 
     public class CheckIssuesForRepository
     {
-        readonly Repository repository;
-        readonly GitHubClient client;
+        Repository repository;
+        GitHubClient client;
 
         public CheckIssuesForRepository(Repository repository, GitHubClient client)
         {

@@ -14,7 +14,7 @@
         [Test, Explicit]
         public async Task All()
         {
-            Console.Out.WriteLine("### My Task forces");
+            Console.WriteLine("### My Task forces");
             var sw = Stopwatch.StartNew();
 
             var client = GitHubClientBuilder.Build();
@@ -32,14 +32,14 @@
                 Console.Out.WriteLine("*[{0}]*", result.Key);
                 foreach (var issue in result)
                 {
-                    Console.Out.WriteLine("\t- _{0}_ ({1})", issue.Issue.Title, issue.Issue.HtmlUrl);
-                    Console.Out.WriteLine("\tLabels: {0}", string.Join(" ", issue.Issue.Labels.Select(l => "`" + l.Name + "`")));
-                    Console.Out.WriteLine("\tTeam: {0}", string.Join(", ", issue.Team));
+                    Console.WriteLine("\t- _{0}_ ({1})", issue.Issue.Title, issue.Issue.HtmlUrl);
+                    Console.WriteLine("\tLabels: {0}", string.Join(" ", issue.Issue.Labels.Select(l => "`" + l.Name + "`")));
+                    Console.WriteLine("\tTeam: {0}", string.Join(", ", issue.Team));
                 }
             }
 
             sw.Stop();
-            Console.Out.WriteLine("Total time (in seconds): {0}", sw.Elapsed.TotalSeconds);
+            Console.WriteLine("Total time (in seconds): {0}", sw.Elapsed.TotalSeconds);
         }
     }
 
@@ -60,7 +60,7 @@
     public class InvolvedIssueQuery
     {
         static Regex TaskForceRx = new Regex(@"Task[\s-]?Force:\s*(.*)$", RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        static Regex Mentions = new Regex(@"@[a-z0-9.-]+", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        static Regex Mentions = new Regex("@[a-z0-9.-]+", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         GitHubClient client;
 
@@ -83,7 +83,7 @@
                    select issue;
         }
 
-        private async Task<IEnumerable<InvolvedIssue>> GetInvolvedIssuesForRepo(Repository repo, string username)
+        async Task<IEnumerable<InvolvedIssue>> GetInvolvedIssuesForRepo(Repository repo, string username)
         {
             var results = new List<InvolvedIssue>();
 
@@ -113,7 +113,7 @@
             return results;
         }
 
-        private IEnumerable<string> ExtractTeam(string issueBody)
+        IEnumerable<string> ExtractTeam(string issueBody)
         {
             if (issueBody == null)
                 return Enumerable.Empty<string>();

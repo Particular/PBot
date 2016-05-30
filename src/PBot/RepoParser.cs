@@ -37,7 +37,7 @@
             return false;
         }
 
-        private static bool ParseManualRepo(string input, out string repo)
+        static bool ParseManualRepo(string input, out string repo)
         {
             if (string.IsNullOrWhiteSpace(input))
             {
@@ -49,7 +49,7 @@
             return true;
         }
 
-        private static bool ParseManualRepoAndIssue(string input, out string repo, out string issueNumberString)
+        static bool ParseManualRepoAndIssue(string input, out string repo, out string issueNumberString)
         {
             var withIssue = new Regex(@"(^[\w\.]*)#(\d+)");
             var match = withIssue.Match(input);
@@ -64,7 +64,7 @@
             return false;
         }
 
-        private static bool ParseSlackFormattedLinkWithIssue(string input, out string repo, out string issueNumberString)
+        static bool ParseSlackFormattedLinkWithIssue(string input, out string repo, out string issueNumberString)
         {
             var withIssue = new Regex(@"<(.*)\|([\w\.]*)#(\d+)>");
             var match = withIssue.Match(input);
@@ -79,7 +79,7 @@
             return false;
         }
 
-        private static bool ParseSlackFormattedLink(string input, out string repo)
+        static bool ParseSlackFormattedLink(string input, out string repo)
         {
             var noIssue = new Regex(@"<(.*)\|([\w\.]*)>");
             var match = noIssue.Match(input);
@@ -93,7 +93,7 @@
         }
 
 
-        private static bool ParseFromUrlWithoutIssue(string input, out string repo)
+        static bool ParseFromUrlWithoutIssue(string input, out string repo)
         {
             var inputWithoutTags = input.Replace("<", "").Replace(">", "");
             var noIssue = new Regex(@"https://github.com/Particular/([\w\.]*)", RegexOptions.IgnoreCase);
@@ -107,7 +107,7 @@
             return false;
         }
 
-        private static bool ParseFromUrlWithIssue(string input, out string repo, out string issueNumberString)
+        static bool ParseFromUrlWithIssue(string input, out string repo, out string issueNumberString)
         {
             var inputWithoutTags = input.Replace("<", "").Replace(">", "");
             var withIssue = new Regex(@"https://github.com/Particular/([\w\.]*)/issues/(\d+)$", RegexOptions.IgnoreCase);
