@@ -3,7 +3,7 @@ namespace IssueButler.Mmbot.Caretakers
     using System;
     using System.Linq;
     using System.Threading.Tasks;
-    using IssueButler.Mmbot.Repositories;
+    using Repositories;
     using Octokit;
     using PBot;
     using PBot.Requirements;

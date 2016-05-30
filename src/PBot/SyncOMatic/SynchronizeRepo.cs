@@ -5,7 +5,7 @@ namespace PBot.SyncOMatic
     using System.Runtime.ExceptionServices;
     using System.Threading.Tasks;
     using global::SyncOMatic;
-    using PBot.Issues;
+    using Issues;
 
     public class SynchronizeRepo : BotCommand
     {

@@ -7,7 +7,7 @@ namespace PBot
     using MMBot;
     using MMBot.Brains;
     using MMBot.Scripts;
-    using PBot.Users;
+    using Users;
 
     public abstract class BotCommand : IMMBotScript
     {

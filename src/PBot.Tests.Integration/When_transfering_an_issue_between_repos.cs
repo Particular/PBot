@@ -4,7 +4,7 @@ namespace PBot.Tests.Integration
     using System.Threading.Tasks;
     using NUnit.Framework;
     using Octokit;
-    using PBot.Issues;
+    using Issues;
 
     public class When_transfering_an_issue_between_repos : GitHubIntegrationTest
     {

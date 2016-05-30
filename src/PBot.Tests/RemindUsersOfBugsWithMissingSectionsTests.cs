@@ -4,8 +4,8 @@
     using System.Linq;
     using IssueButler.Mmbot.Repositories;
     using NUnit.Framework;
-    using PBot.Reminders;
-    using PBot.Users;
+    using Reminders;
+    using Users;
 
     [TestFixture]
     public class RemindUsersOfBugsWithMissingSectionsTests : BotCommandFixture<RemindUsersOfBugsWithMissingSections>

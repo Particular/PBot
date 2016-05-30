@@ -1,7 +1,7 @@
 ﻿namespace PBot.Tests
 {
     using NUnit.Framework;
-    using PBot.Issues;
+    using Issues;
 
     [TestFixture]
     public class CheckRepoForIssuesThatNeedsAttentionTests : BotCommandFixture<CheckRepoForIssuesThatNeedsAttention>

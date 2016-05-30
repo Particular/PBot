@@ -5,7 +5,7 @@
     using System.Threading.Tasks;
     using IssueButler.Mmbot.Repositories;
     using Octokit;
-    using PBot.Users;
+    using Users;
 
     public class RemindUsersOfBugsWithMissingSections : BotCommand
     {

@@ -3,8 +3,8 @@
     using System;
     using System.Linq;
     using NUnit.Framework;
-    using PBot.Issues;
-    using PBot.Users;
+    using Issues;
+    using Users;
 
     [TestFixture]
     public class ConvertIssueToPullRequestTests : BotCommandFixture<ConvertIssueToPullRequest>

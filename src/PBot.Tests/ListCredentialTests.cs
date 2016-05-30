@@ -3,7 +3,7 @@ namespace PBot.Tests
     using System.Collections.Generic;
     using System.Linq;
     using NUnit.Framework;
-    using PBot.Users;
+    using Users;
 
     [TestFixture]
     public class ListCredentialTests : BotCommandFixture<ListCredentials>
