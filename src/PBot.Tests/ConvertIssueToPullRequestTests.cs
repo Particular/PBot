@@ -11,7 +11,7 @@
     public class ConvertIssueToPullRequestTests : BotCommandFixture<ConvertIssueToPullRequest>
     {
         [Test]
-        [Explicit]
+        [Ignore("Requires manual set up.")]
         public Task CanConvertAnExistingIssue()
         {
             var token = Environment.GetEnvironmentVariable("PBOT_GH_ACCESSTOKEN");

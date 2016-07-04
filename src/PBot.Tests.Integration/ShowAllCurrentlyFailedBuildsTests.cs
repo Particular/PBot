@@ -6,7 +6,7 @@ using PBot.Buildserver;
 
 class ShowAllCurrentlyFailedBuildsTests
 {
-    [Test, Explicit("Long running")]
+    [Test, Ignore("Long running")]
     public void Run()
     {
         var client = new TeamCity(Constants.BuildServerRoot);
