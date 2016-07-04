@@ -160,7 +160,6 @@
     <Compile Include="TestBrain.cs" />
     <Compile Include="TestResponder.cs" />
     <Compile Include="CollaboratorsTests.cs" />
-    <Compile Include="UpdateRepoLabelsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
