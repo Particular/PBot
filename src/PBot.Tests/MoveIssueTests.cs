@@ -8,7 +8,7 @@
     public class MoveIssueTests : BotCommandFixture<MoveIssue>
     {
         [Test]
-        [Explicit]
+        [Ignore("Requires manual set up.")]
         public Task CanMoveIssue()
         {
             return Execute("move issue", "PBot.TestRepo#20", "PBot.TestRepo");

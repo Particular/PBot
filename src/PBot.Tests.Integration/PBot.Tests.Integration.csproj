@@ -137,10 +137,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Feature_development_statistics.cs" />
     <Compile Include="IssueStateExtensionTests.cs" />
-    <Compile Include="List_my_TaskForces.cs" />
-    <Compile Include="Issue_statistics.cs" />
     <Compile Include="ListCurrentlyFailingBuildsTests.cs" />
     <Compile Include="MoveConcernsToIAStateAutomaticallyTests.cs" />
     <Compile Include="GitHubIntegrationTest.cs" />
@@ -148,7 +145,6 @@
     <Compile Include="MoveStaleIAIdeasToBacklogTests.cs" />
     <Compile Include="MoveStaleInProgressRequirementsToApprovedTests.cs" />
     <Compile Include="MoveStaleIARequirementsToBacklogTests.cs" />
-    <Compile Include="Release_statistics.cs" />
     <Compile Include="RemindWhenMoreRequirementsNeedsToBeReviewedTests.cs" />
     <Compile Include="RemindWhenMoreRequirementsNeedsToBeApprovedTests.cs" />
     <Compile Include="ShowAllCurrentlyFailedBuildsTests.cs" />

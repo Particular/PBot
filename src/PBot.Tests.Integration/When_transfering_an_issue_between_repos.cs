@@ -20,7 +20,6 @@ namespace PBot.Tests.Integration
         public void TearDown() => Helper.DeleteRepo(TargetRepository);
 
         [Test]
-        [Explicit]
         public async Task Should_assign_label_to_match_original_issue()
         {
             // arrange

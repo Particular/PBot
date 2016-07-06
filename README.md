@@ -47,6 +47,8 @@ If the package fails to update, check that:
 
 The integration tests is meant to do as much end to end testing as possible.
 
+* Environment variables: PBOT_TCUSERNAME + PBOT_TCPASSWORD
+
 ##### Testing operations against GitHub repos
 
 We do this kind of testing by creating repos on the fly (and deleting them after) under the github account you specify.

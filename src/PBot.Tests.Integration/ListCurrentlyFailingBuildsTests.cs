@@ -22,7 +22,7 @@ class ListCurrentlyFailingBuildsTests : BotCommandFixture<ListCurrentlyFailingBu
         Assert.True(Messages.First().Contains("`xyz`"));
     }
 
-    [Test, Explicit("Long running")]
+    [Test, Ignore("Long running")]
     public Task ListAllBuilds()
     {
         return Execute("", "all projects");
