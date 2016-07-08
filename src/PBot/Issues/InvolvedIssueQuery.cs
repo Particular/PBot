@@ -33,32 +33,27 @@ namespace PBot.Issues
             var assigneeFilter = new RepositoryIssueRequest { State = ItemState.Open, Assignee = username };
             var creatorFilter = new RepositoryIssueRequest { State = ItemState.Open, Creator = username };
 
-            var tasks = new[] { mentionedFilter, assigneeFilter, creatorFilter }
-                .Select(async filter => await client.Issue.GetAllForRepository("Particular", repo.Name, filter));
+            var mentionedQuery = Task.Run(
+                async () => await client.Issue.GetAllForRepository("Particular", repo.Name, mentionedFilter));
 
-            var issues = (await Task.WhenAll(tasks))
-                .SelectMany(issue => issue)
-                .GroupBy(issue => issue.Url)
-                .Select(g => g.First());
+            var assigneeQuery = Task.Run(
+                async () => await client.Issue.GetAllForRepository("Particular", repo.Name, assigneeFilter));
 
-            var involvedIssues = new List<InvolvedIssue>();
-            foreach (var issue in issues)
-            {
-                var isOnTeam = ExtractTeam(issue.Body).ToArray().Contains(username, StringComparer.InvariantCultureIgnoreCase);
-                var isOwner = issue.Assignee != null && string.Equals(issue.Assignee.Login, username, StringComparison.InvariantCultureIgnoreCase);
-                var isCreator = issue.User != null && string.Equals(issue.User.Login, username, StringComparison.InvariantCultureIgnoreCase);
+            var creatorQuery = Task.Run(
+                async () => await client.Issue.GetAllForRepository("Particular", repo.Name, creatorFilter));
 
-                if (isOwner || isOnTeam || (isCreator && issue.PullRequest != null))
-                {
-                    involvedIssues.Add(new InvolvedIssue
-                    {
-                        Repo = repo,
-                        Issue = issue,
-                    });
-                }
-            }
+            await Task.WhenAll(mentionedQuery, assigneeQuery, creatorQuery);
 
-            return involvedIssues;
+            return
+                    mentionedQuery.Result
+                        .Where(issue => ExtractTeam(issue.Body).ToArray()
+                        .Contains(username, StringComparer.InvariantCultureIgnoreCase))
+                .Concat(
+                    assigneeQuery.Result)
+                .Concat(
+                    creatorQuery.Result
+                        .Where(issue => issue.PullRequest != null))
+                .Select(issue => new InvolvedIssue { Issue = issue, Repo = repo });
         }
 
         static IEnumerable<string> ExtractTeam(string issueBody)
