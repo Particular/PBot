@@ -61,7 +61,7 @@
                 await response.Send($"Alternatively, `{username}` may not be on any task forces. See https://github.com/Particular/Strategy/blob/master/definitions/taskforces.md");
             }
 
-            await response.Send(results.SelectMany(GetMessages).ToArray());
+            await response.Send(string.Join("\r\n", results.SelectMany(GetMessages)));
             await response.Send($"_{results.Count:N0} issues/PRs found in {stopwatch.Elapsed.Humanize()}. All issues/PRs which mention `{username}`: https://github.com/issues?q=is%3Aopen+mentions%3A{2}+user%3AParticular ._");
         }
 
