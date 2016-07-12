@@ -53,6 +53,8 @@ namespace PBot.Issues
                 .Concat(
                     creatorQuery.Result
                         .Where(issue => issue.PullRequest != null))
+                .GroupBy(issue => issue.Url)
+                .Select(g => g.First())
                 .Select(issue => new InvolvedIssue { Issue = issue, Repo = repo });
         }
 
