@@ -11,13 +11,14 @@ namespace PBot.SyncOMatic
     {
         public SynchronizeRepo()
             : base(
-                "sync (.*) (target branch) (.*)$",
-                "`pbot sync <name of repo> target branch <name of target branch>` - Performs a syncomatic run against the given repo and branch")
+                "sync (.*) (target branch) (.*) (with license) (.*)$",
+                "`pbot sync <name of repo> target branch <name of target branch> with license <apache|rpl|mit|mit_apache|standard>` - Performs a syncomatic run against the given repo and branch. If the license part is left out no license file will be synchronized.")
         {
         }
 
         public override async Task Execute(string[] parameters, IResponse response)
         {
+            var licenseToUse = parameters.ElementAtOrDefault(5);
             var branchName = parameters[3];
 
             var ghRepo = await GitHubClientBuilder.Build().Repository.Get("Particular", parameters[1]);
@@ -40,7 +41,7 @@ namespace PBot.SyncOMatic
                     SrcRoot = "src"
                 };
 
-                var diff = som.Diff(toSync.GetMapper(DefaultTemplateRepo.ItemsToSync));
+                var diff = som.Diff(toSync.GetMapper(DefaultTemplateRepo.WithLicense(licenseToUse)));
 
                 ExceptionDispatchInfo capturedException = null;
                 try
